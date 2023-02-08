@@ -1,0 +1,53 @@
+
+@font-face {
+    font-family: 'IRANSansX';
+    src: url('./IRANSansXV.woff') format('woff-variations'),
+    /* will be the standard and works in Safari now */
+    url('./IRANSansXV.woff') format('woff');
+    /* for the other supporting browsers */
+    font-weight: 100 900;
+    font-display: fallback;
+}
+/* 
+@font-face {
+    font-family: "YekanBakh";
+    src: url("./YekanBakh/YekanBakh-Bold/YekanBakh-Bold.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "YekanBakh";
+    src: url("./YekanBakh/YekanBakh-Fat/YekanBakh-Fat.ttf") format("truetype");
+    font-weight: bolder;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "YekanBakh";
+    src: url("./YekanBakh/YekanBakh-Heavy/YekanBakh-Heavy.ttf") format("truetype");
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "YekanBakh";
+    src: url("./YekanBakh/YekanBakh-Light/YekanBakh-Light.ttf") format("truetype");
+    font-weight: 200;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: "YekanBakh";
+    src: url("./YekanBakh/YekanBakh-Medium/YekanBakh-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "YekanBakh";
+    src: url("./YekanBakh/YekanBakh-Regular/YekanBakh-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+} */
