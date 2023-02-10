@@ -18,10 +18,19 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route element={<Request />} path="/requests" />
+          <Route element={<Dashboard />} path="/" />
         </Route>
       </Routes>
     </div>
   );
 }
+
+const Dashboard: React.FC = () => {
+  return (
+    <div>
+      <p>this is dashboard</p>
+    </div>
+  );
+};
 
 export default App;
