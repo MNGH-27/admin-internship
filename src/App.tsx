@@ -6,7 +6,7 @@ import { Routes, Route } from "react-router-dom";
 //component
 import Layout from "./components/common/layout";
 
-import Request from "./pages/requests";
+import StudentsList from "./pages/students";
 
 // import React from 'react';
 // import logo from './logo.svg';
@@ -17,7 +17,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route element={<Layout />}>
-          <Route element={<Request />} path="/requests" />
+          <Route element={<StudentsList />} path="/students" />
           <Route element={<Dashboard />} path="/" />
         </Route>
       </Routes>

@@ -61,7 +61,7 @@ const listItem = [
   },
 ];
 
-const Request: React.FC = () => {
+const StudentsList: React.FC = () => {
   const genarateList = () => {
     return listItem.map((item, index) => (
       <RequestItem key={index} data={item} index={index} />
@@ -70,13 +70,6 @@ const Request: React.FC = () => {
 
   return (
     <div className="my-20 flex items-center justify-center flex-col gap-16">
-      <div className="shadow-[0_2px_28px_0px_rgba(203,209,232,0.15)] bg-white p-7 rounded-3xl w-full">
-        <div className="flex items-center justify-start gap-2">
-          <span className="text-[#2A3042]">داشبورد</span>
-          <ArrowDown className="rotate-90 text-[#4F5468]" />
-          <span className="text-[#9FA5BB]">درخواست ها</span>
-        </div>
-      </div>
       <TableWrapper minSize={`min-w-[900px]`} tableHeader={tableHeader}>
         {genarateList()}
       </TableWrapper>
@@ -84,4 +77,4 @@ const Request: React.FC = () => {
   );
 };
 
-export default Request;
+export default StudentsList;

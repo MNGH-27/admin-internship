@@ -12,26 +12,43 @@ interface TableWrapperProps {
   minSize: string;
 }
 
-const TableWrapper: FC<TableWrapperProps> = ({
+const TableWrapper: React.FC<TableWrapperProps> = ({
   minSize,
   tableHeader,
   children,
 }) => {
   return (
-    <div className="overflow-x-auto w-full shadow-[0_2px_28px_0px_rgba(203,209,232,0.15)] bg-white rounded-3xl">
-      <div className={`${minSize}`}>
-        <table className="flex flex-col w-full p-5">
-          <thead className="bg-[#e5f0ff26] p-2 text-[#2A3042] mb-7">
-            <tr className="grid grid-cols-12 w-full">
-              {tableHeader.map((header, headerIndex) => (
-                <th key={headerIndex} className={`${header.style}`}>
-                  {header.title}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="flex flex-col gap-7">{children}</tbody>
-        </table>
+    <div className="w-full">
+      <div className="overflow-x-auto w-full mb-8">
+        <div className={`${minSize}`}>
+          <table className="flex flex-col w-full p-5">
+            <thead className="bg-[#F6F6F6] p-5 text-[#8B91A7] font-light mb-7">
+              <tr className="grid grid-cols-12 w-full">
+                {tableHeader.map((header, headerIndex) => (
+                  <th key={headerIndex} className={`${header.style}`}>
+                    {header.title}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="flex flex-col gap-7">{children}</tbody>
+          </table>
+        </div>
+      </div>
+      <div className="flex items-center justify-between w-full">
+        <p className="text-sm text-[#5F5F61]">
+          نشان دادن <span className="text-[#222124] font-medium">1</span> از
+          <span className="text-[#222124] font-medium">6</span> از
+          <span className="text-[#222124] font-medium">100</span> نتیجه
+        </p>
+        <div className="flex items-center justify-center gap-5">
+          <button className="px-3 py-2 border-2 border-[#E6E6E6] rounded-xl text-sm hover:bg-[#E6E6E6] duration-200 text-[#222124]">
+            قبلی
+          </button>
+          <button className="px-3 py-2 border-2 border-[#E6E6E6] rounded-xl text-sm hover:bg-[#E6E6E6] duration-200 text-[#222124]">
+            بعدی
+          </button>
+        </div>
       </div>
     </div>
   );
