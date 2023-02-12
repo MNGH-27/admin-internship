@@ -42,10 +42,10 @@ const TableWrapper: React.FC<TableWrapperProps> = ({
           <span className="text-[#222124] font-medium">100</span> نتیجه
         </p>
         <div className="flex items-center justify-center gap-5">
-          <button className="px-3 py-2 border-2 border-[#E6E6E6] rounded-xl text-sm hover:bg-[#E6E6E6] duration-200 text-[#222124]">
+          <button className="px-3 py-2 border-2 border-[#E6E6E6] shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)] rounded-xl text-sm hover:bg-[#E6E6E6] duration-200 text-[#222124]">
             قبلی
           </button>
-          <button className="px-3 py-2 border-2 border-[#E6E6E6] rounded-xl text-sm hover:bg-[#E6E6E6] duration-200 text-[#222124]">
+          <button className="px-3 py-2 border-2 border-[#E6E6E6] shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)] rounded-xl text-sm hover:bg-[#E6E6E6] duration-200 text-[#222124]">
             بعدی
           </button>
         </div>
