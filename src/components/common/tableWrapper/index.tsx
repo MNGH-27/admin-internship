@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 //interface
 interface TableWrapperProps {
@@ -21,8 +21,8 @@ const TableWrapper: React.FC<TableWrapperProps> = ({
     <div className="w-full">
       <div className="overflow-x-auto w-full mb-8">
         <div className={`${minSize}`}>
-          <table className="flex flex-col w-full p-5">
-            <thead className="bg-[#F6F6F6] p-5 text-[#8B91A7] font-light mb-7">
+          <table className="flex flex-col w-full">
+            <thead className="bg-[#F6F6F6] py-5 text-[#8B91A7] text-sm font-light mb-7">
               <tr className="grid grid-cols-12 w-full">
                 {tableHeader.map((header, headerIndex) => (
                   <th key={headerIndex} className={`${header.style}`}>
@@ -31,7 +31,7 @@ const TableWrapper: React.FC<TableWrapperProps> = ({
                 ))}
               </tr>
             </thead>
-            <tbody className="flex flex-col gap-7">{children}</tbody>
+            <tbody className="flex flex-col">{children}</tbody>
           </table>
         </div>
       </div>
