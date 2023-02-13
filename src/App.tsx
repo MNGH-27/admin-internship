@@ -9,9 +9,9 @@ import Layout from "./components/common/layout";
 import StudentsList from "./pages/students";
 import StudentInitialRegestration from "./pages/students/initialregestration";
 import StudentPreregestration from "./pages/students/preregestration";
-import StudentForm from "./pages/students/studentForm";
-import SingleStudentForm from "./pages/students/studentForm/singleStudentForm";
-import "./App.css";
+import StudentFormList from "./pages/students/studentFormList";
+import SingleStudentForm from "./pages/students/studentFormList/singleStudentForm";
+import SingleForm from "./pages/students/studentFormList/singleForm";
 
 function App() {
   return (
@@ -27,8 +27,9 @@ function App() {
             element={<StudentPreregestration />}
             path="/students/preregestration"
           />
-          <Route element={<StudentForm />} path="/students/form" />
+          <Route element={<StudentFormList />} path="/students/form" />
           <Route element={<SingleStudentForm />} path="/students/form/:id" />
+          <Route element={<SingleForm />} path="/students/form/singleform" />
           <Route element={<Dashboard />} path="/" />
         </Route>
       </Routes>

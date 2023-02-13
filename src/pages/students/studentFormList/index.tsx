@@ -2,7 +2,7 @@ import React from "react";
 
 //component
 import TableWrapper from "../../../components/common/tableWrapper";
-import FormStudentItem from "../../../components/pages/students/studentForm/formStudentItem";
+import StudentFormListItem from "../../../components/pages/students/studentForm/studentFormListItem";
 import StudentHeader from "../../../components/pages/students/studentsHeader";
 
 const tableHeader = [
@@ -83,10 +83,10 @@ const listItem = [
   },
 ];
 
-const StudentForm: React.FC = () => {
+const StudentFormList: React.FC = () => {
   const genarateList = () => {
     return listItem.map((item, index) => (
-      <FormStudentItem key={index} index={index} data={item} />
+      <StudentFormListItem key={index} index={index} data={item} />
     ));
   };
 
@@ -94,11 +94,15 @@ const StudentForm: React.FC = () => {
     <div className="my-20 flex items-center justify-center flex-col gap-5">
       <StudentHeader title="فرم ها" hasSubLink={false} />
 
-      <TableWrapper minSize={`min-w-[900px]`} tableHeader={tableHeader}>
+      <TableWrapper
+        minSize={`min-w-[900px]`}
+        tableHeader={tableHeader}
+        hasPagination={true}
+      >
         {genarateList()}
       </TableWrapper>
     </div>
   );
 };
 
-export default StudentForm;
+export default StudentFormList;

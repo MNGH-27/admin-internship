@@ -16,9 +16,9 @@ type PropType = {};
 
 const Layout: React.FC<PropType> = () => {
   return (
-    <div>
-      <header className="mt-6">
-        <div className="shadow-[0_4px_16px_0px_rgba(79,84,104,0.42)] rounded-md p-5 max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto">
+      <header className="mt-6 mx-5">
+        <div className="shadow-[0_4px_16px_0px_rgba(79,84,104,0.42)] rounded-md p-5 mx-auto">
           <div className="flex items-center justify-end sm:justify-between">
             <div className="text-[#8B91A7] font-medium w-fit flex items-center justify-between sm:justify-center gap-2 sm:gap-5">
               <img className="w-10 h-10" src={Logo} alt="logo" />
@@ -50,8 +50,21 @@ const Layout: React.FC<PropType> = () => {
           </div>
         </div>
       </header>
-      <div className="max-w-7xl mx-auto px-5">
+      <div className="mx-5">
         <Outlet />
+      </div>
+      <div className="flex items-center justify-between mx-5 py-5 border-t-2 border-[#EEEEF2] text-xs">
+        <p className="text-[#4C526D] ">
+          کاربر عزیز ، <span className="text-red-700">علی الهیارلو</span> خوش
+          آمدید.
+        </p>
+        <div className="flex items-center justify-center">
+          <p className="px-5 border-l-2 border-[#EEEEF2]">
+            <span className="text-[#101114] font-semibold mx-2">تاریخ:</span>
+            <span>دوشنبه - 3 شهریور 1401</span>
+          </p>
+          <p className="px-5">22:06:03</p>
+        </div>
       </div>
     </div>
   );

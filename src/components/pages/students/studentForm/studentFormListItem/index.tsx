@@ -12,7 +12,7 @@ interface StudetItemProps {
   };
 }
 
-const FormStudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
+const StudentFormListItem: React.FC<StudetItemProps> = ({ data, index }) => {
   return (
     <>
       <tr className="grid grid-cols-12 w-full py-6 border-b-2 border-[#F6F6F6] text-[#5F5F61]">
@@ -34,4 +34,4 @@ const FormStudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
   );
 };
 
-export default FormStudentItem;
+export default StudentFormListItem;

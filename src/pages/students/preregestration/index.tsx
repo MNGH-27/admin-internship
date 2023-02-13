@@ -107,7 +107,11 @@ const StudentPreregestration: React.FC = () => {
         hasSubLink={true}
       />
 
-      <TableWrapper minSize={`min-w-[900px]`} tableHeader={tableHeader}>
+      <TableWrapper
+        minSize={`min-w-[900px]`}
+        tableHeader={tableHeader}
+        hasPagination={true}
+      >
         {genarateList()}
       </TableWrapper>
     </div>

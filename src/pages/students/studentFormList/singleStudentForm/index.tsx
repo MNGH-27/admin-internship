@@ -18,7 +18,7 @@ const SingleStudentForm: React.FC = () => {
       </div>
       <div className="grid grid-cols-4 gap-5 w-full">
         <Link
-          to={"/students/initialregestration"}
+          to={`/students/form/singleform?fromNumber=form_2&stNumber=398123111`}
           className="px-10 py-6 shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)] flex flex-col items-start justify-center gap-5 border-2 border-[#EEEEF2] rounded-md"
         >
           <span className="text-[#101114] font-bold">فرم شماره 2</span>
@@ -34,7 +34,7 @@ const SingleStudentForm: React.FC = () => {
           </div>
         </Link>
         <Link
-          to={"/students/initialregestration"}
+          to={`/students/form/singleform?fromNumber=form_3&stNumber=398123111`}
           className="px-10 py-6 shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)] flex flex-col items-start justify-center gap-5 border-2 border-[#EEEEF2] rounded-md"
         >
           <span className="text-[#101114] font-bold">فرم شماره 3</span>
@@ -50,7 +50,7 @@ const SingleStudentForm: React.FC = () => {
           </div>
         </Link>
         <Link
-          to={"/students/initialregestration"}
+          to={`/students/form/singleform?fromNumber=form_4&stNumber=398123111`}
           className="px-10 py-6 shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)] flex flex-col items-start justify-center gap-5 border-2 border-[#EEEEF2] rounded-md"
         >
           <span className="text-[#101114] font-bold">فرم شماره 4</span>
@@ -66,7 +66,7 @@ const SingleStudentForm: React.FC = () => {
           </div>
         </Link>
         <Link
-          to={"/students/initialregestration"}
+          to={`/students/form/singleform?fromNumber=form_week&stNumber=398123111`}
           className="px-10 py-6 shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)] flex flex-col items-start justify-center gap-5 border-2 border-[#EEEEF2] rounded-md"
         >
           <span className="text-[#101114] font-bold">گزارش هفتگی</span>
@@ -82,7 +82,7 @@ const SingleStudentForm: React.FC = () => {
           </div>
         </Link>
         <Link
-          to={"/students/initialregestration"}
+          to={`/students/form/singleform?fromNumber=form_final&stNumber=398123111`}
           className="px-10 py-6 shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)] flex flex-col items-start justify-center gap-5 border-2 border-[#EEEEF2] rounded-md"
         >
           <span className="text-[#101114] font-bold">نامه اتمام کارآموزی</span>
