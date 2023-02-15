@@ -11,13 +11,13 @@ const SingleForm: React.FC = () => {
   return (
     <>
       <SingleFormContextHeader
-        hasUserDetail={false}
+        hasUserDetail={true}
         title="فرم شماره 2 ( فرم شروع کارآموزی)"
       />
-      {/* <StudentForm2 /> */}
+      <StudentForm2 />
       {/* <StudentForm3 /> */}
       {/* <StudentForm4 /> */}
-      <StudentFormFinal />
+      {/* <StudentFormFinal /> */}
     </>
   );
 };

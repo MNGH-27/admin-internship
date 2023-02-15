@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 
+//axios
+import axios from "axios";
+
 //react-router-dom
-import { Outlet,Link, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation } from "react-router-dom";
 
 //svg
 
@@ -58,7 +61,7 @@ const Layout: React.FC<PropType> = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-14">
               <button type="button" className="lg:hidden ">
-              <Menu className="text-[#6C7389] w-7 h-7"/>
+                <Menu className="text-[#6C7389] w-7 h-7" />
               </button>
               <div className="w-10 h-10 lg:block hidden">
                 <img
