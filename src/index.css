@@ -3,7 +3,11 @@
 @tailwind utilities;
 
 @import url('./assets/fonts/font.css');
-
+* {
+  -moz-font-feature-settings: "ss02";
+  -webkit-font-feature-settings: "ss02";
+  font-feature-settings: "ss02";
+}
 body {
   direction: rtl;
   margin: 0;
