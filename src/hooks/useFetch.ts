@@ -42,6 +42,7 @@ const AxiosInstance = (route = null) => {
       return error.response;
     }
   );
+  return axiosInstance;
 };
 
 export default AxiosInstance;

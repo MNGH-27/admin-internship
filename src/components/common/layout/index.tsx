@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-//axios
-import axios from "axios";
-
 //react-router-dom
 import { Outlet, Link, useLocation } from "react-router-dom";
 
 //react-toastify
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 //svg
@@ -49,8 +46,9 @@ const headerRoute = [
   },
 ];
 const Layout: React.FC<PropType> = () => {
-  const [routes, setRoute] = useState("");
   let location = useLocation();
+
+  const [routes, setRoute] = useState("");
 
   useEffect(() => {
     setRoute(location.pathname);
