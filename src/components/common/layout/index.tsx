@@ -6,8 +6,11 @@ import axios from "axios";
 //react-router-dom
 import { Outlet, Link, useLocation } from "react-router-dom";
 
-//svg
+//react-toastify
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+//svg
 import { ReactComponent as NotificationSvg } from "./../../../assets/icons/svg/notification-bing.svg";
 import { ReactComponent as SearchSvg } from "./../../../assets/icons/svg/search-normal.svg";
 import { ReactComponent as Menu } from "./../../../assets/icons/svg/menu.svg";
@@ -123,6 +126,7 @@ const Layout: React.FC<PropType> = () => {
           </div>
         </div>
       </footer>
+      <ToastContainer />
     </>
   );
 };
