@@ -106,7 +106,7 @@ const Layout: React.FC<PropType> = () => {
         </div>
       </header>
       {/* content body */}
-      <main className="max-w-7xl mx-auto min-h-screen my-5">
+      <main className="max-w-7xl mx-auto min-h-screen mb-5">
         <Outlet />
       </main>
 
