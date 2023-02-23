@@ -3,6 +3,9 @@ import React from "react";
 //react-router-dom
 import { BrowserRouter } from "react-router-dom";
 
+//cookie
+import { CookiesProvider } from "react-cookie";
+
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
@@ -15,7 +18,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <BrowserRouter>
     {/* <React.StrictMode> */}
-    <App />
+    <CookiesProvider>
+      <App />
+    </CookiesProvider>
     {/* </React.StrictMode> */}
   </BrowserRouter>
 );
