@@ -14,7 +14,7 @@ import LoadingLayout from "../../components/common/loadingLayout";
 const Students: React.FC = () => {
   const [cookies] = useCookies(["token"]);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [userStatus, setUserStatus] = useState<{
     initReg_verified: number;
     initReg_unverified: number;
@@ -53,7 +53,7 @@ const Students: React.FC = () => {
 
   return (
     <div className="mt-16 mx-10 xl:mx-5">
-      <h2 className="text-[#101114] text-2xl font-semibold mb-10 text-center md:text-right">
+      <h2 className="text-[#101114] text-3xl font-semibold mb-10 text-center md:text-right">
         دانشجویان
       </h2>
       <LoadingLayout isLoading={isLoading}>
