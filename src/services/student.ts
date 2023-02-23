@@ -23,3 +23,17 @@ export async function GetStudentBasicData({
 
   return apiCall;
 }
+
+export async function GetInitialPreregestrationStundets({
+  token,
+}: {
+  token: string;
+}): Promise<AxiosResponse<any>> {
+  const apiCall = await useFetch().get(`${baseURL}/initReg`, {
+    headers: {
+      Authorization: `Bearer ` + token,
+    },
+  });
+
+  return apiCall;
+}

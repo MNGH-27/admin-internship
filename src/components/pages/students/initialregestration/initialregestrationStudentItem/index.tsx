@@ -6,17 +6,11 @@ import { useSearchParams } from "react-router-dom";
 //component
 import RejectStudentModal from "../rejectStudentModal";
 
+//interface
+import { typeSingleInitialRegestration } from "../../../../../types";
 interface StudetItemProps {
   index: number;
-  data: {
-    name: string;
-    lastName: string;
-    stNumber: number;
-    faculty: string;
-    term: string;
-    nlCode: number;
-    phoneCode: string;
-  };
+  data: typeSingleInitialRegestration;
 }
 
 const StudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
@@ -59,11 +53,11 @@ const StudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
       <tr className="grid grid-cols-12 w-full py-6 border-b-2 border-[#F6F6F6] text-[#5F5F61]">
         <td className="col-span-1">{index + 1}</td>
         <td className="col-span-1">{data.name}</td>
-        <td className="col-span-1">{data.lastName}</td>
-        <td className="col-span-2">{data.stNumber}</td>
+        <td className="col-span-1">{data.last_name}</td>
+        <td className="col-span-2">{data.student_number}</td>
         <td className="col-span-1">{data.faculty}</td>
         <td className="col-span-1">{data.term}</td>
-        <td className="col-span-2">{data.nlCode}</td>
+        <td className="col-span-2">{data.national_code}</td>
         <td className="col-span-1">{data.phoneCode}</td>
         <td className="col-span-2 flex items-center justify-end gap-2">
           {studentItemAction()}
