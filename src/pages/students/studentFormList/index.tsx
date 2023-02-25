@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+
+//cookies
+import { useCookies } from "react-cookie";
 
 //component
 import TableWrapper from "../../../components/common/tableWrapper";
 import StudentFormListItem from "../../../components/pages/students/studentForm/studentFormListItem";
 import StudentHeader from "../../../components/pages/students/studentsHeader";
 
+//service
+import { GetStudentsFormList } from "../../../services/student";
+
+//interface
+import { typeSingleStudentForm } from "../../../types";
+import { typeMeta } from "../../../types";
 const tableHeader = [
   {
     title: "#",
@@ -24,11 +33,7 @@ const tableHeader = [
   },
   {
     title: "دانشکده",
-    style: "col-span-1 text-center",
-  },
-  {
-    title: "ترم",
-    style: "col-span-1 text-center",
+    style: "col-span-2 text-center",
   },
   {
     title: "سال ورود به دانشگاه",
@@ -40,52 +45,32 @@ const tableHeader = [
   },
 ];
 
-const listItem = [
-  {
-    name: "علی",
-    lastName: "الهیارلو",
-    stNumber: 3981231111,
-    faculty: "کامپیوتر",
-    term: "پنجم",
-    entryDate: 1398,
-  },
-  {
-    name: "علی",
-    lastName: "الهیارلو",
-    stNumber: 3981231111,
-    faculty: "کامپیوتر",
-    term: "پنجم",
-    entryDate: 1398,
-  },
-  {
-    name: "علی",
-    lastName: "الهیارلو",
-    stNumber: 3981231111,
-    faculty: "کامپیوتر",
-    term: "پنجم",
-    entryDate: 1398,
-  },
-  {
-    name: "علی",
-    lastName: "الهیارلو",
-    stNumber: 3981231111,
-    faculty: "کامپیوتر",
-    term: "پنجم",
-    entryDate: 1398,
-  },
-  {
-    name: "علی",
-    lastName: "الهیارلو",
-    stNumber: 3981231111,
-    faculty: "کامپیوتر",
-    term: "پنجم",
-    entryDate: 1398,
-  },
-];
-
 const StudentFormList: React.FC = () => {
+  const [cookies] = useCookies(["token"]);
+
+  const [students, setStudents] = useState<typeSingleStudentForm[]>([]);
+  const [meta, setMeta] = useState<typeMeta>();
+
+  useEffect(() => {
+    asyncGetStudentsFromList();
+  }, []);
+
+  const asyncGetStudentsFromList = async () => {
+    try {
+      const response = await GetStudentsFormList({ token: cookies.token });
+      if (response.status === 200) {
+        setStudents([...response.data.data]);
+        setMeta({ ...response.data.meta });
+      } else {
+        //error occure
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const genarateList = () => {
-    return listItem.map((item, index) => (
+    return students.map((item, index) => (
       <StudentFormListItem key={index} index={index} data={item} />
     ));
   };
@@ -98,6 +83,7 @@ const StudentFormList: React.FC = () => {
         minSize={`min-w-[900px]`}
         tableHeader={tableHeader}
         hasPagination={true}
+        meta={meta}
       >
         {genarateList()}
       </TableWrapper>
