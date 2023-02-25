@@ -6,9 +6,9 @@ import useCookies from "react-cookie/cjs/useCookies";
 import TableWrapper from "../../../components/common/tableWrapper";
 import StudentItem from "../../../components/pages/students/initialregestration/initialregestrationStudentItem";
 import StudentHeader from "../../../components/pages/students/studentsHeader";
-
+import LoadingLayout from "../../../components/common/loadingLayout";
 //service
-import { GetInitialPreregestrationStundets } from "../../../services/student";
+import { GetInitialRegestrationStundets } from "../../../services/student";
 
 //interface
 import { typeSingleInitialRegestration, typeMeta } from "../../../types";
@@ -35,7 +35,7 @@ const tableHeader = [
     style: "col-span-1 text-center",
   },
   {
-    title: "ترم",
+    title: "سال ورود",
     style: "col-span-1 text-center",
   },
   {
@@ -58,8 +58,9 @@ const StudentInitialRegestration: React.FC = () => {
     total_pages: 0,
     total_records: 0,
   });
-  const [initialRegestration, setInitialRegestration] =
-    useState<typeSingleInitialRegestration[]>();
+  const [initialRegestration, setInitialRegestration] = useState<
+    typeSingleInitialRegestration[] | []
+  >();
 
   useEffect(() => {
     asyncGetInitialPreregStudentsList();
@@ -68,7 +69,7 @@ const StudentInitialRegestration: React.FC = () => {
   const asyncGetInitialPreregStudentsList = async (): Promise<void> => {
     setIsLoading(true);
     try {
-      const response = await GetInitialPreregestrationStundets({
+      const response = await GetInitialRegestrationStundets({
         token: cookies.token,
       });
       //check response status
@@ -85,12 +86,16 @@ const StudentInitialRegestration: React.FC = () => {
     setIsLoading(false);
   };
 
-  // const genarateList = () => {
-  //   return listItem.map((item, index) => (
-  //     <StudentItem key={index} index={index} data={item} />
-  //   ));
-  // };
-
+  const genarateList = () => {
+    //check initial regestration not to be undefined
+    if (initialRegestration !== undefined)
+      return (
+        initialRegestration.length !== 0 &&
+        initialRegestration.map((item, index) => (
+          <StudentItem key={index} index={index} data={item} />
+        ))
+      );
+  };
   return (
     <div className="my-20 flex items-center justify-center flex-col gap-5">
       <StudentHeader
@@ -99,13 +104,16 @@ const StudentInitialRegestration: React.FC = () => {
         hasSubLink={true}
       />
 
-      <TableWrapper
-        minSize={`min-w-[900px]`}
-        tableHeader={tableHeader}
-        hasPagination={true}
-      >
-        {/* {genarateList()} */}
-      </TableWrapper>
+      <LoadingLayout isLoading={isLoading}>
+        <TableWrapper
+          minSize={`min-w-[900px]`}
+          tableHeader={tableHeader}
+          meta={meta}
+          hasPagination={true}
+        >
+          {genarateList()}
+        </TableWrapper>
+      </LoadingLayout>
     </div>
   );
 };
