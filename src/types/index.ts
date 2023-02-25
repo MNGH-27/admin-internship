@@ -3,9 +3,10 @@ export type typeSingleInitialRegestration = {
   last_name: string;
   student_number: number;
   faculty: string;
-  term: string;
+  entrance_year: string;
   national_code: number;
-  phoneCode: string;
+  phone_number: string;
+  id: number;
 };
 
 export type typeMeta = {

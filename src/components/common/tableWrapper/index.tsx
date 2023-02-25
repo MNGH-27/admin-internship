@@ -1,8 +1,12 @@
 import React, { ReactNode } from "react";
 
+//component
+import TablePagination from "./pagination";
+
 //interface
+import { typeMeta } from "../../../types";
 interface TableWrapperProps {
-  children?: ReactNode;
+  children: ReactNode;
 
   tableHeader: {
     style: string;
@@ -11,7 +15,9 @@ interface TableWrapperProps {
 
   minSize: string;
 
+  //this is optional => Cuz pagination is optional in some table
   hasPagination: boolean;
+  meta?: typeMeta;
 }
 
 const TableWrapper: React.FC<TableWrapperProps> = ({
@@ -19,6 +25,7 @@ const TableWrapper: React.FC<TableWrapperProps> = ({
   tableHeader,
   hasPagination,
   children,
+  meta,
 }) => {
   return (
     <div className="w-full">
@@ -38,23 +45,7 @@ const TableWrapper: React.FC<TableWrapperProps> = ({
           </table>
         </div>
       </div>
-      {hasPagination && (
-        <div className="flex items-center justify-between w-full">
-          <p className="text-sm text-[#5F5F61]">
-            نشان دادن <span className="text-[#222124] font-medium">1</span> از
-            <span className="text-[#222124] font-medium">6</span> از
-            <span className="text-[#222124] font-medium">100</span> نتیجه
-          </p>
-          <div className="flex items-center justify-center gap-5">
-            <button className="px-3 py-2 border-2 border-[#E6E6E6] shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)] rounded-xl text-sm hover:bg-[#E6E6E6] duration-200 text-[#222124]">
-              قبلی
-            </button>
-            <button className="px-3 py-2 border-2 border-[#E6E6E6] shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)] rounded-xl text-sm hover:bg-[#E6E6E6] duration-200 text-[#222124]">
-              بعدی
-            </button>
-          </div>
-        </div>
-      )}
+      {hasPagination && meta !== undefined && <TablePagination meta={meta} />}
     </div>
   );
 };
