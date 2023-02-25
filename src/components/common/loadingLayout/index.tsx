@@ -4,11 +4,15 @@ import React from "react";
 interface LoadingLayoutProps {
   children: React.ReactNode;
   isLoading: boolean;
+  hasCard?: boolean;
+  Card?: any;
 }
 
 const LoadingLayout: React.FC<LoadingLayoutProps> = ({
   isLoading,
   children,
+  hasCard,
+  Card,
 }) => {
   return (
     <>
@@ -20,6 +24,8 @@ const LoadingLayout: React.FC<LoadingLayoutProps> = ({
             </svg>
           </div>
         </div>
+      ) : hasCard ? (
+        <Card />
       ) : (
         children
       )}
