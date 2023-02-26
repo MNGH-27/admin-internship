@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
 
+//moment
+import moment from "moment-jalaali";
+
 //react-router-dom
 import { Outlet, Link, useLocation } from "react-router-dom";
 
 //react-toastify
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+//custom hook
+import useClock from "../../../hooks/useClock";
 
 //svg
 import { ReactComponent as NotificationSvg } from "./../../../assets/icons/svg/notification-bing.svg";
@@ -46,13 +52,9 @@ const headerRoute = [
   },
 ];
 const Layout: React.FC<PropType> = () => {
+  moment.loadPersian({ usePersianDigits: true });
+
   let location = useLocation();
-
-  const [routes, setRoute] = useState("");
-
-  useEffect(() => {
-    setRoute(location.pathname);
-  }, [location.pathname]);
 
   return (
     <>
@@ -80,7 +82,7 @@ const Layout: React.FC<PropType> = () => {
                     <Link
                       to={route.path}
                       className={`${
-                        route.path === routes
+                        location.pathname === route.path
                           ? "bg-[#F6F7F8] text-[#101114] font-semibold px-4 py-1 rounded-md"
                           : "bg-white text-[#8B91A7]"
                       }`}
@@ -118,9 +120,13 @@ const Layout: React.FC<PropType> = () => {
           <div className="flex items-center justify-center">
             <p className="px-5 md:border-l-2 md:border-[#EEEEF2] text-sm leading-6">
               <span className="text-[#101114] font-semibold ml-2">تاریخ:</span>
-              <span className="text-[#5F5F61] ">دوشنبه - 3 شهریور 1401</span>
+              <span className="text-[#5F5F61] ">
+                {moment(new Date()).format("dddd - jDD jMMMM jYYYY")}
+              </span>
             </p>
-            <p className="px-5 text-[#5F5F61] hidden md:block">22:06:03</p>
+            <p className="px-5 text-[#5F5F61] hidden md:block">
+              {useClock().time}
+            </p>
           </div>
         </div>
       </footer>
