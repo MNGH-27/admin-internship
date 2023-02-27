@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-
+//react router dom
+import { useLocation } from "react-router-dom";
 //cookie
 import useCookies from "react-cookie/cjs/useCookies";
 //component
@@ -7,9 +8,9 @@ import TableWrapper from "../../../components/common/tableWrapper";
 import StudentItem from "../../../components/pages/students/initialregestration/initialregestrationStudentItem";
 import StudentHeader from "../../../components/pages/students/studentsHeader";
 import LoadingLayout from "../../../components/common/loadingLayout";
+import InitialRegestrationLoadingItem from "../../../components/pages/students/initialregestration/initialRegestrationLoadingItem";
 //service
 import { GetInitialRegestrationStundets } from "../../../services/student";
-
 //interface
 import { typeSingleInitialRegestration, typeMeta } from "../../../types";
 
@@ -31,10 +32,6 @@ const tableHeader = [
     style: "col-span-2 text-center",
   },
   {
-    title: "دانشکده",
-    style: "col-span-1 text-center",
-  },
-  {
     title: "سال ورود",
     style: "col-span-1 text-center",
   },
@@ -44,12 +41,16 @@ const tableHeader = [
   },
   {
     title: "شماره تلفن",
-    style: "col-span-1 text-center",
+    style: "col-span-2 text-center",
   },
 ];
 
 const StudentInitialRegestration: React.FC = () => {
+  //cookies
   const [cookies] = useCookies(["token"]);
+
+  //useLocation
+  const location = useLocation();
 
   const [isLoading, setIsLoading] = useState(true);
   const [meta, setMeta] = useState<typeMeta>({
@@ -62,14 +63,25 @@ const StudentInitialRegestration: React.FC = () => {
     typeSingleInitialRegestration[] | []
   >();
 
+  //call on searchParam changes
   useEffect(() => {
-    asyncGetInitialPreregStudentsList();
-  }, []);
+    //on search for course after filtering data,
+    //check if we have any search params
+    if (location.search.length > 0) {
+      asyncGetInitialPreregStudentsList(location.search.substring(1));
+    } else {
+      //we don't have any search params => empty search
+      asyncGetInitialPreregStudentsList("");
+    }
+  }, [location]);
 
-  const asyncGetInitialPreregStudentsList = async (): Promise<void> => {
+  const asyncGetInitialPreregStudentsList = async (
+    filter: string = ""
+  ): Promise<void> => {
     setIsLoading(true);
     try {
       const response = await GetInitialRegestrationStundets({
+        filter,
         token: cookies.token,
       });
       //check response status
@@ -92,10 +104,20 @@ const StudentInitialRegestration: React.FC = () => {
       return (
         initialRegestration.length !== 0 &&
         initialRegestration.map((item, index) => (
-          <StudentItem key={index} index={index} data={item} />
+          <StudentItem
+            key={index}
+            index={index}
+            data={item}
+            refreshList={asyncGetInitialPreregStudentsList}
+          />
         ))
       );
   };
+
+  const loadingCard = () => {
+    return <InitialRegestrationLoadingItem />;
+  };
+
   return (
     <div className="my-20 flex items-center justify-center flex-col gap-5">
       <StudentHeader
@@ -104,16 +126,21 @@ const StudentInitialRegestration: React.FC = () => {
         hasSubLink={true}
       />
 
-      <LoadingLayout isLoading={isLoading}>
-        <TableWrapper
-          minSize={`min-w-[900px]`}
-          tableHeader={tableHeader}
-          meta={meta}
-          hasPagination={true}
+      <TableWrapper
+        minSize={`min-w-[900px]`}
+        tableHeader={tableHeader}
+        meta={meta}
+        hasPagination={true}
+      >
+        <LoadingLayout
+          isLoading={isLoading}
+          hasCard={true}
+          Card={loadingCard}
+          repetitionsNumber={5}
         >
           {genarateList()}
-        </TableWrapper>
-      </LoadingLayout>
+        </LoadingLayout>
+      </TableWrapper>
     </div>
   );
 };
