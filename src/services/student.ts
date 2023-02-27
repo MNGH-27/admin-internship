@@ -26,10 +26,12 @@ export async function GetStudentBasicData({
 
 export async function GetInitialRegestrationStundets({
   token,
+  filter,
 }: {
   token: string;
+  filter: string;
 }): Promise<AxiosResponse<any>> {
-  const apiCall = await useFetch().get(`${baseURL}/initReg`, {
+  const apiCall = await useFetch().get(`${baseURL}/initReg?${filter}`, {
     headers: {
       Authorization: `Bearer ` + token,
     },
@@ -54,6 +56,42 @@ export async function PutVarifyStudentInitialRegestration({
       },
     }
   );
+
+  return apiCall;
+}
+
+export async function PutUnVarifyStudentInitialRegestration({
+  token,
+  student_id,
+  detail,
+}: {
+  token: string;
+  student_id: number;
+  detail: string;
+}): Promise<AxiosResponse<any>> {
+  const apiCall = await useFetch().put(
+    `${baseURL}/${student_id}/initReg/unverify`,
+    { rejection_reason: detail },
+    {
+      headers: {
+        Authorization: `Bearer ` + token,
+      },
+    }
+  );
+
+  return apiCall;
+}
+
+export async function GetStudentsFormList({
+  token,
+}: {
+  token: string;
+}): Promise<AxiosResponse<any>> {
+  const apiCall = await useFetch().get(`${baseURL}/forms`, {
+    headers: {
+      Authorization: `Bearer ` + token,
+    },
+  });
 
   return apiCall;
 }
