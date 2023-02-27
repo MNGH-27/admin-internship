@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
 
+//cookie
+import { useCookies } from "react-cookie";
+
+//service
+import { GetUserData } from "../../../services/user";
+
 //moment
 import moment from "moment-jalaali";
 
@@ -7,7 +13,7 @@ import moment from "moment-jalaali";
 import { Outlet, Link, useLocation } from "react-router-dom";
 
 //react-toastify
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 //custom hook
@@ -54,7 +60,38 @@ const headerRoute = [
 const Layout: React.FC<PropType> = () => {
   moment.loadPersian({ usePersianDigits: true });
 
+  const [cookies] = useCookies(["token"]);
   let location = useLocation();
+
+  const [user, setUser] = useState<{
+    first_name: string;
+    last_name: string;
+  }>({
+    first_name: "",
+    last_name: "",
+  });
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    asycnGetUserData();
+  }, []);
+
+  const asycnGetUserData = async () => {
+    setIsLoading(true);
+    try {
+      const response = await GetUserData({ token: cookies.token });
+      if (response.status === 200) {
+        setUser({
+          ...response.data.user,
+        });
+      } else {
+        //an error occure
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+  };
 
   return (
     <>
@@ -106,17 +143,22 @@ const Layout: React.FC<PropType> = () => {
         </div>
       </header>
       {/* content body */}
-      <main className="max-w-7xl mx-auto min-h-screen mb-5">
+      <main className="max-w-7xl mx-auto min-h-screen mb- px-5">
         <Outlet />
       </main>
 
       {/* footer */}
       <footer className="border-t-2 border-[#EEEEF2] shadow-[0_-1px_2px_0px_rgba(24,24,28,0.04)]">
         <div className="max-w-7xl py-5 px-3 xl:px-0 flex md:flex-row flex-col gap-y-5 items-center justify-between mx-auto">
-          <p className="text-[#5F5F61] text-sm leading-6">
-            کاربر عزیز ، <span className="text-[#E73F3F]">علی الهیارلو</span>{" "}
+          <div className="flex items-center gap-2 text-[#5F5F61] text-sm leading-6">
+            کاربر عزیز ،{" "}
+            {isLoading ? (
+              <span className="w-16 h-4 bg-gray-400 rounded-md animate-pulse"></span>
+            ) : (
+              <span className="text-[#E73F3F]">{`${user.first_name} ${user.last_name}`}</span>
+            )}{" "}
             خوش آمدید.
-          </p>
+          </div>
           <div className="flex items-center justify-center">
             <p className="px-5 md:border-l-2 md:border-[#EEEEF2] text-sm leading-6">
               <span className="text-[#101114] font-semibold ml-2">تاریخ:</span>
