@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useRef } from "react";
 
-//react-router-dom
-import { Link, useSearchParams } from "react-router-dom";
+//searchParams
+import { useCustomSearchParams } from "../../../../hooks/useCustomSearchParams";
 
 //SVG
 import { ReactComponent as NotesSvg } from "./../../../../assets/icons/svg/note-2.svg";
@@ -22,13 +22,24 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
   subLink,
   hasSubLink,
 }) => {
-  const [searchParams] = useSearchParams();
+  const searchFieldContainer = useRef<HTMLInputElement | null>(null);
+  const selectFeildContainer = useRef<HTMLSelectElement | null>(null);
+
+  const [searchParams, setSearchParams] = useCustomSearchParams();
+
+  const onSetSearchParamsHandler = () => {
+    setSearchParams({
+      ...searchParams,
+      search: searchFieldContainer.current?.value,
+      faculty: selectFeildContainer.current?.value,
+    });
+  };
 
   return (
     <div className="flex flex-col items-center justify-center gap-5 w-full">
-      <div className="flex items-start justify-between w-full">
+      <div className="flex items-start justify-between flex-col lg:flex-row gap-y-5 w-full">
         <div className="flex flex-col items-start justify-center gap-4">
-          {!searchParams.get("studentStatus") ? (
+          {searchParams.verified === "" ? (
             <>
               {" "}
               <div className="flex items-center gap-2">
@@ -44,7 +55,7 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
                 استفاده از طراحان گرافیک است.
               </span>
             </>
-          ) : searchParams.get("studentStatus") === "approved" ? (
+          ) : searchParams.verified == 1 ? (
             <span className="text-[#101114] text-2xl font-semibold">
               دانشجو های تایید شده{" "}
             </span>
@@ -54,59 +65,80 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
             </span>
           )}
         </div>
-        <div className="flex items-center justify-center gap-5">
+        <div className="flex items-center justify-center flex-col sm:flex-row gap-5 w-full sm:w-fit">
           {hasSubLink &&
-            (searchParams.get("studentStatus") ? (
-              <Link
-                to={`/students/${subLink}`}
+            (searchParams.verified ? (
+              <button
+                onClick={() =>
+                  setSearchParams({
+                    ...searchParams,
+                    verified: "",
+                  })
+                }
                 className="py-3 px-5 rounded-md flex items-center justify-start gap-2 text-white bg-[#2080F6] border-2 border-[#2080F6] hover:bg-white hover:text-[#2080F6] duration-200"
               >
                 <ReturnSvg />
                 بازگشت
-              </Link>
+              </button>
             ) : (
               <>
-                <Link
-                  to={`/students/${subLink}/?studentStatus=approved`}
+                <button
+                  onClick={() =>
+                    setSearchParams({
+                      ...searchParams,
+                      verified: 1,
+                    })
+                  }
                   className="py-3 px-5 rounded-md flex items-center justify-start gap-2 text-white bg-[#2080F6] border-2 border-[#2080F6] hover:bg-white hover:text-[#2080F6] duration-200"
                 >
                   <NotesSvg />
                   دانشجو های تایید شده
-                </Link>
-                <Link
-                  to={`/students/${subLink}/?studentStatus=rejected`}
+                </button>
+                <button
+                  onClick={() =>
+                    setSearchParams({
+                      ...searchParams,
+                      verified: 0,
+                    })
+                  }
                   className="py-3 px-5 rounded-md flex items-center justify-start gap-2 shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)] text-[#222124] border-2 border-[#E6E6E6] hover:bg-[#E6E6E6] duration-200"
                 >
                   <FailedSvg />
                   دانشجو های رد شده
-                </Link>
+                </button>
               </>
             ))}
         </div>
       </div>
       <div className="w-full my-3">
-        <div className="flex items-center justify-start gap-2 text-[#5F5F61] w-full">
+        <div className="flex items-center justify-start text-[#5F5F61] w-full">
           <SettingSvg />
           <p>مرتب سازی براساس:</p>
         </div>
-        <div className="flex items-end justify-start gap-5">
+        <div className="flex items-end justify-start gap-5 mt-5">
           <div className="flex flex-col items-start gap-2">
             <label className="text-[#8B91A7] text-xs">دانشکده</label>
-            <select className="w-40 py-2 rounded-lg border-2 border-[#E6E6E6] shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)]">
+            <select
+              ref={selectFeildContainer}
+              className="w-40 p-2 rounded-lg border-2 border-[#E6E6E6] shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)]"
+            >
               <option value="comp">کامپیوتر</option>
               <option value="elec">برق</option>
               <option value="civil">عمران</option>
             </select>
           </div>
-          <div className="flex flex-col items-start justify-center gap-2">
-            <label className="text-[#8B91A7] text-xs">سرترم</label>
-            <select className="w-40 py-2 rounded-lg border-2 border-[#E6E6E6] shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)]">
-              <option value="comp">ترم 5</option>
-              <option value="elec">ترم 6</option>
-              <option value="civil">ترم 7</option>
-            </select>
+          <div className="flex flex-col gap-2">
+            <label className="text-[#8B91A7] text-xs">جستجو </label>
+            <input
+              ref={searchFieldContainer}
+              className="w-full p-2 placeholder:text-sm rounded-lg border-2 border-[#E6E6E6] shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)]"
+              placeholder="جستجو دانشجو . . ."
+            />
           </div>
-          <button className="px-6 py-2 flex items-center justify-center gap-2 rounded-xl bg-[#2080F6] text-white border-2 border-[#2080F6] hover:bg-white hover:text-[#2080F6] duration-200">
+          <button
+            onClick={onSetSearchParamsHandler}
+            className="px-6 py-2 flex items-center justify-center gap-2 rounded-xl bg-[#2080F6] text-white border-2 border-[#2080F6] hover:bg-white hover:text-[#2080F6] duration-200"
+          >
             <SearchSvg />
             جستجو
           </button>
