@@ -5,7 +5,8 @@ interface LoadingLayoutProps {
   children: React.ReactNode;
   isLoading: boolean;
   hasCard?: boolean;
-  Card?: any;
+  repetitionsNumber?: number;
+  Card?: React.ComponentType<{}>;
 }
 
 const LoadingLayout: React.FC<LoadingLayoutProps> = ({
@@ -13,19 +14,26 @@ const LoadingLayout: React.FC<LoadingLayoutProps> = ({
   children,
   hasCard,
   Card,
+  repetitionsNumber,
 }) => {
   return (
     <>
       {isLoading ? (
-        <div className="w-full flex items-center justify-center">
-          <div className="loader scale-125">
-            <svg viewBox="0 0 80 80">
-              <circle id="test" cx="40" cy="40" r="32"></circle>
-            </svg>
+        hasCard ? (
+          Card !== undefined &&
+          //this is lazy loading
+          Array.from(Array(repetitionsNumber), (item, index) => {
+            return <Card key={index} />;
+          })
+        ) : (
+          <div className="w-full flex items-center justify-center">
+            <div className="loader scale-125">
+              <svg viewBox="0 0 80 80">
+                <circle id="test" cx="40" cy="40" r="32"></circle>
+              </svg>
+            </div>
           </div>
-        </div>
-      ) : hasCard ? (
-        <Card />
+        )
       ) : (
         children
       )}
