@@ -82,12 +82,29 @@ export async function PutUnVarifyStudentInitialRegestration({
   return apiCall;
 }
 
+//form
 export async function GetStudentsFormList({
   token,
 }: {
   token: string;
 }): Promise<AxiosResponse<any>> {
   const apiCall = await useFetch().get(`${baseURL}/forms`, {
+    headers: {
+      Authorization: `Bearer ` + token,
+    },
+  });
+
+  return apiCall;
+}
+
+export async function GetSingleStudentsForm({
+  token,
+  id,
+}: {
+  token: string;
+  id: number;
+}): Promise<AxiosResponse<any>> {
+  const apiCall = await useFetch().get(`${baseURL}/forms/${id}`, {
     headers: {
       Authorization: `Bearer ` + token,
     },
