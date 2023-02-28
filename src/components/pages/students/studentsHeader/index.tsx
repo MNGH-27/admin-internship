@@ -29,7 +29,6 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
   numberOfStudnet,
 }) => {
   const searchFieldContainer = useRef<HTMLInputElement | null>(null);
-  const selectFeildContainer = useRef<HTMLSelectElement | null>(null);
 
   const [searchParams, setSearchParams] = useCustomSearchParams();
 
@@ -39,28 +38,23 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
     });
 
   const onSetSearchParamsHandler = () => {
-    //check if selectedFeild don't be undefined
-    if (selectFeildContainer.current?.value === undefined) return;
-
-    const entranceYear: entranceYearsListItemType = JSON.parse(
-      selectFeildContainer.current?.value
-    );
-
     /*
      * *check entranceYear =>
      * *in default value it is null check it won't be null
      */
-    if (entranceYear.entrance_year !== null) {
+    if (selectContainer.entrance_year !== null) {
       //it is not null => search faculty id too
       setSearchParams({
         ...searchParams,
+        page: 1,
         search: searchFieldContainer.current?.value,
-        entrance_year: entranceYear.entrance_year,
+        entrance_year: selectContainer.entrance_year,
       });
     } else {
       //faculty id is null , we don't search it
       setSearchParams({
         ...searchParams,
+        page: 1,
         search: searchFieldContainer.current?.value,
       });
     }
@@ -156,7 +150,6 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
               <select
                 value={JSON.stringify(selectContainer)}
                 onChange={(e) => setSelectContainer(JSON.parse(e.target.value))}
-                ref={selectFeildContainer}
                 className="w-60 p-2 rounded-lg border-2 border-[#E6E6E6] shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)]"
               >
                 <option value={JSON.stringify({ entrance_year: "" })}>

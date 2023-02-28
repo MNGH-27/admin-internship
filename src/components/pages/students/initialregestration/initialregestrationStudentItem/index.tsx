@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 //react toastify
 import { toast } from "react-toastify";
 //react-router-dom
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 //services
 import {
@@ -21,20 +21,16 @@ import { typeSingleInitialRegestration } from "../../../../../types";
 interface StudetItemProps {
   index: number;
   data: typeSingleInitialRegestration;
-  refreshList: () => void;
 }
 
-const StudentItem: React.FC<StudetItemProps> = ({
-  data,
-  index,
-  refreshList,
-}) => {
+const StudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
   const [isVarifyBtnLoading, setisVarifyBtnLoading] = useState(false);
   const [isUnVarifyBtnLoading, setisUnVarifyBtnLoading] = useState(false);
 
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
 
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [cookies] = useCookies(["token"]);
 
   const asyncVarifyStudnet = async () => {
@@ -48,7 +44,7 @@ const StudentItem: React.FC<StudetItemProps> = ({
       if (response.status === 200) {
         //varify student successfully , refresh list
         toast.success("دانشجو با موفقیت تایید شد");
-        refreshList();
+        navigate(0);
       } else {
         toast.error("تایید دانشجو موفقیت آمیز نبود");
       }
@@ -88,7 +84,7 @@ const StudentItem: React.FC<StudetItemProps> = ({
       if (response.status === 200) {
         //student unvarify successfully , refresh- list
         toast.success("دانشجو با موفقیت رد شد");
-        refreshList();
+        navigate(0);
       } else {
         toast.error("رد دانشجو موفقیت آمیز نبود");
       }

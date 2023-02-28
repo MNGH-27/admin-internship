@@ -132,12 +132,7 @@ const StudentInitialRegestration: React.FC = () => {
       return (
         initialRegestration.length !== 0 &&
         initialRegestration.map((item, index) => (
-          <StudentItem
-            key={index}
-            index={index}
-            data={item}
-            refreshList={asyncGetInitialPreregStudentsList}
-          />
+          <StudentItem key={index} index={index} data={item} />
         ))
       );
   };
