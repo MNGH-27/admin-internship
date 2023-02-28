@@ -9,6 +9,17 @@ export type typeSingleInitialRegestration = {
   id: number;
 };
 
+export type typeSinglePreRegestration = {
+  company: string;
+  entrance_year: string;
+  faculty: string;
+  id: number;
+  last_name: string;
+  name: string;
+  national_code: string;
+  passed_units: string;
+  student_number: number;
+};
 export type typeSingleStudentForm = {
   company: string;
   entrance_year: string;

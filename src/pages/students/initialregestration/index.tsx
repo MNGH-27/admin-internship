@@ -125,7 +125,7 @@ const StudentInitialRegestration: React.FC = () => {
         subLink="initialregestration"
         hasSubLink={true}
       />
-
+ 
       <TableWrapper
         minSize={`min-w-[900px]`}
         tableHeader={tableHeader}

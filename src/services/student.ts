@@ -39,7 +39,21 @@ export async function GetInitialRegestrationStundets({
 
   return apiCall;
 }
+export async function GetPereregestrationStudents({
+  token,
+  filter,
+}: {
+  token: string;
+  filter: string;
+}): Promise<AxiosResponse<any>> {
+  const apiCall = await useFetch().get(`${baseURL}/preReg?${filter}`, {
+    headers: {
+      Authorization: `Bearer` + token,
+    },
+  });
 
+  return apiCall;
+}
 export async function PutVarifyStudentInitialRegestration({
   token,
   student_id,
