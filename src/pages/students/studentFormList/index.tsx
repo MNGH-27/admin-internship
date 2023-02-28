@@ -7,7 +7,8 @@ import { useCookies } from "react-cookie";
 import TableWrapper from "../../../components/common/tableWrapper";
 import StudentFormListItem from "../../../components/pages/students/studentForm/studentFormListItem";
 import StudentHeader from "../../../components/pages/students/studentsHeader";
-
+import LoadingLayout from "../../../components/common/loadingLayout";
+import FormListLoadingItem from "../../../components/pages/students/studentForm/formlistLoadingItem";
 //service
 import { GetStudentsFormList } from "../../../services/student";
 
@@ -50,12 +51,13 @@ const StudentFormList: React.FC = () => {
 
   const [students, setStudents] = useState<typeSingleStudentForm[]>([]);
   const [meta, setMeta] = useState<typeMeta>();
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     asyncGetStudentsFromList();
   }, []);
 
   const asyncGetStudentsFromList = async () => {
+    setIsLoading(true);
     try {
       const response = await GetStudentsFormList({ token: cookies.token });
       if (response.status === 200) {
@@ -67,6 +69,7 @@ const StudentFormList: React.FC = () => {
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   const genarateList = () => {
@@ -85,7 +88,14 @@ const StudentFormList: React.FC = () => {
         hasPagination={true}
         meta={meta}
       >
-        {genarateList()}
+        <LoadingLayout
+          isLoading={isLoading}
+          hasCard={true}
+          repetitionsNumber={5}
+          Card={() => <FormListLoadingItem />}
+        >
+          {genarateList()}
+        </LoadingLayout>
       </TableWrapper>
     </div>
   );
