@@ -1,18 +1,32 @@
 import React, { useEffect, useState } from "react";
 //react router dom
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+
 //cookie
 import useCookies from "react-cookie/cjs/useCookies";
+
 //component
 import TableWrapper from "../../../components/common/tableWrapper";
 import StudentItem from "../../../components/pages/students/initialregestration/initialregestrationStudentItem";
 import StudentHeader from "../../../components/pages/students/studentsHeader";
 import LoadingLayout from "../../../components/common/loadingLayout";
 import InitialRegestrationLoadingItem from "../../../components/pages/students/initialregestration/initialRegestrationLoadingItem";
+
 //service
 import { GetInitialRegestrationStundets } from "../../../services/student";
+
+//hooks
+import { useCustomSearchParams } from "../../../hooks/useCustomSearchParams";
+
+//svg
+import { ReactComponent as ArrowBackSvg } from "./../../../assets/icons/svg/arrow-down.svg";
+
 //interface
-import { typeSingleInitialRegestration, typeMeta } from "../../../types";
+import {
+  typeSingleInitialRegestration,
+  typeMeta,
+  entranceYearsListItemType,
+} from "../../../types";
 
 const tableHeader = [
   {
@@ -52,7 +66,13 @@ const StudentInitialRegestration: React.FC = () => {
   //useLocation
   const location = useLocation();
 
-  const [isLoading, setIsLoading] = useState(true);
+  //useCustomeSearchParams
+  const [searchParams, setSearchParams] = useCustomSearchParams();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [entranceYears, setEntranceYears] = useState<
+    entranceYearsListItemType[]
+  >([]);
   const [meta, setMeta] = useState<typeMeta>({
     current_page: 0,
     per_page: 0,
@@ -63,15 +83,21 @@ const StudentInitialRegestration: React.FC = () => {
     typeSingleInitialRegestration[] | []
   >();
 
+  //set vatified value to 0 as not determined in mounting component
+  useEffect(() => {
+    setSearchParams({
+      verified: 0,
+    });
+  }, []);
+
   //call on searchParam changes
   useEffect(() => {
     //on search for course after filtering data,
     //check if we have any search params
-    if (location.search.length > 0) {
+
+    //checking that a request has not already been made
+    if (isLoading === false) {
       asyncGetInitialPreregStudentsList(location.search.substring(1));
-    } else {
-      //we don't have any search params => empty search
-      asyncGetInitialPreregStudentsList("");
     }
   }, [location]);
 
@@ -84,10 +110,12 @@ const StudentInitialRegestration: React.FC = () => {
         filter,
         token: cookies.token,
       });
+
       //check response status
       if (response.status === 200) {
         //fetch data successfully
-        setInitialRegestration([...response.data.data]);
+        setInitialRegestration([...response.data.data.students]);
+        setEntranceYears([...response.data.data.entrance_years]);
         setMeta({ ...response.data.meta });
       } else {
         //error occure
@@ -119,10 +147,19 @@ const StudentInitialRegestration: React.FC = () => {
   };
 
   return (
-    <div className="my-20 flex items-center justify-center flex-col gap-5">
+    <div className="mb-16 flex items-center justify-center flex-col gap-5">
+      <Link
+        to={"/students"}
+        className="my-5 flex items-center self-start text-xl text-white px-7 py-2 bg-blue-700 border-2 border-blue-700 hover:bg-white hover:text-blue-700 duration-200 rounded-md"
+      >
+        <ArrowBackSvg className="-rotate-90" />
+        بازگشت
+      </Link>
       <StudentHeader
         title="ثبت نام اولیه ها"
-        subLink="initialregestration"
+        isLoading={isLoading}
+        entranceYears={entranceYears}
+        numberOfStudnet={meta.total_records}
         hasSubLink={true}
       />
 
