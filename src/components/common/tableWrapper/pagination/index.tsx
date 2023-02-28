@@ -16,6 +16,22 @@ const TablePagination: React.FC<TablePaginationProps> = ({ meta }) => {
   //page handler
   const setPageHandler = (action: "next" | "prev" = "next") => {
     //check action status
+
+    /**
+     * * clear other searchParams and just add search page
+     */
+
+    //check if have searchparams
+    /**
+     * ! we will need it with page if we have
+     */
+    if (searchParams.verified) {
+      //claer searchParams and add current Verified
+      setSearchParams({
+        verified: searchParams.verified,
+      });
+    }
+
     if (action === "next") {
       //action is next => one will be added to current_page
       setSearchParams({
