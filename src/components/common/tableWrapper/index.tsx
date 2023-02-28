@@ -27,6 +27,20 @@ const TableWrapper: React.FC<TableWrapperProps> = ({
   children,
   meta,
 }) => {
+  const genarateMeta = () => {
+    if (meta !== undefined) {
+      if (meta.total_records === 0) {
+        return (
+          <span className="text-lg font-semibold text-red-700">
+            داده ای برای نمایش وجود ندارد
+          </span>
+        );
+      } else {
+        return <TablePagination meta={meta} />;
+      }
+    }
+  };
+
   return (
     <div className="w-full">
       <div className="overflow-x-auto w-full mb-8">
@@ -45,7 +59,7 @@ const TableWrapper: React.FC<TableWrapperProps> = ({
           </table>
         </div>
       </div>
-      {hasPagination && meta !== undefined && <TablePagination meta={meta} />}
+      {hasPagination && genarateMeta()}
     </div>
   );
 };
