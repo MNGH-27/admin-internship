@@ -1,5 +1,8 @@
 import React from "react";
 
+//react-router-dom
+import { Link } from "react-router-dom";
+
 //interface
 import { typeSingleStudentForm } from "../../../../../types";
 interface StudetItemProps {
@@ -19,9 +22,12 @@ const StudentFormListItem: React.FC<StudetItemProps> = ({ data, index }) => {
         <td className="col-span-2">{data.entrance_year}</td>
         {/* <td className="col-span-2">{data.entryDate}</td> */}
         <td className="col-span-2 flex items-center justify-around flex-wrap gap-2">
-          <button className="text-[#F4A118] bg-[#FFF0D8] hover:bg-[#F4A118] hover:text-[#FFF0D8] duration-200 px-3 p-1 rounded-md">
+          <Link
+            to={`/students/form/${data.id}`}
+            className="text-[#F4A118] bg-[#FFF0D8] hover:bg-[#F4A118] hover:text-[#FFF0D8] duration-200 px-3 p-1 rounded-md"
+          >
             توضیحات{" "}
-          </button>
+          </Link>
         </td>
       </tr>
       {/* <RejectStudentModal /> */}
