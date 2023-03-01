@@ -145,7 +145,7 @@ const StudentInitialRegestration: React.FC = () => {
     <div className="mb-16 flex items-center justify-center flex-col gap-5">
       <Link
         to={"/students"}
-        className="my-5 flex items-center self-start text-xl text-white px-7 py-2 bg-blue-700 border-2 border-blue-700 hover:bg-white hover:text-blue-700 duration-200 rounded-md"
+        className="my-5 flex items-center self-start text-white px-4 py-2 bg-blue-700 border-2 border-blue-700 hover:bg-white hover:text-blue-700 duration-200 rounded-md"
       >
         <ArrowBackSvg className="-rotate-90" />
         بازگشت
