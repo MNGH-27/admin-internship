@@ -5,8 +5,9 @@ import { useCookies } from "react-cookie";
 //react toastify
 import { toast } from "react-toastify";
 //react-router-dom
-import { useSearchParams, useNavigate } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+//hooks
+import { useCustomSearchParams } from "../../../../../hooks/useCustomSearchParams";
 //services
 import {
   PutVarifyStudentInitialRegestration,
@@ -29,7 +30,7 @@ const StudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
 
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
 
-  const [searchParams] = useSearchParams();
+  const [searchParams] = useCustomSearchParams();
   const navigate = useNavigate();
   const [cookies] = useCookies(["token"]);
 
@@ -95,7 +96,7 @@ const StudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
   };
 
   const studentItemAction = () => {
-    if (!searchParams.get("studentStatus")) {
+    if (searchParams.verified == 0) {
       return (
         <>
           <LoadingButton
@@ -115,7 +116,7 @@ const StudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
           </button>
         </>
       );
-    } else if (searchParams.get("studentStatus") === "approved") {
+    } else if (searchParams.verified == 1) {
       return (
         <span className="text-[#01A63E] bg-[#E8F6ED] hover:bg-[#01A63E] hover:text-[#E8F6ED] duration-200 px-3 p-1 rounded-md">
           تایید شده{" "}
