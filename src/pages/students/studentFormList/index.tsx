@@ -3,6 +3,9 @@ import React, { useState, useEffect } from "react";
 //cookies
 import { useCookies } from "react-cookie";
 
+//hooks
+import { useCustomSearchParams } from "../../../hooks/useCustomSearchParams";
+
 //component
 import TableWrapper from "../../../components/common/tableWrapper";
 import StudentFormListItem from "../../../components/pages/students/studentForm/studentFormListItem";
@@ -52,7 +55,13 @@ const StudentFormList: React.FC = () => {
   const [students, setStudents] = useState<typeSingleStudentForm[]>([]);
   const [meta, setMeta] = useState<typeMeta>();
   const [isLoading, setIsLoading] = useState(true);
+
+  const [searchParam, setSearchParams] = useCustomSearchParams();
+
   useEffect(() => {
+    setSearchParams({
+      verified: 0,
+    });
     asyncGetStudentsFromList();
   }, []);
 
@@ -80,7 +89,12 @@ const StudentFormList: React.FC = () => {
 
   return (
     <div className="my-20 flex items-center justify-center flex-col gap-5">
-      <StudentHeader title="فرم ها" hasSubLink={false} />
+      <StudentHeader
+        numberOfStudnet={meta?.total_records}
+        isLoading={isLoading}
+        title="فرم ها"
+        hasSubLink={false}
+      />
 
       <TableWrapper
         minSize={`min-w-[900px]`}
