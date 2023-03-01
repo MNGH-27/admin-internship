@@ -7,6 +7,9 @@ import { useCookies } from "react-cookie";
 //react-router-dom
 import { Link, useParams } from "react-router-dom";
 
+//component
+import LoadingLayout from "../../../../components/common/loadingLayout";
+
 //service
 import { GetSingleStudentsForm } from "../../../../services/student";
 
@@ -30,6 +33,7 @@ const SingleStudentForm: React.FC = () => {
   const { id } = useParams();
   const [cookies] = useCookies(["token"]);
 
+  const [isLoading, setIsLoading] = useState(false);
   const [forms, setForms] = useState<formObjectType>();
 
   useEffect(() => {
@@ -39,6 +43,8 @@ const SingleStudentForm: React.FC = () => {
   const asyncGetSingleStudentForm = async () => {
     //check id to be not undefined
     if (id === undefined) return;
+
+    setIsLoading(true);
 
     try {
       const response = await GetSingleStudentsForm({
@@ -57,24 +63,34 @@ const SingleStudentForm: React.FC = () => {
     } catch (error) {
       console.log(error);
     }
+
+    setIsLoading(false);
   };
 
   const generateFormItems = () => {
     if (forms !== undefined) {
       return Object.keys(forms).map((formItem, index) => {
+        const formFeildWithType = formItem as formFieldType;
+
         return (
           <Link
             key={index}
             to={`/students/form/singleform?fromNumber=form_2&stNumber=398123111`}
-            className="px-10 py-6 shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)] flex flex-col items-start justify-center gap-5 border-2 border-[#EEEEF2] rounded-md"
+            className={`${
+              forms !== undefined &&
+              forms[formFeildWithType].status === 0 &&
+              "pointer-events-none"
+            } flex flex-col items-center md:items-start justify-center gap-3 border-2 hover:border-[#4C526D] border-[#EEEEF2] rounded-md px-6 py-5 shadow-[0px_1px_2px_0px_rgba(24,24,28,0.04)] hover:shadow-[0px_1px_6px_0px_rgba(24,24,28,0.04)] duration-200 transition-all`}
           >
             <span className="text-[#101114] font-bold">
-              {findFormTitle(formItem)}
+              {findFormTitle(formFeildWithType)}
             </span>
             <div className="flex items-center gap-2 text-xs">
-              <span className="text-[#4C526D]">{findFormDetail(formItem)}</span>
+              <span className="text-[#4C526D]">
+                {findFormDetail(formFeildWithType)}
+              </span>
               <span className="text-[#5F5F61] bg-[#F6F6F6] rounded-md px-2 py-1">
-                {/* {findFormStatusShower(formItem)} */}
+                {findFormStatusShower(formFeildWithType)}
               </span>
             </div>
             <div className="flex items-center gap-2 text-xs">
@@ -87,7 +103,7 @@ const SingleStudentForm: React.FC = () => {
     }
   };
 
-  const findFormTitle = (formFeild: string) => {
+  const findFormTitle = (formFeild: formFieldType) => {
     switch (formFeild) {
       case "form2":
         return "فرم شماره 2";
@@ -102,7 +118,7 @@ const SingleStudentForm: React.FC = () => {
     }
   };
 
-  const findFormDetail = (formFeild: string) => {
+  const findFormDetail = (formFeild: formFieldType) => {
     switch (formFeild) {
       case "form2":
         return "فرم شماره 2";
@@ -117,22 +133,22 @@ const SingleStudentForm: React.FC = () => {
     }
   };
 
-  const findFormStatusShower = (formFeild: string) => {
+  const findFormStatusShower = (formFeild: formFieldType) => {
     //check if form is undefined
     if (forms === undefined) return;
 
-    // const values = forms[formFeild].status;
+    const values = forms[formFeild].status;
 
-    // switch (values) {
-    //   case 0:
-    //     return "موجود نیست";
-    //   case 1:
-    //     return "بررسی نشده";
-    //   case 2:
-    //     return "رد شده";
-    //   case 3:
-    //     return "تایید شده";
-    // }
+    switch (values) {
+      case 0:
+        return "موجود نیست";
+      case 1:
+        return "بررسی نشده";
+      case 2:
+        return "رد شده";
+      case 3:
+        return "تایید شده";
+    }
   };
 
   return (
@@ -147,7 +163,11 @@ const SingleStudentForm: React.FC = () => {
           برای تایید شدن پر کرده است.
         </span>
       </div>
-      <div className="grid grid-cols-4 gap-5 w-full">{generateFormItems()}</div>
+      <LoadingLayout isLoading={isLoading}>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 w-full">
+          {generateFormItems()}
+        </div>
+      </LoadingLayout>
     </div>
   );
 };
