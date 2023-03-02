@@ -12,6 +12,7 @@ import { useCustomSearchParams } from "../../../../../hooks/useCustomSearchParam
 import {
   PutVarifyStudentInitialRegestration,
   PutUnVarifyStudentInitialRegestration,
+  GetInitialRegestrationRegectInfo,
 } from "../../../../../services/student";
 
 //component
@@ -24,11 +25,18 @@ interface StudetItemProps {
   data: typeSingleInitialRegestration;
 }
 
+interface typeRejectModal {
+  isShow: boolean;
+  isLoading: boolean;
+  hasDesc?: boolean;
+  desc?: string;
+}
+
 const StudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
   const [isVarifyBtnLoading, setisVarifyBtnLoading] = useState(false);
-  const [isUnVarifyBtnLoading, setisUnVarifyBtnLoading] = useState(false);
+  const [isShowRejectModal, setIsShowRejectModal] = useState(false);
 
-  const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
+  const [rejectModal, setRejectModal] = useState<typeRejectModal>();
 
   const [searchParams] = useCustomSearchParams();
   const navigate = useNavigate();
@@ -62,7 +70,10 @@ const StudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
     //check reqConditon
     if (!reqCondition) {
       //reqCondition is false => just closing modal
-      setIsShowDeleteModal(false);
+      setRejectModal({
+        isShow: false,
+        isLoading: false,
+      });
       return;
     }
 
@@ -74,7 +85,12 @@ const StudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
   };
 
   const asycnRejectStudent = async (detail: string) => {
-    setisUnVarifyBtnLoading(true);
+    //config rejectModal to loading button in modal and make modal open
+    setRejectModal({
+      isLoading: true,
+      isShow: true,
+    });
+
     try {
       const response = await PutUnVarifyStudentInitialRegestration({
         token: cookies.token,
@@ -92,7 +108,34 @@ const StudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
     } catch (error) {
       console.log(error);
     }
-    setisUnVarifyBtnLoading(false);
+    setRejectModal({
+      isShow: false,
+      isLoading: false,
+    });
+  };
+
+  const asynGetRejectInformation = async () => {
+    setIsShowRejectModal(true);
+    try {
+      const response = await GetInitialRegestrationRegectInfo({
+        token: cookies.token,
+        student_id: data.id,
+      });
+
+      if (response.status === 200) {
+        setRejectModal({
+          isShow: true,
+          isLoading: false,
+          desc: response.data.message,
+          hasDesc: true,
+        });
+      } else {
+        //an error occure
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setIsShowRejectModal(false);
   };
 
   const studentItemAction = () => {
@@ -109,7 +152,12 @@ const StudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
             تایید
           </LoadingButton>
           <button
-            onClick={() => setIsShowDeleteModal(true)}
+            onClick={() =>
+              setRejectModal({
+                isShow: true,
+                isLoading: false,
+              })
+            }
             className="text-[#E73F3F] bg-[#FCEAEA] hover:bg-[#E73F3F] hover:text-[#FCEAEA] duration-200 px-3 p-1 rounded-md"
           >
             رد
@@ -125,9 +173,15 @@ const StudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
     } else {
       return (
         <>
-          <span className="text-[#F4A118] bg-[#FFF0D8] hover:bg-[#F4A118] hover:text-[#FFF0D8] duration-200 px-3 p-1 rounded-md">
-            توضیحات{" "}
-          </span>
+          <LoadingButton
+            onClickHandler={() => asynGetRejectInformation()}
+            mainBgColor="#FFF0D8"
+            hoverBgColor="#F4A118"
+            isLoading={isShowRejectModal}
+            paddingClass="px-3 py-1"
+          >
+            توضیحات
+          </LoadingButton>
           <span className="text-[#E73F3F] bg-[#FCEAEA] hover:bg-[#E73F3F] hover:text-[#FCEAEA] duration-200 px-3 p-1 rounded-md">
             رد
           </span>
@@ -150,9 +204,9 @@ const StudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
           {studentItemAction()}
         </td>
       </tr>
-      {isShowDeleteModal && (
+      {rejectModal?.isShow && (
         <RejectStudentModal
-          isLoading={isUnVarifyBtnLoading}
+          rejectData={rejectModal}
           closeModalHandler={onCloseModalHandler}
         />
       )}
