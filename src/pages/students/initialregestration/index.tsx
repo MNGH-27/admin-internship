@@ -96,7 +96,8 @@ const StudentInitialRegestration: React.FC = () => {
     //check if we have any search params
 
     //checking that a request has not already been made
-    if (isLoading === false) {
+
+    if (isLoading === false && location.search.substring(1).length > 0) {
       asyncGetInitialPreregStudentsList(location.search.substring(1));
     }
   }, [location]);

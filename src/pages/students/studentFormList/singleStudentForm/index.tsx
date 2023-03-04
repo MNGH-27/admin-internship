@@ -1,4 +1,3 @@
-import { type } from "os";
 import React, { useState, useEffect } from "react";
 
 //cookies
@@ -15,6 +14,7 @@ import { GetSingleStudentsForm } from "../../../../services/student";
 
 //interface
 interface formObjectType {
+  student: { full_name: string; student_number: number; entrance_year: string };
   finish_internship: { status: number };
   form2: { status: number };
   form3: { status: number };
@@ -71,34 +71,35 @@ const SingleStudentForm: React.FC = () => {
     if (forms !== undefined) {
       return Object.keys(forms).map((formItem, index) => {
         const formFeildWithType = formItem as formFieldType;
-
-        return (
-          <Link
-            key={index}
-            to={`/students/form/singleform?fromNumber=form_2&stNumber=398123111`}
-            className={`${
-              forms !== undefined &&
-              forms[formFeildWithType].status === 0 &&
-              "pointer-events-none"
-            } flex flex-col items-center md:items-start justify-center gap-3 border-2 hover:border-[#4C526D] border-[#EEEEF2] rounded-md px-6 py-5 shadow-[0px_1px_2px_0px_rgba(24,24,28,0.04)] hover:shadow-[0px_1px_6px_0px_rgba(24,24,28,0.04)] duration-200 transition-all`}
-          >
-            <span className="text-[#101114] font-bold">
-              {findFormTitle(formFeildWithType)}
-            </span>
-            <div className="flex items-center gap-2 text-xs">
-              <span className="text-[#4C526D]">
-                {findFormDetail(formFeildWithType)}
+        if (formItem !== "student") {
+          return (
+            <Link
+              key={index}
+              to={`/students/form/singleform?formType=${formFeildWithType}&studentId=${id}`}
+              className={`${
+                forms !== undefined &&
+                forms[formFeildWithType].status === 0 &&
+                "pointer-events-none"
+              } flex flex-col items-center md:items-start justify-center gap-3 border-2 hover:border-[#4C526D] border-[#EEEEF2] rounded-md px-6 py-5 shadow-[0px_1px_2px_0px_rgba(24,24,28,0.04)] hover:shadow-[0px_1px_6px_0px_rgba(24,24,28,0.04)] duration-200 transition-all`}
+            >
+              <span className="text-[#101114] font-bold">
+                {findFormTitle(formFeildWithType)}
               </span>
-              <span className="text-[#5F5F61] bg-[#F6F6F6] rounded-md px-2 py-1">
-                {findFormStatusShower(formFeildWithType)}
-              </span>
-            </div>
-            <div className="flex items-center gap-2 text-xs">
-              <span className="text-[#4C526D]">توضیحات:</span>
-              <span className="text-[#5F5F61]">وجود ندارد.</span>
-            </div>
-          </Link>
-        );
+              <div className="flex items-center gap-2 text-xs">
+                <span className="text-[#4C526D]">
+                  {findFormDetail(formFeildWithType)}
+                </span>
+                <span className="text-[#5F5F61] bg-[#F6F6F6] rounded-md px-2 py-1">
+                  {findFormStatusShower(formFeildWithType)}
+                </span>
+              </div>
+              <div className="flex items-center gap-2 text-xs">
+                <span className="text-[#4C526D]">توضیحات:</span>
+                <span className="text-[#5F5F61]">وجود ندارد.</span>
+              </div>
+            </Link>
+          );
+        }
       });
     }
   };
@@ -145,9 +146,9 @@ const SingleStudentForm: React.FC = () => {
       case 1:
         return "بررسی نشده";
       case 2:
-        return "رد شده";
-      case 3:
         return "تایید شده";
+      case 3:
+        return "رد شده";
     }
   };
 
@@ -156,11 +157,12 @@ const SingleStudentForm: React.FC = () => {
       <div>
         <p className="text-2xl font-semibold flex items-center justify-start gap-2">
           <span className="text-[#101114]">دانشجویان</span>
-          <span className="text-[#5F5F61]">نام دانشجو</span>
+          <span className="text-[#5F5F61]">{forms?.student.full_name}</span>
         </p>
         <span className="text-xs text-[#5F5F61]">
-          نام دانشجو به شماره دانشجویی شماره دانشجو در ترم سرترم فرم های ذیل را
-          برای تایید شدن پر کرده است.
+          {forms?.student.full_name} به شماره دانشجویی{" "}
+          {forms?.student.student_number} ورودی {forms?.student.entrance_year}{" "}
+          فرم های ذیل را برای تایید شدن پر کرده است.
         </span>
       </div>
       <LoadingLayout isLoading={isLoading}>

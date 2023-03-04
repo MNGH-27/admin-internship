@@ -3,6 +3,9 @@ import React, { useState, useEffect } from "react";
 //cookies
 import { useCookies } from "react-cookie";
 
+//react-router-dom
+import { useLocation } from "react-router-dom";
+
 //hooks
 import { useCustomSearchParams } from "../../../hooks/useCustomSearchParams";
 
@@ -17,7 +20,22 @@ import { GetStudentsFormList } from "../../../services/student";
 
 //interface
 import { typeSingleStudentForm } from "../../../types";
-import { typeMeta } from "../../../types";
+import {
+  typeMeta,
+  entranceYearsListItemType,
+  facultiesListItemType,
+} from "../../../types";
+
+interface typefromlist {
+  isLoading: boolean;
+  headerData?: {
+    entranceYear: entranceYearsListItemType[];
+    faculties: facultiesListItemType[];
+  };
+  meta?: typeMeta;
+  student?: typeSingleStudentForm[];
+}
+
 const tableHeader = [
   {
     title: "#",
@@ -50,11 +68,13 @@ const tableHeader = [
 ];
 
 const StudentFormList: React.FC = () => {
+  const location = useLocation();
+
   const [cookies] = useCookies(["token"]);
 
-  const [students, setStudents] = useState<typeSingleStudentForm[]>([]);
-  const [meta, setMeta] = useState<typeMeta>();
-  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState<typefromlist>({
+    isLoading: false,
+  });
 
   const [searchParam, setSearchParams] = useCustomSearchParams();
 
@@ -62,48 +82,82 @@ const StudentFormList: React.FC = () => {
     setSearchParams({
       verified: 0,
     });
-    asyncGetStudentsFromList();
   }, []);
 
-  const asyncGetStudentsFromList = async () => {
-    setIsLoading(true);
+  //call on searchParam changes
+  useEffect(() => {
+    //on search for course after filtering data,
+    //check if we have any search params
+
+    //checking that a request has not already been made
+
+    if (data.isLoading === false && location.search.substring(1).length > 0) {
+      asyncGetStudentsFromList(location.search.substring(1));
+    }
+  }, [location]);
+
+  const asyncGetStudentsFromList = async (
+    filter: string = ""
+  ): Promise<void> => {
+    setData({
+      isLoading: true,
+    });
     try {
-      const response = await GetStudentsFormList({ token: cookies.token });
+      const response = await GetStudentsFormList({
+        token: cookies.token,
+        filter,
+      });
       if (response.status === 200) {
-        setStudents([...response.data.data]);
-        setMeta({ ...response.data.meta });
+        setData({
+          isLoading: true,
+          headerData: {
+            entranceYear: [...response.data.data.entrance_years],
+            faculties: [...response.data.data.faculties],
+          },
+          meta: {
+            ...response.data.meta,
+          },
+          student: [...response.data.data.students],
+        });
       } else {
         //error occure
       }
     } catch (error) {
       console.log(error);
     }
-    setIsLoading(false);
+    setData((prevState) => ({
+      ...prevState,
+      isLoading: false,
+    }));
   };
 
   const genarateList = () => {
-    return students.map((item, index) => (
-      <StudentFormListItem key={index} index={index} data={item} />
-    ));
+    if (data?.student) {
+      return data.student.map((item, index) => (
+        <StudentFormListItem key={index} index={index} data={item} />
+      ));
+    }
   };
 
   return (
     <div className="my-20 flex items-center justify-center flex-col gap-5">
       <StudentHeader
-        numberOfStudnet={meta?.total_records}
-        isLoading={isLoading}
+        numberOfStudnet={data?.meta?.total_records}
+        isLoading={data.isLoading}
         title="فرم ها"
         hasSubLink={false}
+        entranceYears={data.headerData?.entranceYear}
+        facultiesList={data.headerData?.faculties}
       />
 
       <TableWrapper
         minSize={`min-w-[900px]`}
         tableHeader={tableHeader}
         hasPagination={true}
-        meta={meta}
+        meta={data?.meta}
       >
         <LoadingLayout
-          isLoading={isLoading}
+          isLoading={data.isLoading}
           hasCard={true}
           repetitionsNumber={5}
           Card={() => <FormListLoadingItem />}

@@ -12,12 +12,16 @@ import { ReactComponent as ReturnSvg } from "./../../../../assets/icons/svg/arro
 
 //interface
 
-import { entranceYearsListItemType } from "../../../../types";
+import {
+  entranceYearsListItemType,
+  facultiesListItemType,
+} from "../../../../types";
 interface StudentHeaderProps {
   title: string;
   hasSubLink: boolean;
   isLoading?: boolean;
   entranceYears?: entranceYearsListItemType[];
+  facultiesList?: facultiesListItemType[];
   numberOfStudnet?: number;
 }
 
@@ -25,6 +29,7 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
   title,
   hasSubLink,
   entranceYears,
+  facultiesList,
   isLoading,
   numberOfStudnet,
 }) => {
@@ -32,9 +37,15 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
 
   const [searchParams, setSearchParams] = useCustomSearchParams();
 
-  const [selectContainer, setSelectContainer] =
+  const [yearIntranceContainer, setyearIntranceContainer] =
     useState<entranceYearsListItemType>({
       entrance_year: "",
+    });
+
+  const [facultiesIntranceContainer, setfacultiesIntranceContainer] =
+    useState<facultiesListItemType>({
+      id: 0,
+      name: "",
     });
 
   const onSetSearchParamsHandler = () => {
@@ -42,13 +53,15 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
      * *check entranceYear =>
      * *in default value it is null check it won't be null
      */
-    if (selectContainer.entrance_year !== null) {
+
+    if (facultiesIntranceContainer.name === "") {
       //it is not null => search faculty id too
       setSearchParams({
         ...searchParams,
         page: 1,
         search: searchFieldContainer.current?.value,
-        entrance_year: selectContainer.entrance_year,
+        entrance_year: yearIntranceContainer.entrance_year,
+        faculty: "",
       });
     } else {
       //faculty id is null , we don't search it
@@ -56,6 +69,8 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
         ...searchParams,
         page: 1,
         search: searchFieldContainer.current?.value,
+        entrance_year: yearIntranceContainer.entrance_year,
+        faculty: facultiesIntranceContainer.id,
       });
     }
   };
@@ -148,8 +163,10 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
               <div className="w-60 h-11 bg-gray-400 animate-pulse rounded-md"></div>
             ) : (
               <select
-                value={JSON.stringify(selectContainer)}
-                onChange={(e) => setSelectContainer(JSON.parse(e.target.value))}
+                value={JSON.stringify(yearIntranceContainer)}
+                onChange={(e) =>
+                  setyearIntranceContainer(JSON.parse(e.target.value))
+                }
                 className="w-60 p-2 rounded-lg border-2 border-[#E6E6E6] shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)]"
               >
                 <option value={JSON.stringify({ entrance_year: "" })}>
@@ -163,6 +180,32 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
               </select>
             )}
           </div>
+          {facultiesList && (
+            <div className="flex flex-col items-start gap-2">
+              <label className="text-[#8B91A7] text-xs">دانشکده</label>
+
+              {isLoading ? (
+                <div className="w-60 h-11 bg-gray-400 animate-pulse rounded-md"></div>
+              ) : (
+                <select
+                  value={JSON.stringify(facultiesIntranceContainer)}
+                  onChange={(e) =>
+                    setfacultiesIntranceContainer(JSON.parse(e.target.value))
+                  }
+                  className="w-60 p-2 rounded-lg border-2 border-[#E6E6E6] shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)]"
+                >
+                  <option value={JSON.stringify({ name: "", id: 0 })}>
+                    مشاهده همه
+                  </option>
+                  {facultiesList?.map((facultiesItem, index) => (
+                    <option key={index} value={JSON.stringify(facultiesItem)}>
+                      {facultiesItem.name}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
+          )}
           <div className="flex flex-col gap-2">
             <label className="text-[#8B91A7] text-xs">جستجو </label>
             <input
