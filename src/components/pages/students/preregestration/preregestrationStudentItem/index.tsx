@@ -11,11 +11,13 @@ import { typeSinglePreRegestration } from "../../../../../types";
 interface StudetItemProps {
   index: number;
   data: typeSinglePreRegestration;
+  refreshList: () => void;
 }
 
 const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
   data,
   index,
+  refreshList,
 }) => {
   const [searchParams] = useSearchParams();
 

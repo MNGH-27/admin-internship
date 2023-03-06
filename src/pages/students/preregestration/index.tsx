@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
+// useCookies
 import { useCookies } from "react-cookie";
+// react-router
 import { useLocation } from "react-router-dom";
-import LoadingLayout from "../../../components/common/loadingLayout";
-
 //component
+import LoadingLayout from "../../../components/common/loadingLayout";
 import TableWrapper from "../../../components/common/tableWrapper";
 import InitialRegestrationLoadingItem from "../../../components/pages/students/initialregestration/initialRegestrationLoadingItem";
 import PreregestrationStudentItem from "../../../components/pages/students/preregestration/preregestrationStudentItem";
 import StudentHeader from "../../../components/pages/students/studentsHeader";
+//services
 import { GetPereregestrationStudents } from "../../../services/student";
+// types
 import { typeMeta, typeSinglePreRegestration } from "../../../types";
 
 const tableHeader = [
@@ -50,59 +53,17 @@ const tableHeader = [
   },
 ];
 
-const listItem = [
-  {
-    data: {
-      id: 1,
-      first_name: "حسن علی",
-      last_name: "آبروریز",
-      student_number: "3981231020",
-      faculty: {
-        id: 1,
-        faculty_name: "دانشکده کامپیوتر",
-      },
-      degree: {
-        id: 1,
-        degree: "کارشناسی",
-      },
-      passed_units: 85,
-      semester: "نیم سال اول",
-      academic_year: 1401,
-      master: {
-        id: 1,
-        name: "زهرا شیرمحمدی",
-      },
-      company: {
-        id: 1,
-        company_name: "مه پویا",
-      },
-      internship: {
-        id: 1,
-        internship_type: "کارآموزی در صنعت و شرکت دولتی",
-      },
-    },
-  },
-];
-
 const StudentPreregestration: React.FC = () => {
-  // cookie
   const [cookies] = useCookies(["token"]);
-
-  // location
   const location = useLocation();
-  // loading
-  const [loading, setLoading] = useState(true);
 
+  const [loading, setLoading] = useState(true);
   const [meta, setMeta] = useState<typeMeta>({
     current_page: 0,
     per_page: 0,
     total_pages: 0,
     total_records: 0,
   });
-
-  // const [preRegestration, setPreRegestration] = useState<
-  //   typeSinglePreRegestration[] | []
-  // >();
 
   const [preRegestration, setPreRegestration] = useState<
     typeSinglePreRegestration[]
@@ -137,11 +98,19 @@ const StudentPreregestration: React.FC = () => {
     }
     setLoading(false);
   };
-  console.log(preRegestration);
   const genarateList = () => {
-    return preRegestration.map((item, index) => (
-      <PreregestrationStudentItem key={index} index={index} data={item} />
-    ));
+    if (preRegestration !== undefined)
+      return (
+        preRegestration.length !== 0 &&
+        preRegestration.map((item, index) => (
+          <PreregestrationStudentItem
+            key={index}
+            index={index}
+            data={item}
+            refreshList={aysncGetPereregestrationStudents}
+          />
+        ))
+      );
   };
 
   const loadingCard = () => {
@@ -159,6 +128,7 @@ const StudentPreregestration: React.FC = () => {
         minSize={`min-w-[900px]`}
         tableHeader={tableHeader}
         hasPagination={true}
+        meta={meta}
       >
         <LoadingLayout
           isLoading={loading}
