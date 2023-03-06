@@ -93,6 +93,29 @@ const Layout: React.FC<PropType> = () => {
     setIsLoading(false);
   };
 
+  const findCurrentRoute = (_route: {
+    name: string;
+    value: string;
+    path: string;
+  }): boolean => {
+    if (_route.name !== "home") {
+      return location.pathname.includes(_route.path);
+    } else {
+      let inHomePage = true;
+
+      headerRoute.forEach((singleHeader, index) => {
+        if (
+          location.pathname.includes(singleHeader.path) &&
+          singleHeader.name !== "home"
+        ) {
+          inHomePage = false;
+        }
+      });
+
+      return inHomePage;
+    }
+  };
+
   return (
     <>
       {/* header */}
@@ -119,7 +142,7 @@ const Layout: React.FC<PropType> = () => {
                     <Link
                       to={route.path}
                       className={`${
-                        location.pathname === route.path
+                        findCurrentRoute(route)
                           ? "bg-[#F6F7F8] text-[#101114] font-semibold px-4 py-1 rounded-md"
                           : "bg-white text-[#8B91A7]"
                       }`}

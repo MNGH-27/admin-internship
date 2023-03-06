@@ -79,34 +79,26 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
     <div className="flex flex-col items-center justify-center gap-5 w-full">
       <div className="flex items-start justify-between flex-col lg:flex-row gap-y-5 w-full">
         <div className="flex flex-col items-start justify-center gap-4">
-          {searchParams.verified == 0 ? (
-            <>
-              <div className="flex items-center gap-2">
-                <span className="text-[#101114] text-2xl font-semibold">
-                  {title}
-                </span>
-                <span
-                  className={`${
-                    isLoading ? "scale-0" : "scale-1"
-                  } duration-200 relative bottom-5 text-[#2080F6] text-xs font-semibold px-2 py-1 rounded-xl bg-[#EBF1FD]`}
-                >
-                  {numberOfStudnet} دانشجو
-                </span>
-              </div>
-              <span className="text-[#5F5F61] text-xs">
-                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-                استفاده از طراحان گرافیک است.
-              </span>
-            </>
-          ) : searchParams.verified == 1 ? (
-            <span className="text-[#101114] text-2xl font-semibold">
-              دانشجو های تایید شده{" "}
+          <div className="flex items-center gap-2">
+            <span className="text-[#101114] text-lg sm:text-xl md:text-2xl font-semibold">
+              {title}
+              {searchParams.verified == 0
+                ? ""
+                : searchParams.verified == 1
+                ? " دانشجویان تایید شده"
+                : " دانشجویان رد شده"}
             </span>
-          ) : (
-            <span className="text-[#101114] text-2xl font-semibold">
-              دانشجو های رد شده
+            <span
+              className={`${
+                isLoading ? "scale-0" : "scale-1"
+              } text-center duration-200 relative bottom-5 text-[#2080F6] text-xs font-semibold px-2 py-1 rounded-xl bg-[#EBF1FD]`}
+            >
+              {numberOfStudnet} دانشجو
             </span>
-          )}
+          </div>
+          <span className="text-[#5F5F61] text-xs">
+            لیست دانشجویانی که برای ثبت نام و شروع کارآموزی نیاز به تایید دارند
+          </span>
         </div>
         <div className="flex items-center justify-center flex-col sm:flex-row gap-5 w-full sm:w-fit">
           {hasSubLink &&
