@@ -32,6 +32,15 @@ export type typeSingleStudentForm = {
   student_number: number;
 };
 
+export type facultiesListItemType = {
+  id: number;
+  name: string;
+};
+
+export type entranceYearsListItemType = {
+  entrance_year: string;
+};
+
 export type typeMeta = {
   current_page: number;
   per_page: number;

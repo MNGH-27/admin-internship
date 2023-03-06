@@ -150,11 +150,8 @@ const StudentPreregestration: React.FC = () => {
 
   return (
     <div className="my-20 flex items-center justify-center flex-col gap-5">
-      <StudentHeader
-        title="پیش ثبت نام ها"
-        subLink="preregestration"
-        hasSubLink={true}
-      />
+      <StudentHeader title="پیش ثبت نام ها" hasSubLink={true} />
+
       <TableWrapper
         minSize={`min-w-[900px]`}
         tableHeader={tableHeader}
