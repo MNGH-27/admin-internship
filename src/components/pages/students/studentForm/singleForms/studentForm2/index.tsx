@@ -11,7 +11,10 @@ import { useCookies } from "react-cookie";
 //hooks
 import { useCustomSearchParams } from "../../../../../../hooks/useCustomSearchParams";
 //service
-import { RejectForm2, VerifyForm2 } from "../../../../../../services/student";
+import {
+  RejectSingleForm,
+  VerifySingleForm,
+} from "../../../../../../services/student";
 
 //interface
 import { typeForm_2 } from "../../../../../../types/studentForm";
@@ -47,12 +50,8 @@ const studentPerformanceHeader = [
     style: "col-span-2",
   },
   {
-    title: "ساعت",
-    style: "col-span-2",
-  },
-  {
     title: "فعالیت در دست اجرا",
-    style: "col-span-6",
+    style: "col-span-8",
   },
 ];
 const StudentForm2: React.FC<studentForm2Props> = ({ data }) => {
@@ -70,8 +69,9 @@ const StudentForm2: React.FC<studentForm2Props> = ({ data }) => {
   const asyncRejectStudentForm2 = async () => {
     setRejectBtnLoading(true);
     try {
-      const response = await RejectForm2({
+      const response = await RejectSingleForm({
         token: cookies.token,
+        formStage: "form2",
         id: searchParams.studentId,
       });
       if (response.status === 200) {
@@ -89,8 +89,9 @@ const StudentForm2: React.FC<studentForm2Props> = ({ data }) => {
   const asyncVerifyStudentForm2 = async () => {
     setVerifyBtnLoading(true);
     try {
-      const response = await VerifyForm2({
+      const response = await VerifySingleForm({
         token: cookies.token,
+        formStage: "form2",
         id: searchParams.studentId,
       });
       if (response.status === 200) {
@@ -117,8 +118,8 @@ const StudentForm2: React.FC<studentForm2Props> = ({ data }) => {
           >
             <td className="col-span-4 ">{dayName}</td>
             <td className="col-span-4 flex items-center justify-center gap-1">
-              <span>{scahdualTitle[dayName].ms}</span>-
-              <span>{scahdualTitle[dayName].me}</span>
+              <span>{scahdualTitle[dayName].me}</span>-
+              <span>{scahdualTitle[dayName].ms}</span>
             </td>
             <td className="col-span-4 flex items-center justify-center gap-1">
               <span>{scahdualTitle[dayName].ee}</span>-
@@ -141,10 +142,7 @@ const StudentForm2: React.FC<studentForm2Props> = ({ data }) => {
           <td className="col-span-2">
             {moment(reportsItem.data).format("jYYYY/jMM/jDD")}
           </td>
-          <td className="col-span-2">
-            {moment(reportsItem.data).format("hh:mm")}
-          </td>
-          <td className="col-span-6 truncate">{reportsItem.desc}</td>
+          <td className="col-span-8 truncate">{reportsItem.desc}</td>
         </tr>
       );
     });
@@ -152,12 +150,91 @@ const StudentForm2: React.FC<studentForm2Props> = ({ data }) => {
 
   return (
     <>
+      <div className="flex flex-col mb-16 gap-5">
+        <p className="text-[#5F5F61]">
+          کارآموز{" "}
+          <span className="text-black font-medium">
+            {data.student?.first_name + " " + data.student?.last_name}
+          </span>{" "}
+          با شماره دانشجویی{" "}
+          <span className="text-black font-medium">
+            {data.student?.student_number}
+          </span>{" "}
+          در دانشکده{" "}
+          <span className="text-black font-medium">
+            {data.student?.faculty_name}
+          </span>{" "}
+          در مقطع تحصیلی کارشناسی با معرفی نامه شماره{" "}
+          <span className="text-black font-medium">
+            {data.form2.introduction_letter_number}
+          </span>{" "}
+          در مورخ{" "}
+          <span className="text-black font-medium">
+            {moment(data.form2.created_at).format("jYYYY/jMM/jDD")}
+          </span>{" "}
+          برای تایید فرستاده شده است،که اطلاعات بیشتر به شرح ذیل است:
+        </p>
+        <div className="w-full grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mb-5">
+          <div className="flex items-start justify-start gap-3">
+            <span className="text-[#5F5F61]">نام شرکت:</span>
+            <span className="text-[#222124] font-medium">
+              {data.company?.name}
+            </span>
+          </div>
+          <div className="flex items-start justify-start gap-3">
+            <span className="text-[#5F5F61]">نوع شرکت:</span>
+            <span className="text-[#222124] font-medium">
+              {data.company?.type}
+            </span>
+          </div>
+          <div className="flex items-start justify-start gap-3">
+            <span className="text-[#5F5F61]">شماره تماس:</span>
+            <span className="text-[#222124] font-medium">
+              {data.company?.phone_number}
+            </span>
+          </div>
+          <div className="flex items-start justify-start gap-3">
+            <span className="text-[#5F5F61]">کد پستی:</span>
+            <span className="text-[#222124] font-medium">
+              {data.company?.postal_code}
+            </span>
+          </div>
+          <div className="sm:col-span-2 flex items-start justify-start gap-3">
+            <span className="text-[#5F5F61]">آدرس:</span>
+            <span className="text-[#222124] font-medium">
+              {data.company.address}
+            </span>
+          </div>
+        </div>
+        <div className="w-full grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="flex items-start justify-start gap-3">
+            <span className="text-[#5F5F61]">
+              نام و نام خانوادگی سرپرست کارآموزی:
+            </span>
+            <span className="text-[#222124] font-medium">
+              {data.industry_supervisor?.full_name}
+            </span>
+          </div>
+          <div className="flex items-start justify-start gap-3">
+            <span className="text-[#5F5F61]">سمت: </span>
+            <span className="text-[#222124] font-medium">
+              {data.industry_supervisor?.position}
+            </span>
+          </div>
+          <div className="flex items-start justify-start gap-3">
+            <span className="text-[#5F5F61]">تاریخ شروع کارآموزی:</span>
+            <span className="text-[#222124] font-medium">
+              {moment(data.form2.created_at).format("jYYYY/jMM/jDD")}
+            </span>
+          </div>
+        </div>
+      </div>
       <div className="w-full flex flex-col items-start gap-10 mb-16">
         <span className="text-lg font-semibold text-[#101114]">
           برنامه زمانی حضور در محل کارآموزی
         </span>
         <TableWrapper
-          minSize="900px"
+          minSize="min-w-[900px]"
           tableHeader={schaduleOfAttendanceListHeader}
           hasPagination={false}
         >
@@ -170,7 +247,7 @@ const StudentForm2: React.FC<studentForm2Props> = ({ data }) => {
           برنامه زمانی حضور در محل کارآموزی
         </span>
         <TableWrapper
-          minSize="900px"
+          minSize="min-w-[900px]"
           tableHeader={studentPerformanceHeader}
           hasPagination={false}
         >

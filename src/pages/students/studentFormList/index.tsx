@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 
 //react-router-dom
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 //hooks
 import { useCustomSearchParams } from "../../../hooks/useCustomSearchParams";
@@ -17,7 +17,8 @@ import LoadingLayout from "../../../components/common/loadingLayout";
 import FormListLoadingItem from "../../../components/pages/students/studentForm/formlistLoadingItem";
 //service
 import { GetStudentsFormList } from "../../../services/student";
-
+//Svg
+import { ReactComponent as ArrowBackSvg } from "./../../../assets/icons/svg/arrow-down.svg";
 //interface
 import { typeSingleStudentForm } from "../../../types";
 import {
@@ -140,7 +141,14 @@ const StudentFormList: React.FC = () => {
   };
 
   return (
-    <div className="my-20 flex items-center justify-center flex-col gap-5">
+    <div className="my-10 flex items-center justify-center flex-col gap-5">
+      <Link
+        to={`/students`}
+        className="self-start py-2 px-5 my-5 rounded-md flex items-center justify-start gap-2 text-white bg-[#2080F6] border-2 border-[#2080F6] hover:bg-white hover:text-[#2080F6] duration-200"
+      >
+        <ArrowBackSvg className="-rotate-90" />
+        بازگشت
+      </Link>
       <StudentHeader
         numberOfStudnet={data?.meta?.total_records}
         isLoading={data.isLoading}

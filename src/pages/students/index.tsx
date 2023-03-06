@@ -67,16 +67,17 @@ const Students: React.FC = () => {
             </span>
             <div className="font-semibold text-lg">
               <p className="flex items-center justify-center gap-2 mb-2">
-                <span className="text-[#E73F3F]">
-                  {userStatus.initReg_verified}
-                </span>
-                <span className="text-[#4C526D]">دانشجو تایید نشده</span>
-              </p>
-              <p className="flex items-center justify-center gap-2">
                 <span className="text-[#52A86E]">
                   {userStatus.initReg_unverified}
                 </span>
+
                 <span className="text-[#4C526D]">دانشجو تایید شده</span>
+              </p>
+              <p className="flex items-center justify-center gap-2">
+                <span className="text-[#E73F3F]">
+                  {userStatus.initReg_verified}
+                </span>
+                <span className="text-[#4C526D]">دانشجو های رد شده</span>
               </p>
             </div>
           </Link>
@@ -89,16 +90,16 @@ const Students: React.FC = () => {
             </span>
             <div className="font-semibold text-lg">
               <p className="flex items-center justify-center gap-2 mb-2">
-                <span className="text-[#E73F3F]">
-                  {userStatus.preReg_verified}
-                </span>
-                <span className="text-[#4C526D]">دانشجو تایید نشده</span>
-              </p>
-              <p className="flex items-center justify-center gap-2">
                 <span className="text-[#52A86E]">
                   {userStatus.preReg_unverified}
                 </span>
                 <span className="text-[#4C526D]">دانشجو تایید شده</span>
+              </p>
+              <p className="flex items-center justify-center gap-2">
+                <span className="text-[#E73F3F]">
+                  {userStatus.preReg_verified}
+                </span>
+                <span className="text-[#4C526D]">دانشجو های رد شده</span>
               </p>
             </div>
           </Link>

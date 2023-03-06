@@ -151,15 +151,17 @@ export async function GetStudentForm({
   return apiCall;
 }
 
-export async function RejectForm2({
+export async function RejectSingleForm({
   token,
+  formStage,
   id,
 }: {
   token: string;
+  formStage: string;
   id: number;
 }): Promise<AxiosResponse<any>> {
   const apiCall = await useFetch().put(
-    `${baseURL}/forms/${id}/form2/unverify`,
+    `${baseURL}/forms/${id}/${formStage}/unverify`,
     {},
     {
       headers: {
@@ -171,16 +173,39 @@ export async function RejectForm2({
   return apiCall;
 }
 
-export async function VerifyForm2({
+export async function VerifySingleForm({
   token,
+  formStage,
   id,
 }: {
   token: string;
+  formStage: string;
   id: number;
 }): Promise<AxiosResponse<any>> {
   const apiCall = await useFetch().put(
-    `${baseURL}/forms/${id}/form2/verify`,
+    `${baseURL}/forms/${id}/${formStage}/verify`,
     {},
+    {
+      headers: {
+        Authorization: `Bearer ` + token,
+      },
+    }
+  );
+
+  return apiCall;
+}
+
+export async function GetSingleWeekOfForm({
+  token,
+  formId,
+  id,
+}: {
+  token: string;
+  formId: number;
+  id: number;
+}): Promise<AxiosResponse<any>> {
+  const apiCall = await useFetch().get(
+    `${baseURL}/forms/${id}/weekly_reports/${formId}`,
     {
       headers: {
         Authorization: `Bearer ` + token,

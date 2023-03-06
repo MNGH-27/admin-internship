@@ -15,13 +15,22 @@ import StudentForm2 from "../../../../components/pages/students/studentForm/sing
 import StudentForm3 from "../../../../components/pages/students/studentForm/singleForms/studentForm3";
 import StudentForm4 from "../../../../components/pages/students/studentForm/singleForms/studentForm4";
 import StudentFormFinal from "../../../../components/pages/students/studentForm/singleForms/studentFormFinal";
+import SingleFormWeeklyReport from "../../../../components/pages/students/studentForm/singleForms/singleFormWeeklyReports";
 
 import LoadingLayout from "../../../../components/common/loadingLayout";
 
 import FormPDF from "../../../../components/pages/students/studentForm/formPDF";
 
 //interface
-import { typeStudentForm } from "../../../../types/studentForm";
+import {
+  typeStudentForm,
+  typeForm_2,
+  typeForm_3,
+  typeForm_4,
+  typeFormWeeklyReport,
+  typeFormFinishInternship,
+} from "../../../../types/studentForm";
+import { Link } from "react-router-dom";
 
 const SingleForm: React.FC = () => {
   //cookie
@@ -34,13 +43,15 @@ const SingleForm: React.FC = () => {
     isLoading: false,
     hasHeader: false,
   });
-  const [isShowPDFModal, setIsShowPdfModal] = useState(false);
+  // const [isShowPDFModal, setIsShowPdfModal] = useState(false);
 
   useEffect(() => {
     if (
       searchParam.formType === "form2" ||
       searchParam.formType === "form3" ||
-      searchParam.formType === "form4"
+      searchParam.formType === "form4" ||
+      searchParam.formType === "weekly_reports" ||
+      searchParam.formType === "finish_internship"
     ) {
       setForm({
         isLoading: true,
@@ -88,8 +99,37 @@ const SingleForm: React.FC = () => {
         return "فرم شماره 2 ( فرم شروع کارآموزی)";
       case "form3":
         return "فرم شماره 3 ( فرم ارزشیابی دانشجو توسط سرپرست کارآموزی)";
+      case "form4":
+        return "فرم شماره 4 ( فرم ارزشیابی محل کارآموزی توسط دانشجو)";
+      case "weekly_reports":
+        return "گزارش هفتگی توسط دانشجو";
+      case "finish_internship":
+        return "نامه اتمام کارآموزی";
       default:
         return "هنوز نزدم";
+    }
+  };
+
+  const generateFormHandler = () => {
+    if (!form.data) {
+      return;
+    }
+
+    if (searchParam.formType === "form2") {
+      const form2Data = form.data as typeForm_2;
+      return <StudentForm2 data={form2Data} />;
+    } else if (searchParam.formType === "form3") {
+      const form3Data = form.data as typeForm_3;
+      return <StudentForm3 data={form3Data} />;
+    } else if (searchParam.formType === "form4") {
+      const form4Data = form.data as typeForm_4;
+      return <StudentForm4 data={form4Data} />;
+    } else if (searchParam.formType === "weekly_reports") {
+      const formWeeklyReportData = form.data as typeFormWeeklyReport;
+      return <SingleFormWeeklyReport data={formWeeklyReportData} />;
+    } else {
+      const formFinishInternShip = form.data as typeFormFinishInternship;
+      return <StudentFormFinal data={formFinishInternShip} />;
     }
   };
 
@@ -97,28 +137,19 @@ const SingleForm: React.FC = () => {
     <>
       <LoadingLayout loadingClass="my-32" isLoading={form.isLoading}>
         <SingleFormContextHeader
-          hasUserDetail={form.hasHeader}
-          headerData={form.data}
+          formStatus={form.data?.status}
           title={generateFormTitle()}
         />
-        {searchParam.formType === "form2" ? (
-          form.data && <StudentForm2 data={form.data} />
-        ) : searchParam.formType === "form3" ? (
-          <StudentForm3 />
-        ) : searchParam.formType === "form4" ? (
-          <StudentForm4 />
-        ) : (
-          <StudentFormFinal />
-        )}
+        {generateFormHandler()}
       </LoadingLayout>
-      {isShowPDFModal && form.data && (
+      {/* {isShowPDFModal && form.data && (
         <FormPDF
           isShowModal={isShowPDFModal}
           onCloseModal={() => setIsShowPdfModal(false)}
           data={form.data}
           formStage={searchParam.formType}
         />
-      )}
+      )} */}
     </>
   );
 };

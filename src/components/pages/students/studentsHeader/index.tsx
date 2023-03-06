@@ -155,7 +155,7 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
           <SettingSvg />
           <p>مرتب سازی براساس:</p>
         </div>
-        <div className="flex items-end justify-start gap-5 mt-5">
+        <div className="flex flex-col lg:flex-row items-start lg:items-end justify-start gap-5 mt-5">
           <div className="flex flex-col items-start gap-2">
             <label className="text-[#8B91A7] text-xs">سال ورود</label>
 

@@ -11,7 +11,8 @@ import LoadingLayout from "../../../../components/common/loadingLayout";
 
 //service
 import { GetSingleStudentsForm } from "../../../../services/student";
-
+//Svg
+import { ReactComponent as ArrowBackSvg } from "./../../../../assets/icons/svg/arrow-down.svg";
 //interface
 interface formObjectType {
   student: { full_name: string; student_number: number; entrance_year: string };
@@ -138,7 +139,7 @@ const SingleStudentForm: React.FC = () => {
     //check if form is undefined
     if (forms === undefined) return;
 
-    const values = forms[formFeild].status;
+    const values = +forms[formFeild].status;
 
     switch (values) {
       case 0:
@@ -154,6 +155,13 @@ const SingleStudentForm: React.FC = () => {
 
   return (
     <div className="my-20 flex items-start justify-center flex-col gap-10 ">
+      <Link
+        to={"/students/form"}
+        className="flex items-center self-start text-white px-4 py-2 bg-blue-700 border-2 border-blue-700 hover:bg-white hover:text-blue-700 duration-200 rounded-md"
+      >
+        <ArrowBackSvg className="-rotate-90" />
+        بازگشت
+      </Link>
       <div>
         <p className="text-2xl font-semibold flex items-center justify-start gap-2">
           <span className="text-[#101114]">دانشجویان</span>
