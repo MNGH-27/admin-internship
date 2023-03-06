@@ -158,7 +158,7 @@ const StudentInitialRegestration: React.FC = () => {
         numberOfStudnet={meta.total_records}
         hasSubLink={true}
       />
-
+ 
       <TableWrapper
         minSize={`min-w-[900px]`}
         tableHeader={tableHeader}

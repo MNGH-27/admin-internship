@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+import { useLocation } from "react-router-dom";
+import LoadingLayout from "../../../components/common/loadingLayout";
 
 //component
 import TableWrapper from "../../../components/common/tableWrapper";
+import InitialRegestrationLoadingItem from "../../../components/pages/students/initialregestration/initialRegestrationLoadingItem";
 import PreregestrationStudentItem from "../../../components/pages/students/preregestration/preregestrationStudentItem";
 import StudentHeader from "../../../components/pages/students/studentsHeader";
+import { GetPereregestrationStudents } from "../../../services/student";
+import { typeMeta, typeSinglePreRegestration } from "../../../types";
 
 const tableHeader = [
   {
@@ -28,7 +34,7 @@ const tableHeader = [
   },
   {
     title: "دانشکده",
-    style: "col-span-1 text-center",
+    style: "col-span-2 text-center",
   },
   {
     title: "ترم",
@@ -36,7 +42,7 @@ const tableHeader = [
   },
   {
     title: "واحد های پاس شده",
-    style: "col-span-2 text-center",
+    style: "col-span-1 text-center",
   },
   {
     title: "جزئیات",
@@ -46,57 +52,100 @@ const tableHeader = [
 
 const listItem = [
   {
-    name: "علی",
-    lastName: "الهیارلو",
-    stNumber: 3981231111,
-    faculty: "کامپیوتر",
-    term: "پنجم",
-    companyName: "رایادرس",
-    passedUnit: 111,
-  },
-  {
-    name: "علی",
-    lastName: "الهیارلو",
-    stNumber: 3981231111,
-    faculty: "کامپیوتر",
-    term: "پنجم",
-    companyName: "رایادرس",
-    passedUnit: 111,
-  },
-  {
-    name: "علی",
-    lastName: "الهیارلو",
-    stNumber: 3981231111,
-    faculty: "کامپیوتر",
-    term: "پنجم",
-    companyName: "رایادرس",
-    passedUnit: 111,
-  },
-  {
-    name: "علی",
-    lastName: "الهیارلو",
-    stNumber: 3981231111,
-    faculty: "کامپیوتر",
-    term: "پنجم",
-    companyName: "رایادرس",
-    passedUnit: 111,
-  },
-  {
-    name: "علی",
-    lastName: "الهیارلو",
-    stNumber: 3981231111,
-    faculty: "کامپیوتر",
-    term: "پنجم",
-    companyName: "رایادرس",
-    passedUnit: 111,
+    data: {
+      id: 1,
+      first_name: "حسن علی",
+      last_name: "آبروریز",
+      student_number: "3981231020",
+      faculty: {
+        id: 1,
+        faculty_name: "دانشکده کامپیوتر",
+      },
+      degree: {
+        id: 1,
+        degree: "کارشناسی",
+      },
+      passed_units: 85,
+      semester: "نیم سال اول",
+      academic_year: 1401,
+      master: {
+        id: 1,
+        name: "زهرا شیرمحمدی",
+      },
+      company: {
+        id: 1,
+        company_name: "مه پویا",
+      },
+      internship: {
+        id: 1,
+        internship_type: "کارآموزی در صنعت و شرکت دولتی",
+      },
+    },
   },
 ];
 
 const StudentPreregestration: React.FC = () => {
+  // cookie
+  const [cookies] = useCookies(["token"]);
+
+  // location
+  const location = useLocation();
+  // loading
+  const [loading, setLoading] = useState(true);
+
+  const [meta, setMeta] = useState<typeMeta>({
+    current_page: 0,
+    per_page: 0,
+    total_pages: 0,
+    total_records: 0,
+  });
+
+  // const [preRegestration, setPreRegestration] = useState<
+  //   typeSinglePreRegestration[] | []
+  // >();
+
+  const [preRegestration, setPreRegestration] = useState<
+    typeSinglePreRegestration[]
+  >([]);
+
+  useEffect(() => {
+    if (location.search.length > 0) {
+      aysncGetPereregestrationStudents(location.search.substring(1));
+    } else {
+      aysncGetPereregestrationStudents("");
+    }
+  }, [location]);
+
+  const aysncGetPereregestrationStudents = async (
+    filter: string = ""
+  ): Promise<void> => {
+    setLoading(true);
+    try {
+      const response = await GetPereregestrationStudents({
+        filter,
+        token: cookies.token,
+      });
+
+      if (response.status === 200) {
+        setPreRegestration([...response.data.data.students]);
+        setMeta({ ...response.data.meta });
+      } else {
+        //error occure
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  };
+  console.log(preRegestration);
   const genarateList = () => {
-    return listItem.map((item, index) => (
+    return preRegestration.map((item, index) => (
       <PreregestrationStudentItem key={index} index={index} data={item} />
     ));
+  };
+
+  const loadingCard = () => {
+    return <InitialRegestrationLoadingItem />;
   };
 
   return (
@@ -108,7 +157,14 @@ const StudentPreregestration: React.FC = () => {
         tableHeader={tableHeader}
         hasPagination={true}
       >
-        {genarateList()}
+        <LoadingLayout
+          isLoading={loading}
+          hasCard={true}
+          Card={loadingCard}
+          repetitionsNumber={5}
+        >
+          {genarateList()}
+        </LoadingLayout>
       </TableWrapper>
     </div>
   );
