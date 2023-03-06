@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 //searchParams
 import { useCustomSearchParams } from "../../../../hooks/useCustomSearchParams";
@@ -11,68 +11,102 @@ import { ReactComponent as SearchSvg } from "./../../../../assets/icons/svg/sear
 import { ReactComponent as ReturnSvg } from "./../../../../assets/icons/svg/arrow-circle-right.svg";
 
 //interface
+
+import {
+  entranceYearsListItemType,
+  facultiesListItemType,
+} from "../../../../types";
 interface StudentHeaderProps {
-  subLink?: string;
   title: string;
   hasSubLink: boolean;
+  isLoading?: boolean;
+  entranceYears?: entranceYearsListItemType[];
+  facultiesList?: facultiesListItemType[];
+  numberOfStudnet?: number;
 }
 
 const StudentHeader: React.FC<StudentHeaderProps> = ({
   title,
-  subLink,
   hasSubLink,
+  entranceYears,
+  facultiesList,
+  isLoading,
+  numberOfStudnet,
 }) => {
   const searchFieldContainer = useRef<HTMLInputElement | null>(null);
-  const selectFeildContainer = useRef<HTMLSelectElement | null>(null);
 
   const [searchParams, setSearchParams] = useCustomSearchParams();
 
-  const onSetSearchParamsHandler = () => {
-    setSearchParams({
-      ...searchParams,
-      search: searchFieldContainer.current?.value,
-      faculty: selectFeildContainer.current?.value,
+  const [yearIntranceContainer, setyearIntranceContainer] =
+    useState<entranceYearsListItemType>({
+      entrance_year: "",
     });
+
+  const [facultiesIntranceContainer, setfacultiesIntranceContainer] =
+    useState<facultiesListItemType>({
+      id: 0,
+      name: "",
+    });
+
+  const onSetSearchParamsHandler = () => {
+    /*
+     * *check entranceYear =>
+     * *in default value it is null check it won't be null
+     */
+
+    if (facultiesIntranceContainer.name === "") {
+      //it is not null => search faculty id too
+      setSearchParams({
+        ...searchParams,
+        page: 1,
+        search: searchFieldContainer.current?.value,
+        entrance_year: yearIntranceContainer.entrance_year,
+        faculty: "",
+      });
+    } else {
+      //faculty id is null , we don't search it
+      setSearchParams({
+        ...searchParams,
+        page: 1,
+        search: searchFieldContainer.current?.value,
+        entrance_year: yearIntranceContainer.entrance_year,
+        faculty: facultiesIntranceContainer.id,
+      });
+    }
   };
 
   return (
     <div className="flex flex-col items-center justify-center gap-5 w-full">
       <div className="flex items-start justify-between flex-col lg:flex-row gap-y-5 w-full">
         <div className="flex flex-col items-start justify-center gap-4">
-          {searchParams.verified === "" ? (
-            <>
-              {" "}
-              <div className="flex items-center gap-2">
-                <span className="text-[#101114] text-2xl font-semibold">
-                  {title}
-                </span>
-                <span className="relative bottom-5 text-[#2080F6] text-xs font-semibold px-2 py-1 rounded-xl bg-[#EBF1FD]">
-                  101 دانشجو
-                </span>
-              </div>
-              <span className="text-[#5F5F61] text-xs">
-                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-                استفاده از طراحان گرافیک است.
-              </span>
-            </>
-          ) : searchParams.verified == 1 ? (
-            <span className="text-[#101114] text-2xl font-semibold">
-              دانشجو های تایید شده{" "}
+          <div className="flex items-center gap-2">
+            <span className="text-[#101114] text-lg sm:text-xl md:text-2xl font-semibold">
+              {title}
+              {searchParams.verified == 0
+                ? ""
+                : searchParams.verified == 1
+                ? " دانشجویان تایید شده"
+                : " دانشجویان رد شده"}
             </span>
-          ) : (
-            <span className="text-[#101114] text-2xl font-semibold">
-              دانشجو های رد شده
+            <span
+              className={`${
+                isLoading ? "scale-0" : "scale-1"
+              } text-center duration-200 relative bottom-5 text-[#2080F6] text-xs font-semibold px-2 py-1 rounded-xl bg-[#EBF1FD]`}
+            >
+              {numberOfStudnet} دانشجو
             </span>
-          )}
+          </div>
+          <span className="text-[#5F5F61] text-xs">
+            لیست دانشجویانی که برای ثبت نام و شروع کارآموزی نیاز به تایید دارند
+          </span>
         </div>
         <div className="flex items-center justify-center flex-col sm:flex-row gap-5 w-full sm:w-fit">
           {hasSubLink &&
-            (searchParams.verified ? (
+            (searchParams.verified != 0 ? (
               <button
                 onClick={() =>
                   setSearchParams({
-                    ...searchParams,
-                    verified: "",
+                    verified: 0,
                   })
                 }
                 className="py-3 px-5 rounded-md flex items-center justify-start gap-2 text-white bg-[#2080F6] border-2 border-[#2080F6] hover:bg-white hover:text-[#2080F6] duration-200"
@@ -85,7 +119,6 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
                 <button
                   onClick={() =>
                     setSearchParams({
-                      ...searchParams,
                       verified: 1,
                     })
                   }
@@ -97,8 +130,7 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
                 <button
                   onClick={() =>
                     setSearchParams({
-                      ...searchParams,
-                      verified: 0,
+                      verified: 2,
                     })
                   }
                   className="py-3 px-5 rounded-md flex items-center justify-start gap-2 shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)] text-[#222124] border-2 border-[#E6E6E6] hover:bg-[#E6E6E6] duration-200"
@@ -115,18 +147,57 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
           <SettingSvg />
           <p>مرتب سازی براساس:</p>
         </div>
-        <div className="flex items-end justify-start gap-5 mt-5">
+        <div className="flex flex-col lg:flex-row items-start lg:items-end justify-start gap-5 mt-5">
           <div className="flex flex-col items-start gap-2">
-            <label className="text-[#8B91A7] text-xs">دانشکده</label>
-            <select
-              ref={selectFeildContainer}
-              className="w-40 p-2 rounded-lg border-2 border-[#E6E6E6] shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)]"
-            >
-              <option value="comp">کامپیوتر</option>
-              <option value="elec">برق</option>
-              <option value="civil">عمران</option>
-            </select>
+            <label className="text-[#8B91A7] text-xs">سال ورود</label>
+
+            {isLoading ? (
+              <div className="w-60 h-11 bg-gray-400 animate-pulse rounded-md"></div>
+            ) : (
+              <select
+                value={JSON.stringify(yearIntranceContainer)}
+                onChange={(e) =>
+                  setyearIntranceContainer(JSON.parse(e.target.value))
+                }
+                className="w-60 p-2 rounded-lg border-2 border-[#E6E6E6] shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)]"
+              >
+                <option value={JSON.stringify({ entrance_year: "" })}>
+                  مشاهده همه
+                </option>
+                {entranceYears?.map((entranceYearitem, index) => (
+                  <option key={index} value={JSON.stringify(entranceYearitem)}>
+                    {entranceYearitem.entrance_year}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
+          {facultiesList && (
+            <div className="flex flex-col items-start gap-2">
+              <label className="text-[#8B91A7] text-xs">دانشکده</label>
+
+              {isLoading ? (
+                <div className="w-60 h-11 bg-gray-400 animate-pulse rounded-md"></div>
+              ) : (
+                <select
+                  value={JSON.stringify(facultiesIntranceContainer)}
+                  onChange={(e) =>
+                    setfacultiesIntranceContainer(JSON.parse(e.target.value))
+                  }
+                  className="w-60 p-2 rounded-lg border-2 border-[#E6E6E6] shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)]"
+                >
+                  <option value={JSON.stringify({ name: "", id: 0 })}>
+                    مشاهده همه
+                  </option>
+                  {facultiesList?.map((facultiesItem, index) => (
+                    <option key={index} value={JSON.stringify(facultiesItem)}>
+                      {facultiesItem.name}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
+          )}
           <div className="flex flex-col gap-2">
             <label className="text-[#8B91A7] text-xs">جستجو </label>
             <input
