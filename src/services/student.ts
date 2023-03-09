@@ -160,6 +160,22 @@ export async function PutVarifyStudentPreRegestration({
   return apiCall;
 }
 
+export async function GetStudentPreRegestrationDescription({
+  token,
+  student_id,
+}: {
+  token: string;
+  student_id: number;
+}): Promise<AxiosResponse<any>> {
+  const apiCall = await useFetch().get(`${baseURL}/${student_id}/preReg/desc`, {
+    headers: {
+      Authorization: `Bearer ` + token,
+    },
+  });
+
+  return apiCall;
+}
+
 //form
 export async function GetStudentsFormList({
   token,

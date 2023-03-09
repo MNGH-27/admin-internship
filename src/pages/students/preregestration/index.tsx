@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 // useCookies
 import { useCookies } from "react-cookie";
 // react-router
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 //hooks
 import { useCustomSearchParams } from "../../../hooks/useCustomSearchParams";
 //component
@@ -11,6 +11,7 @@ import TableWrapper from "../../../components/common/tableWrapper";
 import InitialRegestrationLoadingItem from "../../../components/pages/students/initialregestration/initialRegestrationLoadingItem";
 import PreregestrationStudentItem from "../../../components/pages/students/preregestration/preregestrationStudentItem";
 import StudentHeader from "../../../components/pages/students/studentsHeader";
+
 //services
 import { GetPereregestrationStudents } from "../../../services/student";
 // types
@@ -149,12 +150,7 @@ const StudentPreregestration: React.FC = () => {
       );
     }
     return preRegestrationData.student.map((item, index) => (
-      <PreregestrationStudentItem
-        key={index}
-        index={index}
-        data={item}
-        refreshList={aysncGetPereregestrationStudents}
-      />
+      <PreregestrationStudentItem key={index} index={index} data={item} />
     ));
   };
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 //react-router-dom
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 //cookies
 import { useCookies } from "react-cookie";
 //component
@@ -12,24 +12,24 @@ import {
   PutUnVarifyStudentPreRegestration,
   PutVarifyStudentPreRegestration,
 } from "../../../../../services/student";
-
+import ModalDescriptionPreregestration from "../descriptionModal";
+//hooks
+import { useCustomSearchParams } from "../../../../../hooks/useCustomSearchParams";
 //interface
 import { typeSinglePreRegestration } from "../../../../../types";
 import { toast } from "react-toastify";
 interface StudetItemProps {
   index: number;
   data: typeSinglePreRegestration;
-  refreshList: () => void;
 }
 
 const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
   data,
   index,
-  refreshList,
 }) => {
   const [cookies] = useCookies(["token"]);
 
-  const [searchParams] = useSearchParams();
+  const [searchParams] = useCustomSearchParams();
   const navigate = useNavigate();
 
   const [isVerifyBtnLoading, setIsVerifyBtnLoading] = useState(false);
@@ -49,6 +49,8 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
     },
     isBtnLoading: false,
   });
+
+  const [isShowDescModal, setIsShowDescModal] = useState(false);
 
   const closeRejectModalHandler = (
     reqCondition: boolean = false,
@@ -91,7 +93,7 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
 
       if (response.status === 200) {
         toast.success("دانشجو با موفقیت رد شد");
-        navigate(-1);
+        navigate(0);
       } else {
         toast.error("رد شدن دانشجو ناموفق بود");
       }
@@ -118,7 +120,7 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
 
       if (response.status === 200) {
         toast.success("دانشجو با موفقیت تایید شد");
-        navigate(-1);
+        navigate(0);
       } else {
         toast.error("تایید شدن دانشجو ناموفق بود");
       }
@@ -129,12 +131,18 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
   };
 
   const studentItemAction = () => {
-    if (!searchParams.get("studentStatus")) {
+    if (+searchParams.verified === 0) {
       return (
         <>
-          <button className="text-[#2080F6] bg-[#EBF1FD] hover:bg-[#2080F6] hover:text-[#EBF1FD] duration-200 px-3 p-1 rounded-md">
+          <LoadingButton
+            onClickHandler={() => asyncVerifyStudent()}
+            mainBgColor="#EBF1FD"
+            hoverBgColor="#2080F6"
+            isLoading={isVerifyBtnLoading}
+            paddingClass="px-3 py-1"
+          >
             تایید{" "}
-          </button>
+          </LoadingButton>
           <button
             onClick={() =>
               setRejectModal({
@@ -150,19 +158,15 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
           >
             رد
           </button>
-          <LoadingButton
-            onClickHandler={() => asyncVerifyStudent()}
-            mainBgColor="#EBF1FD"
-            hoverBgColor="#2080F6"
-            isLoading={isVerifyBtnLoading}
-            paddingClass="px-3 py-1"
+          <button
+            onClick={() => setIsShowDescModal(true)}
+            className="text-[#F4A118] bg-[#FFF0D8] hover:bg-[#F4A118] hover:text-white px-3 py-1 rounded-md duration-200 "
           >
-            {" "}
             توضیحات{" "}
-          </LoadingButton>
+          </button>
         </>
       );
-    } else if (searchParams.get("studentStatus") === "approved") {
+    } else if (+searchParams.verified === 1) {
       return (
         <span className="text-[#01A63E] bg-[#E8F6ED] hover:bg-[#01A63E] hover:text-[#E8F6ED] duration-200 px-3 p-1 rounded-md">
           تایید شده{" "}
@@ -185,7 +189,7 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
   return (
     <>
       <tr className="grid grid-cols-12 w-full py-6 border-b-2 border-[#F6F6F6] text-[#5F5F61] text-center">
-        <td className="col-span-1">{data.id}</td>
+        <td className="col-span-1">{index + 1}</td>
         <td className="col-span-1">{data.name ? data.name : "ثبت نشده"}</td>
         <td className="col-span-1">
           {data.last_name ? data.last_name : "ثبت نشده"}
@@ -215,6 +219,13 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
           isShow={rejectModal.isShow}
           onCloseHandler={closeRejectModalHandler}
           student={rejectModal.student}
+        />
+      )}
+      {isShowDescModal && (
+        <ModalDescriptionPreregestration
+          isShow={isShowDescModal}
+          studentId={data.id}
+          onCloseModal={() => setIsShowDescModal(false)}
         />
       )}
     </>
