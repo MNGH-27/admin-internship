@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 
 //react-router-dom
-import { useSearchParams } from "react-router-dom";
-
+import { useSearchParams, useNavigate } from "react-router-dom";
+//cookies
+import { useCookies } from "react-cookie";
 //component
 import RejectStudentModal from "../rejectStudentModal";
+import LoadingButton from "../../../../common/loadingBtn";
+//service
+import {
+  PutUnVarifyStudentPreRegestration,
+  PutVarifyStudentPreRegestration,
+} from "../../../../../services/student";
 
 //interface
 import { typeSinglePreRegestration } from "../../../../../types";
+import { toast } from "react-toastify";
 interface StudetItemProps {
   index: number;
   data: typeSinglePreRegestration;
@@ -19,7 +27,106 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
   index,
   refreshList,
 }) => {
+  const [cookies] = useCookies(["token"]);
+
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  const [isVerifyBtnLoading, setIsVerifyBtnLoading] = useState(false);
+
+  const [rejectModal, setRejectModal] = useState<{
+    isShow: boolean;
+    student: {
+      id: number;
+      studentNumber: number;
+    };
+    isBtnLoading: boolean;
+  }>({
+    isShow: false,
+    student: {
+      id: 0,
+      studentNumber: 0,
+    },
+    isBtnLoading: false,
+  });
+
+  const closeRejectModalHandler = (
+    reqCondition: boolean = false,
+    data?: { id: number; desc: string }
+  ) => {
+    if (!reqCondition) {
+      setRejectModal({
+        isShow: false,
+        student: {
+          id: 0,
+          studentNumber: 0,
+        },
+        isBtnLoading: false,
+      });
+      return;
+    }
+
+    if (!data) return;
+
+    asyncRejectStudentHandler({ desc: data.desc, id: data.id });
+  };
+
+  const asyncRejectStudentHandler = async ({
+    desc,
+    id,
+  }: {
+    desc: string;
+    id: number;
+  }) => {
+    setRejectModal((prevState) => ({
+      ...prevState,
+      isBtnLoading: true,
+    }));
+    try {
+      const response = await PutUnVarifyStudentPreRegestration({
+        token: cookies.token,
+        detail: desc,
+        student_id: id,
+      });
+
+      if (response.status === 200) {
+        toast.success("دانشجو با موفقیت رد شد");
+        navigate(-1);
+      } else {
+        toast.error("رد شدن دانشجو ناموفق بود");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setRejectModal({
+      isShow: false,
+      student: {
+        id: 0,
+        studentNumber: 0,
+      },
+      isBtnLoading: false,
+    });
+  };
+
+  const asyncVerifyStudent = async () => {
+    setIsVerifyBtnLoading(true);
+    try {
+      const response = await PutVarifyStudentPreRegestration({
+        student_id: data.id,
+        token: cookies.token,
+      });
+
+      if (response.status === 200) {
+        toast.success("دانشجو با موفقیت تایید شد");
+        navigate(-1);
+      } else {
+        toast.error("تایید شدن دانشجو ناموفق بود");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setIsVerifyBtnLoading(false);
+  };
 
   const studentItemAction = () => {
     if (!searchParams.get("studentStatus")) {
@@ -28,19 +135,38 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
           <button className="text-[#2080F6] bg-[#EBF1FD] hover:bg-[#2080F6] hover:text-[#EBF1FD] duration-200 px-3 p-1 rounded-md">
             تایید{" "}
           </button>
-          <button className="text-[#E73F3F] bg-[#FCEAEA] hover:bg-[#E73F3F] hover:text-[#FCEAEA] duration-200 px-3 p-1 rounded-md">
+          <button
+            onClick={() =>
+              setRejectModal({
+                isShow: true,
+                student: {
+                  id: data.id,
+                  studentNumber: data.student_number,
+                },
+                isBtnLoading: false,
+              })
+            }
+            className="text-[#E73F3F] bg-[#FCEAEA] hover:bg-[#E73F3F] hover:text-[#FCEAEA] duration-200 px-3 p-1 rounded-md"
+          >
             رد
           </button>
-          <button className="text-[#F4A118] bg-[#FFF0D8] hover:bg-[#F4A118] hover:text-[#FFF0D8] duration-200 px-3 p-1 rounded-md">
+          <LoadingButton
+            onClickHandler={() => asyncVerifyStudent()}
+            mainBgColor="#EBF1FD"
+            hoverBgColor="#2080F6"
+            isLoading={isVerifyBtnLoading}
+            paddingClass="px-3 py-1"
+          >
+            {" "}
             توضیحات{" "}
-          </button>
+          </LoadingButton>
         </>
       );
     } else if (searchParams.get("studentStatus") === "approved") {
       return (
-        <button className="text-[#01A63E] bg-[#E8F6ED] hover:bg-[#01A63E] hover:text-[#E8F6ED] duration-200 px-3 p-1 rounded-md">
+        <span className="text-[#01A63E] bg-[#E8F6ED] hover:bg-[#01A63E] hover:text-[#E8F6ED] duration-200 px-3 p-1 rounded-md">
           تایید شده{" "}
-        </button>
+        </span>
       );
     } else {
       return (
@@ -48,9 +174,9 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
           <button className="text-[#F4A118] bg-[#FFF0D8] hover:bg-[#F4A118] hover:text-[#FFF0D8] duration-200 px-3 p-1 rounded-md">
             توضیحات{" "}
           </button>
-          <button className="text-[#E73F3F] bg-[#FCEAEA] hover:bg-[#E73F3F] hover:text-[#FCEAEA] duration-200 px-3 p-1 rounded-md">
+          <span className="text-[#E73F3F] bg-[#FCEAEA] hover:bg-[#E73F3F] hover:text-[#FCEAEA] duration-200 px-3 p-1 rounded-md">
             رد
-          </button>
+          </span>
         </>
       );
     }
@@ -83,7 +209,14 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
           {studentItemAction()}
         </td>
       </tr>
-      {/* <RejectStudentModal /> */}
+      {rejectModal.isShow && (
+        <RejectStudentModal
+          isBtnLoading={rejectModal.isBtnLoading}
+          isShow={rejectModal.isShow}
+          onCloseHandler={closeRejectModalHandler}
+          student={rejectModal.student}
+        />
+      )}
     </>
   );
 };

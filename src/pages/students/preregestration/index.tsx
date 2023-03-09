@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 // useCookies
 import { useCookies } from "react-cookie";
 // react-router
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
+//hooks
+import { useCustomSearchParams } from "../../../hooks/useCustomSearchParams";
 //component
 import LoadingLayout from "../../../components/common/loadingLayout";
 import TableWrapper from "../../../components/common/tableWrapper";
@@ -12,7 +14,22 @@ import StudentHeader from "../../../components/pages/students/studentsHeader";
 //services
 import { GetPereregestrationStudents } from "../../../services/student";
 // types
-import { typeMeta, typeSinglePreRegestration } from "../../../types";
+import {
+  typeMeta,
+  entranceYearsListItemType,
+  facultiesListItemType,
+  typeSinglePreRegestration,
+} from "../../../types";
+
+interface typePreregestrationData {
+  isLoading: boolean;
+  headerData?: {
+    entranceYear: entranceYearsListItemType[];
+    faculties: facultiesListItemType[];
+  };
+  meta?: typeMeta;
+  student?: typeSinglePreRegestration[];
+}
 
 const tableHeader = [
   {
@@ -55,32 +72,43 @@ const tableHeader = [
 
 const StudentPreregestration: React.FC = () => {
   const [cookies] = useCookies(["token"]);
+
+  const [searchParams, setSearchParams] = useCustomSearchParams();
+
   const location = useLocation();
 
-  const [loading, setLoading] = useState(true);
-  const [meta, setMeta] = useState<typeMeta>({
-    current_page: 0,
-    per_page: 0,
-    total_pages: 0,
-    total_records: 0,
-  });
-
-  const [preRegestration, setPreRegestration] = useState<
-    typeSinglePreRegestration[]
-  >([]);
+  const [preRegestrationData, setPreregestrationData] =
+    useState<typePreregestrationData>({
+      isLoading: false,
+    });
 
   useEffect(() => {
-    if (location.search.length > 0) {
+    setSearchParams({
+      verified: 0,
+    });
+  }, []);
+
+  //call on searchParam changes
+  useEffect(() => {
+    //on search for course after filtering data,
+    //check if we have any search params
+
+    //checking that a request has not already been made
+
+    if (
+      preRegestrationData.isLoading === false &&
+      location.search.substring(1).length > 0
+    ) {
       aysncGetPereregestrationStudents(location.search.substring(1));
-    } else {
-      aysncGetPereregestrationStudents("");
     }
   }, [location]);
 
   const aysncGetPereregestrationStudents = async (
     filter: string = ""
   ): Promise<void> => {
-    setLoading(true);
+    setPreregestrationData({
+      isLoading: true,
+    });
     try {
       const response = await GetPereregestrationStudents({
         filter,
@@ -88,29 +116,46 @@ const StudentPreregestration: React.FC = () => {
       });
 
       if (response.status === 200) {
-        setPreRegestration([...response.data.data.students]);
-        setMeta({ ...response.data.meta });
+        setPreregestrationData({
+          isLoading: true,
+          headerData: {
+            entranceYear: [...response.data.data.entrance_years],
+            faculties: [...response.data.data.faculties],
+          },
+          meta: {
+            ...response.data.meta,
+          },
+          student: [...response.data.data.students],
+        });
       } else {
         //error occure
       }
     } catch (error) {
       console.log(error);
     }
-    setLoading(false);
+    setPreregestrationData((prevState) => ({
+      ...prevState,
+      isLoading: false,
+    }));
   };
   const genarateList = () => {
-    if (preRegestration !== undefined)
+    if (!preRegestrationData.student) return;
+
+    if (preRegestrationData.student.length === 0) {
       return (
-        preRegestration.length !== 0 &&
-        preRegestration.map((item, index) => (
-          <PreregestrationStudentItem
-            key={index}
-            index={index}
-            data={item}
-            refreshList={aysncGetPereregestrationStudents}
-          />
-        ))
+        <p className="text-red-600 text-lg font-semibold text-center">
+          لیست خالی است
+        </p>
       );
+    }
+    return preRegestrationData.student.map((item, index) => (
+      <PreregestrationStudentItem
+        key={index}
+        index={index}
+        data={item}
+        refreshList={aysncGetPereregestrationStudents}
+      />
+    ));
   };
 
   const loadingCard = () => {
@@ -119,16 +164,23 @@ const StudentPreregestration: React.FC = () => {
 
   return (
     <div className="my-20 flex items-center justify-center flex-col gap-5">
-      <StudentHeader title="پیش ثبت نام ها" hasSubLink={true} />
+      <StudentHeader
+        isLoading={preRegestrationData.isLoading}
+        entranceYears={preRegestrationData.headerData?.entranceYear}
+        facultiesList={preRegestrationData.headerData?.faculties}
+        numberOfStudnet={preRegestrationData?.meta?.total_records}
+        title="پیش ثبت نام ها"
+        hasSubLink={true}
+      />
 
       <TableWrapper
         minSize={`min-w-[900px]`}
         tableHeader={tableHeader}
         hasPagination={true}
-        meta={meta}
+        meta={preRegestrationData.meta}
       >
         <LoadingLayout
-          isLoading={loading}
+          isLoading={preRegestrationData.isLoading}
           hasCard={true}
           Card={loadingCard}
           repetitionsNumber={5}

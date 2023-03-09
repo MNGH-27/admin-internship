@@ -143,14 +143,7 @@ const StudentInitialRegestration: React.FC = () => {
   };
 
   return (
-    <div className="mb-16 flex items-center justify-center flex-col gap-5">
-      <Link
-        to={"/students"}
-        className="my-5 flex items-center self-start text-white px-4 py-2 bg-blue-700 border-2 border-blue-700 hover:bg-white hover:text-blue-700 duration-200 rounded-md"
-      >
-        <ArrowBackSvg className="-rotate-90" />
-        بازگشت
-      </Link>
+    <div className="my-20 flex items-center justify-center flex-col gap-5">
       <StudentHeader
         title="ثبت نام اولیه ها"
         isLoading={isLoading}
@@ -158,7 +151,7 @@ const StudentInitialRegestration: React.FC = () => {
         numberOfStudnet={meta.total_records}
         hasSubLink={true}
       />
- 
+
       <TableWrapper
         minSize={`min-w-[900px]`}
         tableHeader={tableHeader}

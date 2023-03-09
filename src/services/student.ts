@@ -39,21 +39,7 @@ export async function GetInitialRegestrationStundets({
 
   return apiCall;
 }
-export async function GetPereregestrationStudents({
-  token,
-  filter,
-}: {
-  token: string;
-  filter: string;
-}): Promise<AxiosResponse<any>> {
-  const apiCall = await useFetch().get(`${baseURL}/preReg?${filter}`, {
-    headers: {
-      Authorization: `Bearer` + token,
-    },
-  });
 
-  return apiCall;
-}
 export async function PutVarifyStudentInitialRegestration({
   token,
   student_id,
@@ -114,6 +100,66 @@ export async function GetInitialRegestrationRegectInfo({
 
   return apiCall;
 }
+//preRegestration
+
+export async function GetPereregestrationStudents({
+  token,
+  filter,
+}: {
+  token: string;
+  filter: string;
+}): Promise<AxiosResponse<any>> {
+  const apiCall = await useFetch().get(`${baseURL}/preReg?${filter}`, {
+    headers: {
+      Authorization: `Bearer` + token,
+    },
+  });
+
+  return apiCall;
+}
+
+export async function PutUnVarifyStudentPreRegestration({
+  token,
+  student_id,
+  detail,
+}: {
+  token: string;
+  student_id: number;
+  detail: string;
+}): Promise<AxiosResponse<any>> {
+  const apiCall = await useFetch().put(
+    `${baseURL}/${student_id}/preReg/unverify`,
+    { rejection_reason: detail },
+    {
+      headers: {
+        Authorization: `Bearer ` + token,
+      },
+    }
+  );
+
+  return apiCall;
+}
+
+export async function PutVarifyStudentPreRegestration({
+  token,
+  student_id,
+}: {
+  token: string;
+  student_id: number;
+}): Promise<AxiosResponse<any>> {
+  const apiCall = await useFetch().put(
+    `${baseURL}/${student_id}/preReg/verify`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ` + token,
+      },
+    }
+  );
+
+  return apiCall;
+}
+
 //form
 export async function GetStudentsFormList({
   token,
