@@ -144,10 +144,8 @@ const Layout: React.FC<PropType> = () => {
               </div>
               <div
                 className={`${
-                  isSidebarOpen
-                    ? "fixed lg:relative"
-                    : "hidden fixed lg:relative"
-                } top-0 right-0 w-full h-full`}
+                  isSidebarOpen ? "" : "hidden lg:block"
+                } fixed lg:relative z-10 top-0 right-0 w-full h-full`}
               >
                 <div
                   onClick={() => setIsSidebarOpen(false)}
@@ -156,7 +154,10 @@ const Layout: React.FC<PropType> = () => {
                 <ul
                   className={`flex flex-col lg:flex-row items-start gap-x-2 gap-y-5 z-10 bg-white w-1/2 lg:w-fit h-full py-10 px-5 lg:p-0`}
                 >
-                  <button onClick={() => setIsSidebarOpen(false)}>
+                  <button
+                    className="lg:hidden"
+                    onClick={() => setIsSidebarOpen(false)}
+                  >
                     <CloseSvg />
                   </button>
                   {headerRoute.map((route, index) => (
