@@ -8,14 +8,14 @@ import { AxiosResponse } from "axios";
 
 ///////
 
-const baseURL = "students";
+const endPoint = "students";
 
 export async function GetStudentBasicData({
   token,
 }: {
   token: string;
 }): Promise<AxiosResponse<any>> {
-  const apiCall = await useFetch().get(`${baseURL}/home`, {
+  const apiCall = await useFetch().get(`${endPoint}/home`, {
     headers: {
       Authorization: `Bearer ` + token,
     },
@@ -31,7 +31,7 @@ export async function GetInitialRegestrationStundets({
   token: string;
   filter: string;
 }): Promise<AxiosResponse<any>> {
-  const apiCall = await useFetch().get(`${baseURL}/initReg?${filter}`, {
+  const apiCall = await useFetch().get(`${endPoint}/initReg?${filter}`, {
     headers: {
       Authorization: `Bearer ` + token,
     },
@@ -48,7 +48,7 @@ export async function PutVarifyStudentInitialRegestration({
   student_id: number;
 }): Promise<AxiosResponse<any>> {
   const apiCall = await useFetch().put(
-    `${baseURL}/${student_id}/initReg/verify`,
+    `${endPoint}/${student_id}/initReg/verify`,
     {},
     {
       headers: {
@@ -70,7 +70,7 @@ export async function PutUnVarifyStudentInitialRegestration({
   detail: string;
 }): Promise<AxiosResponse<any>> {
   const apiCall = await useFetch().put(
-    `${baseURL}/${student_id}/initReg/unverify`,
+    `${endPoint}/${student_id}/initReg/unverify`,
     { rejection_reason: detail },
     {
       headers: {
@@ -90,7 +90,7 @@ export async function GetInitialRegestrationRegectInfo({
   student_id: number;
 }): Promise<AxiosResponse<any>> {
   const apiCall = await useFetch().get(
-    `${baseURL}/${student_id}/initReg/desc`,
+    `${endPoint}/${student_id}/initReg/desc`,
     {
       headers: {
         Authorization: `Bearer ` + token,
@@ -109,7 +109,7 @@ export async function GetPereregestrationStudents({
   token: string;
   filter: string;
 }): Promise<AxiosResponse<any>> {
-  const apiCall = await useFetch().get(`${baseURL}/preReg?${filter}`, {
+  const apiCall = await useFetch().get(`${endPoint}/preReg?${filter}`, {
     headers: {
       Authorization: `Bearer` + token,
     },
@@ -128,7 +128,7 @@ export async function PutUnVarifyStudentPreRegestration({
   detail: string;
 }): Promise<AxiosResponse<any>> {
   const apiCall = await useFetch().put(
-    `${baseURL}/${student_id}/preReg/unverify`,
+    `${endPoint}/${student_id}/preReg/unverify`,
     { rejection_reason: detail },
     {
       headers: {
@@ -148,7 +148,7 @@ export async function PutVarifyStudentPreRegestration({
   student_id: number;
 }): Promise<AxiosResponse<any>> {
   const apiCall = await useFetch().put(
-    `${baseURL}/${student_id}/preReg/verify`,
+    `${endPoint}/${student_id}/preReg/verify`,
     {},
     {
       headers: {
@@ -167,11 +167,14 @@ export async function GetStudentPreRegestrationDescription({
   token: string;
   student_id: number;
 }): Promise<AxiosResponse<any>> {
-  const apiCall = await useFetch().get(`${baseURL}/${student_id}/preReg/desc`, {
-    headers: {
-      Authorization: `Bearer ` + token,
-    },
-  });
+  const apiCall = await useFetch().get(
+    `${endPoint}/${student_id}/preReg/desc`,
+    {
+      headers: {
+        Authorization: `Bearer ` + token,
+      },
+    }
+  );
 
   return apiCall;
 }
@@ -184,7 +187,7 @@ export async function GetStudentsFormList({
   token: string;
   filter: string;
 }): Promise<AxiosResponse<any>> {
-  const apiCall = await useFetch().get(`${baseURL}/forms?${filter}`, {
+  const apiCall = await useFetch().get(`${endPoint}/forms?${filter}`, {
     headers: {
       Authorization: `Bearer ` + token,
     },
@@ -200,7 +203,7 @@ export async function GetSingleStudentsForm({
   token: string;
   id: number;
 }): Promise<AxiosResponse<any>> {
-  const apiCall = await useFetch().get(`${baseURL}/forms/${id}`, {
+  const apiCall = await useFetch().get(`${endPoint}/forms/${id}`, {
     headers: {
       Authorization: `Bearer ` + token,
     },
@@ -218,7 +221,7 @@ export async function GetStudentForm({
   formStage: string;
   id: number;
 }): Promise<AxiosResponse<any>> {
-  const apiCall = await useFetch().get(`${baseURL}/forms/${id}/${formStage}`, {
+  const apiCall = await useFetch().get(`${endPoint}/forms/${id}/${formStage}`, {
     headers: {
       Authorization: `Bearer ` + token,
     },
@@ -237,7 +240,7 @@ export async function RejectSingleForm({
   id: number;
 }): Promise<AxiosResponse<any>> {
   const apiCall = await useFetch().put(
-    `${baseURL}/forms/${id}/${formStage}/unverify`,
+    `${endPoint}/forms/${id}/${formStage}/unverify`,
     {},
     {
       headers: {
@@ -259,7 +262,7 @@ export async function VerifySingleForm({
   id: number;
 }): Promise<AxiosResponse<any>> {
   const apiCall = await useFetch().put(
-    `${baseURL}/forms/${id}/${formStage}/verify`,
+    `${endPoint}/forms/${id}/${formStage}/verify`,
     {},
     {
       headers: {
@@ -281,7 +284,7 @@ export async function GetSingleWeekOfForm({
   id: number;
 }): Promise<AxiosResponse<any>> {
   const apiCall = await useFetch().get(
-    `${baseURL}/forms/${id}/weekly_reports/${formId}`,
+    `${endPoint}/forms/${id}/weekly_reports/${formId}`,
     {
       headers: {
         Authorization: `Bearer ` + token,
