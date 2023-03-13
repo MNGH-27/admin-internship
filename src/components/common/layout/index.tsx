@@ -23,6 +23,7 @@ import useClock from "../../../hooks/useClock";
 import { ReactComponent as NotificationSvg } from "./../../../assets/icons/svg/notification-bing.svg";
 import { ReactComponent as SearchSvg } from "./../../../assets/icons/svg/search-normal.svg";
 import { ReactComponent as Menu } from "./../../../assets/icons/svg/menu.svg";
+import { ReactComponent as CloseSvg } from "./../../../assets/icons/svg/x-square.svg";
 
 //image
 import UserTempPic from "./../../../assets/pictures/temp/Ellipse 31.png";
@@ -61,6 +62,10 @@ const Layout: React.FC<PropType> = () => {
   moment.loadPersian({ usePersianDigits: true });
 
   const [cookies] = useCookies(["token"]);
+
+  //sidebar handler
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   let location = useLocation();
 
   const [user, setUser] = useState<{
@@ -120,10 +125,14 @@ const Layout: React.FC<PropType> = () => {
     <>
       {/* header */}
       <header className="border-b-2 border-b-[#EEEEF2] shadow-[0_3px_4px_0px_rgba(24,24,28,0.03)]">
-        <div className="py-3 lg:py-5 mx-auto max-w-7xl px-5 xl:px-0">
+        <div className=" py-3 lg:py-5 mx-auto max-w-7xl px-5 xl:px-0">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-14">
-              <button type="button" className="lg:hidden ">
+              <button
+                onClick={() => setIsSidebarOpen(true)}
+                type="button"
+                className="lg:hidden "
+              >
                 <Menu className="text-[#6C7389] w-7 h-7" />
               </button>
               <div className="w-10 h-10 lg:block hidden">
@@ -133,25 +142,43 @@ const Layout: React.FC<PropType> = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <ul className="lg:flex items-center gap-x-2 hidden">
-                {headerRoute.map((route, index) => (
-                  <li
-                    className="px-4 py-1 transition-all duration-200"
-                    key={index}
-                  >
-                    <Link
-                      to={route.path}
-                      className={`${
-                        findCurrentRoute(route)
-                          ? "bg-[#F6F7F8] text-[#101114] font-semibold px-4 py-1 rounded-md"
-                          : "bg-white text-[#8B91A7]"
-                      }`}
+              <div
+                className={`${
+                  isSidebarOpen
+                    ? "fixed lg:relative"
+                    : "hidden fixed lg:relative"
+                } top-0 right-0 w-full h-full`}
+              >
+                <div
+                  onClick={() => setIsSidebarOpen(false)}
+                  className="absolute -z-10 w-full h-full bg-black/70 lg:hidden"
+                ></div>
+                <ul
+                  className={`flex flex-col lg:flex-row items-start gap-x-2 gap-y-5 z-10 bg-white w-1/2 lg:w-fit h-full py-10 px-5 lg:p-0`}
+                >
+                  <button onClick={() => setIsSidebarOpen(false)}>
+                    <CloseSvg />
+                  </button>
+                  {headerRoute.map((route, index) => (
+                    <li
+                      className="px-4 py-1 transition-all duration-200"
+                      key={index}
                     >
-                      {route.value}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+                      <Link
+                        onClick={() => setIsSidebarOpen(false)}
+                        to={route.path}
+                        className={`${
+                          findCurrentRoute(route)
+                            ? "bg-[#F6F7F8] text-[#101114] font-semibold px-4 py-1 rounded-md"
+                            : "bg-white text-[#8B91A7]"
+                        }`}
+                      >
+                        {route.value}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
             <div className="flex items-center justify-center gap-5 text-[#6C7389]">
               <SearchSvg />
