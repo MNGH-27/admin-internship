@@ -14,7 +14,7 @@ import SingleStudentForm from "./pages/students/studentFormList/singleStudentFor
 import SingleForm from "./pages/students/studentFormList/singleForm";
 
 import Master from "./pages/master";
-
+import AddMaster from "./pages/master/addMaster";
 function App() {
   return (
     <div className="App">
@@ -34,6 +34,7 @@ function App() {
           <Route element={<SingleForm />} path="/students/form/singleform" />
 
           <Route element={<Master />} path="/teachers" />
+          <Route element={<AddMaster />} path="/teachers/add" />
 
           <Route element={<Dashboard />} path="/" />
         </Route>
