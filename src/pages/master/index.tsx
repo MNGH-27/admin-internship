@@ -13,12 +13,15 @@ import { GetMastersList } from "../../services/masters";
 import TableWrapper from "../../components/common/tableWrapper";
 import LoadingLayout from "../../components/common/loadingLayout";
 import MasterLoadingItem from "../../components/pages/master/masterLoadingItem";
+import MasterListHeader from "../../components/pages/master/masterListHeader";
+import MasterItem from "../../components/pages/master/masterItem";
 //interface
 import { typeMasterList } from "../../types/masterType";
-import { typeMeta } from "../../types";
+import { typeMeta, facultiesListItemType } from "../../types";
 interface typeMasterData {
   isLoading: boolean;
-  data?: typeMasterList[];
+  master?: typeMasterList[];
+  faculties?: facultiesListItemType[];
   meta?: typeMeta;
 }
 
@@ -46,6 +49,10 @@ const tableHeader = [
   {
     title: "شماره تلفن",
     style: "col-span-2",
+  },
+  {
+    title: "تعداد دانشجو",
+    style: "col-span-1",
   },
 ];
 
@@ -86,7 +93,8 @@ const Master = () => {
       if (response.status === 200) {
         setData({
           isLoading: true,
-          data: [...response.data.data],
+          master: [...response.data.data.master],
+          faculties: [...response.data.data.faculties],
           meta: { ...response.data.meta },
         });
       }
@@ -100,34 +108,18 @@ const Master = () => {
   };
 
   const generateList = () => {
-    return data.data?.map((singleMaster, index) => (
-      <tr className="grid grid-cols-12 w-full text-center py-5 border-b">
-        <td className="col-span-1">{index + 1}</td>
-        <td className="col-span-1">{singleMaster.first_name}</td>
-        <td className="col-span-2">{singleMaster.last_name}</td>
-        <td className="col-span-2">{singleMaster.national_code}</td>
-        <td className="col-span-2">{singleMaster.faculty}</td>
-        <td className="col-span-2">{singleMaster.phone}</td>
-      </tr>
+    return data.master?.map((singleMaster, index) => (
+      <MasterItem key={index} data={singleMaster} index={index} />
     ));
   };
 
   return (
-    <div>
-      <div className="my-10">
-        <span className="text-2xl font-semibold">
-          لیست اساتید کارآموزی دانشگاه
-        </span>
-        <div className="my-10 flex items-center justify-between w-full">
-          <span>فیلتر. . . </span>
-          <Link
-            to={"/teachers/add"}
-            className="bg-blue-700 text-white hover:text-blue-700 hover:bg-white border-2 border-blue-700 duration-200 text-lg px-7 py-3 rounded-md"
-          >
-            اضافه کردن استاد
-          </Link>
-        </div>
-      </div>
+    <div className="my-20">
+      <MasterListHeader
+        isLoading={data.isLoading}
+        facultiesList={data.faculties}
+      />
+
       <TableWrapper
         hasPagination={true}
         meta={data.meta}

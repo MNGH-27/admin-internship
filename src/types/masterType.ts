@@ -5,4 +5,5 @@ export type typeMasterList = {
   last_name: string;
   national_code: string;
   phone: string;
+  student_count: number;
 };

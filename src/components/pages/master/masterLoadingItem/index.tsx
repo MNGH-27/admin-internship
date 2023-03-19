@@ -7,6 +7,7 @@ const MasterLoadingItem = () => {
       <td className="col-span-2 bg-gray-400 animate-pulse w-full h-8 rounded-md"></td>
       <td className="col-span-2 bg-gray-400 animate-pulse w-full h-8 rounded-md"></td>
       <td className="col-span-2 bg-gray-400 animate-pulse w-full h-8 rounded-md"></td>
+      <td className="col-span-1 bg-gray-400 animate-pulse w-full h-8 rounded-md"></td>
     </tr>
   );
 };
