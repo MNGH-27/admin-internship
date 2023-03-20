@@ -25,7 +25,7 @@ const LoadingButton: React.FC<loadingButtonProps> = ({
   return (
     <button
       onClick={() => isLoading === false && onClickHandler()}
-      className={`${buttonClass}
+      className={`${buttonClass} 
         text-[${hoverBgColor}] bg-[${mainBgColor}] hover:bg-[${hoverBgColor}] hover:text-[${mainBgColor}] 
         border border-[${mainBgColor}]
         duration-200 rounded-md
