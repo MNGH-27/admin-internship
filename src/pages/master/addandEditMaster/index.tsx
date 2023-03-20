@@ -188,6 +188,15 @@ const AddAndEditMaster = () => {
       faculty_id: "",
     });
 
+    //check if faculty don't be un selected
+    if (dataSchema.faculty.id === 0) {
+      setError((prevState) => ({
+        ...prevState,
+        faculty_id: "انتخاب دانشکده الزامی است",
+      }));
+      return;
+    }
+
     setIsLoadingAddBtn(true);
 
     if (searchParam.status === "edit") await asyncEditMaster();
