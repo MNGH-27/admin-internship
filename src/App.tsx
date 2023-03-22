@@ -17,7 +17,7 @@ import Master from "./pages/master";
 import AddAndEditMaster from "./pages/master/addandEditMaster";
 
 import EducationalIssue from "./pages/educationalIssues";
-
+import Faculties from "./pages/educationalIssues/faculties";
 function App() {
   return (
     <div className="App">
@@ -40,6 +40,7 @@ function App() {
           <Route element={<AddAndEditMaster />} path="/teachers/singlemaster" />
 
           <Route element={<EducationalIssue />} path="/educational-issues" />
+          <Route element={<Faculties />} path="/educational-issues/faculties" />
 
           <Route element={<Dashboard />} path="/" />
         </Route>
