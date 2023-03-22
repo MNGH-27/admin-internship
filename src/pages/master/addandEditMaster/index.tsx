@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 
+//react toastify
+import { toast } from "react-toastify";
 //react router dom
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 //hooks
 import { useCustomSearchParams } from "../../../hooks/useCustomSearchParams";
 //cookeis
@@ -20,8 +22,6 @@ import LoadingButton from "../../../components/common/loadingBtn";
 import AdminInput from "../../../components/common/input";
 //interface
 import { facultiesListItemType } from "../../../types";
-import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
 
 interface typeFacultyData {
   data?: facultiesListItemType[];
