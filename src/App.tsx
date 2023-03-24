@@ -18,6 +18,8 @@ import AddAndEditMaster from "./pages/master/addandEditMaster";
 
 import EducationalIssue from "./pages/educationalIssues";
 import Faculties from "./pages/educationalIssues/faculties";
+import Terms from "./pages/educationalIssues/terms";
+
 function App() {
   return (
     <div className="App">
@@ -41,6 +43,7 @@ function App() {
 
           <Route element={<EducationalIssue />} path="/educational-issues" />
           <Route element={<Faculties />} path="/educational-issues/faculties" />
+          <Route element={<Terms />} path="/educational-issues/terms" />
 
           <Route element={<Dashboard />} path="/" />
         </Route>
