@@ -16,7 +16,11 @@ interface typeRejectModal {
 }
 
 interface rejectStudentModalProps {
-  closeModalHandler: (reqCondition?: boolean, detail?: string) => void;
+  closeModalHandler: (
+    reqCondition?: boolean,
+    detail?: string,
+    status?: "reject" | "verify"
+  ) => void;
   rejectData: typeRejectModal;
 }
 
@@ -55,10 +59,14 @@ const RejectStudentModal: React.FC<rejectStudentModalProps> = ({
           />
         </div>
         <div className="flex justify-end gap-2 w-full">
-          {!rejectData.hasDesc && (
+          {!rejectData.hasDesc ? (
             <LoadingButton
               onClickHandler={() =>
-                closeModalHandler(true, textboxContainer.current?.value)
+                closeModalHandler(
+                  true,
+                  textboxContainer.current?.value,
+                  "reject"
+                )
               }
               // buttonClass="text-white"
               paddingClass="px-4 py-2"
@@ -67,6 +75,23 @@ const RejectStudentModal: React.FC<rejectStudentModalProps> = ({
               isLoading={rejectData.isLoading}
             >
               رد کردن
+            </LoadingButton>
+          ) : (
+            <LoadingButton
+              onClickHandler={() =>
+                closeModalHandler(
+                  true,
+                  textboxContainer.current?.value,
+                  "verify"
+                )
+              }
+              mainBgColor="#EBF1FD"
+              hoverBgColor="#2080F6"
+              buttonClass="text-sm"
+              isLoading={rejectData.isLoading}
+              paddingClass="px-3 py-1"
+            >
+              تغییر وضعیت به تایید شده
             </LoadingButton>
           )}
           <button

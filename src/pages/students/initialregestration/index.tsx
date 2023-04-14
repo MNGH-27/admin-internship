@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 //react router dom
-import { Link, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 //cookie
 import useCookies from "react-cookie/cjs/useCookies";
+
+//hooks
+import { useCustomSearchParams } from "../../../hooks/useCustomSearchParams";
 
 //component
 import TableWrapper from "../../../components/common/tableWrapper";
@@ -14,12 +17,6 @@ import InitialRegestrationLoadingItem from "../../../components/pages/students/i
 
 //service
 import { GetInitialRegestrationStundets } from "../../../services/student";
-
-//hooks
-import { useCustomSearchParams } from "../../../hooks/useCustomSearchParams";
-
-//svg
-import { ReactComponent as ArrowBackSvg } from "./../../../assets/icons/svg/arrow-down.svg";
 
 //interface
 import {
@@ -63,11 +60,11 @@ const StudentInitialRegestration: React.FC = () => {
   //cookies
   const [cookies] = useCookies(["token"]);
 
-  //useLocation
+  //useLocation, useNavigate
   const location = useLocation();
-
-  //useCustomeSearchParams
-  const [searchParams, setSearchParams] = useCustomSearchParams();
+  const navigate = useNavigate();
+  //searchParams
+  const [searchParam] = useCustomSearchParams();
 
   const [isLoading, setIsLoading] = useState(false);
   const [entranceYears, setEntranceYears] = useState<
@@ -83,20 +80,28 @@ const StudentInitialRegestration: React.FC = () => {
     typeSingleInitialRegestration[] | []
   >();
 
-  //set vatified value to 0 as not determined in mounting component
-  useEffect(() => {
-    setSearchParams({
-      verified: 0,
-    });
-  }, []);
-
   //call on searchParam changes
   useEffect(() => {
+    /**
+     * !check searchParams to be correct
+     * *searchParam should have verified
+     */
+    //check status of verified status
+    if (
+      !searchParam.verified ||
+      searchParam.verified > 2 ||
+      searchParam.verified < 0
+    ) {
+      //dont have verified , add verified to route and replace
+      navigate("/students/initialregestration?verified=0", { replace: true });
+      //exit from useEffect
+      return;
+    }
+
     //on search for course after filtering data,
     //check if we have any search params
 
     //checking that a request has not already been made
-
     if (isLoading === false && location.search.substring(1).length > 0) {
       asyncGetInitialPreregStudentsList(location.search.substring(1));
     }

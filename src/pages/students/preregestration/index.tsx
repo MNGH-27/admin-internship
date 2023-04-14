@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 // react-router
 import { useLocation } from "react-router-dom";
-//hooks
-import { useCustomSearchParams } from "../../../hooks/useCustomSearchParams";
 //component
 import LoadingLayout from "../../../components/common/loadingLayout";
 import TableWrapper from "../../../components/common/tableWrapper";
@@ -74,20 +72,12 @@ const tableHeader = [
 const StudentPreregestration: React.FC = () => {
   const [cookies] = useCookies(["token"]);
 
-  const [searchParams, setSearchParams] = useCustomSearchParams();
-
   const location = useLocation();
 
   const [preRegestrationData, setPreregestrationData] =
     useState<typePreregestrationData>({
       isLoading: false,
     });
-
-  useEffect(() => {
-    setSearchParams({
-      verified: 0,
-    });
-  }, []);
 
   //call on searchParam changes
   useEffect(() => {

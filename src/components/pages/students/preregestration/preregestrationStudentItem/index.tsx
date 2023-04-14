@@ -178,6 +178,15 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
           <button className="text-[#F4A118] bg-[#FFF0D8] hover:bg-[#F4A118] hover:text-[#FFF0D8] duration-200 px-3 p-1 rounded-md">
             توضیحات{" "}
           </button>
+          <LoadingButton
+            onClickHandler={() => asyncVerifyStudent()}
+            mainBgColor="#EBF1FD"
+            hoverBgColor="#2080F6"
+            isLoading={isVerifyBtnLoading}
+            paddingClass="px-3 py-1"
+          >
+            تغییر وضعیت به تایید شده
+          </LoadingButton>
           <span className="text-[#E73F3F] bg-[#FCEAEA] hover:bg-[#E73F3F] hover:text-[#FCEAEA] duration-200 px-3 p-1 rounded-md">
             رد
           </span>

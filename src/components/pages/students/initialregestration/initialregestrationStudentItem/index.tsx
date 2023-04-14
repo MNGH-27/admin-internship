@@ -63,9 +63,10 @@ const StudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
     setisVarifyBtnLoading(false);
   };
 
-  const onCloseModalHandler = (
+  const onCloseModalHandler = async (
     reqCondition: boolean = false,
-    detail?: string
+    detail?: string,
+    status?: "reject" | "verify"
   ) => {
     //check reqConditon
     if (!reqCondition) {
@@ -78,19 +79,30 @@ const StudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
     }
 
     //reqCondition is 1 , check detail be undefined
-    if (detail !== undefined) {
-      //detail is undefined =>  unvarify student
-      asycnRejectStudent(detail);
+    if (detail && status) {
+      //config rejectModal to loading button in modal and make modal open
+      setRejectModal({
+        isLoading: true,
+        isShow: true,
+      });
+
+      //check status of request
+      if (status === "reject") {
+        //status is reject , call reject function
+        await asycnRejectStudent(detail);
+      } else {
+        //status is verify , vall verify function
+        await asyncVarifyStudnet();
+      }
+
+      setRejectModal({
+        isShow: false,
+        isLoading: false,
+      });
     }
   };
 
   const asycnRejectStudent = async (detail: string) => {
-    //config rejectModal to loading button in modal and make modal open
-    setRejectModal({
-      isLoading: true,
-      isShow: true,
-    });
-
     try {
       const response = await PutUnVarifyStudentInitialRegestration({
         token: cookies.token,
@@ -108,10 +120,6 @@ const StudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
     } catch (error) {
       console.log(error);
     }
-    setRejectModal({
-      isShow: false,
-      isLoading: false,
-    });
   };
 
   const asynGetRejectInformation = async () => {
@@ -166,9 +174,22 @@ const StudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
       );
     } else if (searchParams.verified == 1) {
       return (
-        <span className="text-[#01A63E] bg-[#E8F6ED] hover:bg-[#01A63E] hover:text-[#E8F6ED] duration-200 px-3 p-1 rounded-md">
-          تایید شده{" "}
-        </span>
+        <>
+          <span className="text-[#01A63E] bg-[#E8F6ED] hover:bg-[#01A63E] hover:text-[#E8F6ED] duration-200 px-3 p-1 rounded-md">
+            تایید شده
+          </span>
+          <button
+            onClick={() =>
+              setRejectModal({
+                isShow: true,
+                isLoading: false,
+              })
+            }
+            className="text-[#E73F3F] bg-[#FCEAEA] hover:bg-[#E73F3F] hover:text-[#FCEAEA] duration-200 px-3 p-1 rounded-md"
+          >
+            رد
+          </button>
+        </>
       );
     } else {
       return (
@@ -183,7 +204,7 @@ const StudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
             توضیحات
           </LoadingButton>
           <span className="text-[#E73F3F] bg-[#FCEAEA] hover:bg-[#E73F3F] hover:text-[#FCEAEA] duration-200 px-3 p-1 rounded-md">
-            رد
+            رد شده
           </span>
         </>
       );
