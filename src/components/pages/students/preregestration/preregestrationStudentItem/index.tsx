@@ -2,25 +2,37 @@ import React, { useState } from "react";
 
 //react-router-dom
 import { useNavigate } from "react-router-dom";
+
 //cookies
 import { useCookies } from "react-cookie";
+
 //component
 import RejectStudentModal from "../rejectStudentModal";
 import LoadingButton from "../../../../common/loadingBtn";
+
 //service
 import {
   PutUnVarifyStudentPreRegestration,
   PutVarifyStudentPreRegestration,
 } from "../../../../../services/student";
 import ModalDescriptionPreregestration from "../descriptionModal";
+
 //hooks
 import { useCustomSearchParams } from "../../../../../hooks/useCustomSearchParams";
+
 //interface
 import { typeSinglePreRegestration } from "../../../../../types";
 import { toast } from "react-toastify";
 interface StudetItemProps {
   index: number;
   data: typeSinglePreRegestration;
+}
+
+interface typeRejectModal {
+  isShow: boolean;
+  isLoading: boolean;
+  hasDesc?: boolean;
+  desc?: string;
 }
 
 const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
@@ -34,61 +46,58 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
 
   const [isVerifyBtnLoading, setIsVerifyBtnLoading] = useState(false);
 
-  const [rejectModal, setRejectModal] = useState<{
-    isShow: boolean;
-    student: {
-      id: number;
-      studentNumber: number;
-    };
-    isBtnLoading: boolean;
-  }>({
+  const [rejectModal, setRejectModal] = useState<typeRejectModal>({
     isShow: false,
-    student: {
-      id: 0,
-      studentNumber: 0,
-    },
-    isBtnLoading: false,
+    isLoading: false,
   });
 
   const [isShowDescModal, setIsShowDescModal] = useState(false);
 
-  const closeRejectModalHandler = (
+  const onCloseModalHandler = async (
     reqCondition: boolean = false,
-    data?: { id: number; desc: string }
+    detail?: string,
+    status?: "reject" | "verify"
   ) => {
+    //check reqConditon
     if (!reqCondition) {
+      //reqCondition is false => just closing modal
       setRejectModal({
         isShow: false,
-        student: {
-          id: 0,
-          studentNumber: 0,
-        },
-        isBtnLoading: false,
+        isLoading: false,
       });
       return;
     }
 
-    if (!data) return;
+    //reqCondition is 1 , check detail be undefined
+    if (detail && status) {
+      //config rejectModal to loading button in modal and make modal open
+      setRejectModal({
+        isLoading: true,
+        isShow: true,
+      });
 
-    asyncRejectStudentHandler({ desc: data.desc, id: data.id });
+      //check status of request
+      if (status === "reject") {
+        //status is reject , call reject function
+        await asyncRejectStudentHandler({ detail });
+      } else {
+        //status is verify , vall verify function
+        await asyncVerifyStudent();
+      }
+
+      setRejectModal({
+        isShow: false,
+        isLoading: false,
+      });
+    }
   };
 
-  const asyncRejectStudentHandler = async ({
-    desc,
-    id,
-  }: {
-    desc: string;
-    id: number;
-  }) => {
-    setRejectModal((prevState) => ({
-      ...prevState,
-      isBtnLoading: true,
-    }));
+  const asyncRejectStudentHandler = async ({ detail }: { detail: string }) => {
     try {
       const response = await PutUnVarifyStudentPreRegestration({
         token: cookies.token,
-        detail: desc,
-        student_id: id,
+        detail,
+        student_id: data.id,
       });
 
       if (response.status === 200) {
@@ -100,14 +109,6 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
     } catch (error) {
       console.log(error);
     }
-    setRejectModal({
-      isShow: false,
-      student: {
-        id: 0,
-        studentNumber: 0,
-      },
-      isBtnLoading: false,
-    });
   };
 
   const asyncVerifyStudent = async () => {
@@ -147,11 +148,7 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
             onClick={() =>
               setRejectModal({
                 isShow: true,
-                student: {
-                  id: data.id,
-                  studentNumber: data.student_number,
-                },
-                isBtnLoading: false,
+                isLoading: false,
               })
             }
             className="text-[#E73F3F] bg-[#FCEAEA] hover:bg-[#E73F3F] hover:text-[#FCEAEA] duration-200 px-3 p-1 rounded-md"
@@ -178,18 +175,9 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
           <button className="text-[#F4A118] bg-[#FFF0D8] hover:bg-[#F4A118] hover:text-[#FFF0D8] duration-200 px-3 p-1 rounded-md">
             توضیحات{" "}
           </button>
-          <LoadingButton
-            onClickHandler={() => asyncVerifyStudent()}
-            mainBgColor="#EBF1FD"
-            hoverBgColor="#2080F6"
-            isLoading={isVerifyBtnLoading}
-            paddingClass="px-3 py-1"
-          >
-            تغییر وضعیت به تایید شده
-          </LoadingButton>
-          <span className="text-[#E73F3F] bg-[#FCEAEA] hover:bg-[#E73F3F] hover:text-[#FCEAEA] duration-200 px-3 p-1 rounded-md">
+          <button className="text-[#E73F3F] bg-[#FCEAEA] hover:bg-[#E73F3F] hover:text-[#FCEAEA] duration-200 px-3 p-1 rounded-md">
             رد
-          </span>
+          </button>
         </>
       );
     }
@@ -224,10 +212,8 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
       </tr>
       {rejectModal.isShow && (
         <RejectStudentModal
-          isBtnLoading={rejectModal.isBtnLoading}
-          isShow={rejectModal.isShow}
-          onCloseHandler={closeRejectModalHandler}
-          student={rejectModal.student}
+          rejectData={rejectModal}
+          closeModalHandler={onCloseModalHandler}
         />
       )}
       {isShowDescModal && (

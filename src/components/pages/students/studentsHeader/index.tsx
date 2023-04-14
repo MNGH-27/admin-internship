@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 //searchParams
 import { useCustomSearchParams } from "../../../../hooks/useCustomSearchParams";
@@ -47,6 +47,12 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
       id: 0,
       name: "",
     });
+
+  useEffect(() => {
+    if (searchParams.search && searchFieldContainer.current) {
+      searchFieldContainer.current.value = searchParams.search;
+    }
+  }, []);
 
   const onSetSearchParamsHandler = () => {
     /*

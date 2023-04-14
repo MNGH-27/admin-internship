@@ -133,14 +133,18 @@ const StudentInitialRegestration: React.FC = () => {
   };
 
   const genarateList = () => {
-    //check initial regestration not to be undefined
-    if (initialRegestration !== undefined)
+    if (!initialRegestration) return;
+
+    if (initialRegestration.length === 0) {
       return (
-        initialRegestration.length !== 0 &&
-        initialRegestration.map((item, index) => (
-          <StudentItem key={index} index={index} data={item} />
-        ))
+        <p className="text-red-600 text-lg font-semibold text-center">
+          لیست خالی است
+        </p>
       );
+    }
+    return initialRegestration.map((item, index) => (
+      <StudentItem key={index} index={index} data={item} />
+    ));
   };
 
   const loadingCard = () => {
