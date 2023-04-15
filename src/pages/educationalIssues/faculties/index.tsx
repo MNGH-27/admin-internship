@@ -1,13 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
 //react router dom
 import { useLocation } from "react-router-dom";
+
+//hooks
+import { useCustomSearchParams } from "../../../hooks/useCustomSearchParams";
 
 //cookies
 import { useCookies } from "react-cookie";
 
 //service
 import { GetAllEducationalFacultiesList } from "../../../services/educationalIssues";
+
+//SVG
+import { ReactComponent as SearchSvg } from "./../../../assets/icons/svg/search-normal.svg";
 
 //component
 import TableWrapper from "../../../components/common/tableWrapper";
@@ -40,7 +46,12 @@ const tableHeader = [
 ];
 
 const Faculties = () => {
+  const searchFeildContainer = useRef<HTMLInputElement | null>(null);
+
+  const [searchParams, setSearchParams] = useCustomSearchParams();
+
   const location = useLocation();
+
   const [cookies] = useCookies(["token"]);
 
   const [faculty, setFaculty] = useState<typeFacultyList>({
@@ -48,6 +59,14 @@ const Faculties = () => {
   });
 
   const [isShowAddModal, setIsShowAddModal] = useState(false);
+
+  //get searchFeild from searchParam in useEffect
+  useEffect(() => {
+    //check if searchFeildContainer is validate and if we have name property in searchParam
+    if (searchFeildContainer.current && searchParams.name) {
+      searchFeildContainer.current.value = searchParams.name;
+    }
+  }, []);
 
   //call on searchParam changes
   useEffect(() => {
@@ -112,9 +131,28 @@ const Faculties = () => {
           بازگشت
         </Link>
         <p className="text-3xl font-semibold">لیست دانشکده ها</p>
-        <div className="my-5 flex items-center justify-between">
-          <div>
-            <p>فیلتر . . . </p>
+        <div className="my-5 flex flex-col-reverse sm:flex-row items-start sm:items-center justify-between gap-y-5">
+          <div className="flex flex-col sm:flex-row items-start sm:items-end justify-start gap-5">
+            <div className="flex flex-col items-start gap-1">
+              <label className="text-lg font-medium">جستجو</label>
+              <input
+                ref={searchFeildContainer}
+                className="placeholder:text-sm p-2 border-2 focus:border-blue-200 duration-200 rounded-md outline-none w-full"
+                placeholder={"نام دانشکده . . ."}
+                type="text"
+              />
+            </div>
+            <button
+              onClick={() => {
+                setSearchParams({
+                  name: searchFeildContainer.current?.value,
+                });
+              }}
+              className="px-6 py-2 flex items-center justify-center gap-2 rounded-xl bg-[#2080F6] text-white border-2 border-[#2080F6] hover:bg-white hover:text-[#2080F6] duration-200"
+            >
+              <SearchSvg />
+              جستجو
+            </button>
           </div>
           <button
             onClick={() => setIsShowAddModal(true)}

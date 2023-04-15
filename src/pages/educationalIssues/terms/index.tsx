@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 //react router dom
 import { useLocation, Link } from "react-router-dom";
+
+//hooks
+import { useCustomSearchParams } from "../../../hooks/useCustomSearchParams";
 
 //cookies
 import { useCookies } from "react-cookie";
@@ -12,6 +15,10 @@ import { GetAllEducationalTerms } from "../../../services/educationalIssues";
 //component
 import TableWrapper from "../../../components/common/tableWrapper";
 import LoadingLayout from "../../../components/common/loadingLayout";
+
+//SVG
+import { ReactComponent as SearchSvg } from "./../../../assets/icons/svg/search-normal.svg";
+
 //interface
 import { typeMeta } from "../../../types";
 import { typeTermsListItem } from "../../../types/terms";
@@ -34,6 +41,10 @@ const tableHeader = [
 ];
 
 const Terms = () => {
+  const searchFeildContainer = useRef<HTMLInputElement | null>(null);
+
+  const [searchParams, setSearchParams] = useCustomSearchParams();
+
   const [cookies] = useCookies(["token"]);
 
   const location = useLocation();
@@ -43,6 +54,14 @@ const Terms = () => {
   const [terms, setTerms] = useState<typeTermData>({
     isLoading: false,
   });
+
+  //get searchFeild from searchParam in useEffect
+  useEffect(() => {
+    //check if searchFeildContainer is validate and if we have name property in searchParam
+    if (searchFeildContainer.current && searchParams.name) {
+      searchFeildContainer.current.value = searchParams.name;
+    }
+  }, []);
 
   //call on searchParam changes
   useEffect(() => {
@@ -107,9 +126,28 @@ const Terms = () => {
           بازگشت
         </Link>
         <p className="text-3xl font-semibold">لیست سر ترم ها</p>
-        <div className="my-5 flex items-center justify-between">
-          <div>
-            <p>فیلتر . . . </p>
+        <div className="my-5 flex flex-col-reverse sm:flex-row items-start sm:items-center justify-between gap-y-5">
+          <div className="flex flex-col sm:flex-row items-start sm:items-end justify-start gap-5">
+            <div className="flex flex-col items-start gap-1">
+              <label className="text-lg font-medium">جستجو</label>
+              <input
+                ref={searchFeildContainer}
+                className="placeholder:text-sm p-2 border-2 focus:border-blue-200 duration-200 rounded-md outline-none w-full"
+                placeholder={"نام سرترم . . ."}
+                type="text"
+              />
+            </div>
+            <button
+              onClick={() => {
+                setSearchParams({
+                  name: searchFeildContainer.current?.value,
+                });
+              }}
+              className="px-6 py-2 flex items-center justify-center gap-2 rounded-xl bg-[#2080F6] text-white border-2 border-[#2080F6] hover:bg-white hover:text-[#2080F6] duration-200"
+            >
+              <SearchSvg />
+              جستجو
+            </button>
           </div>
           <button
             onClick={() => setIsShowAddTerm(true)}
