@@ -179,6 +179,25 @@ export async function GetStudentPreRegestrationDescription({
   return apiCall;
 }
 
+export async function GetPreregestrationRejectInfo({
+  token,
+  student_id,
+}: {
+  token: string;
+  student_id: number;
+}): Promise<AxiosResponse<any>> {
+  const apiCall = await useFetch().get(
+    `${endPoint}/${student_id}/preReg/desc`,
+    {
+      headers: {
+        Authorization: `Bearer ` + token,
+      },
+    }
+  );
+
+  return apiCall;
+}
+
 //form
 export async function GetStudentsFormList({
   token,

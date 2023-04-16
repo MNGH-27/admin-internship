@@ -9,13 +9,14 @@ import { useCookies } from "react-cookie";
 //component
 import RejectStudentModal from "../rejectStudentModal";
 import LoadingButton from "../../../../common/loadingBtn";
+import ModalDescriptionPreregestration from "../descriptionModal";
 
 //service
 import {
   PutUnVarifyStudentPreRegestration,
   PutVarifyStudentPreRegestration,
+  GetPreregestrationRejectInfo,
 } from "../../../../../services/student";
-import ModalDescriptionPreregestration from "../descriptionModal";
 
 //hooks
 import { useCustomSearchParams } from "../../../../../hooks/useCustomSearchParams";
@@ -46,6 +47,7 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
 
   const [isVerifyBtnLoading, setIsVerifyBtnLoading] = useState(false);
 
+  const [isGettingRejectData, setIsGettingRejectData] = useState(false);
   const [rejectModal, setRejectModal] = useState<typeRejectModal>({
     isShow: false,
     isLoading: false,
@@ -68,8 +70,8 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
       return;
     }
 
-    //reqCondition is 1 , check detail be undefined
-    if (detail && status) {
+    //reqCondition is true , check detail be undefined
+    if (status === "verify" || (detail && status === "reject")) {
       //config rejectModal to loading button in modal and make modal open
       setRejectModal({
         isLoading: true,
@@ -77,7 +79,7 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
       });
 
       //check status of request
-      if (status === "reject") {
+      if (status === "reject" && detail) {
         //status is reject , call reject function
         await asyncRejectStudentHandler({ detail });
       } else {
@@ -131,6 +133,30 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
     setIsVerifyBtnLoading(false);
   };
 
+  const asynGetRejectInformation = async () => {
+    setIsGettingRejectData(true);
+    try {
+      const response = await GetPreregestrationRejectInfo({
+        token: cookies.token,
+        student_id: data.id,
+      });
+
+      if (response.status === 200) {
+        setRejectModal({
+          isShow: true,
+          isLoading: false,
+          desc: response.data.message,
+          hasDesc: true,
+        });
+      } else {
+        //an error occure
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setIsGettingRejectData(false);
+  };
+
   const studentItemAction = () => {
     if (+searchParams.verified === 0) {
       return (
@@ -165,16 +191,35 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
       );
     } else if (+searchParams.verified === 1) {
       return (
-        <span className="text-[#01A63E] bg-[#E8F6ED] hover:bg-[#01A63E] hover:text-[#E8F6ED] duration-200 px-3 p-1 rounded-md">
-          تایید شده{" "}
-        </span>
+        <>
+          <span className="text-[#01A63E] bg-[#E8F6ED] hover:bg-[#01A63E] hover:text-[#E8F6ED] duration-200 px-3 p-1 rounded-md">
+            تایید شده{" "}
+          </span>
+          <button
+            onClick={() =>
+              setRejectModal({
+                isShow: true,
+                isLoading: false,
+              })
+            }
+            className="text-[#E73F3F] bg-[#FCEAEA] hover:bg-[#E73F3F] hover:text-[#FCEAEA] duration-200 px-3 p-1 rounded-md"
+          >
+            رد
+          </button>
+        </>
       );
     } else {
       return (
         <>
-          <button className="text-[#F4A118] bg-[#FFF0D8] hover:bg-[#F4A118] hover:text-[#FFF0D8] duration-200 px-3 p-1 rounded-md">
-            توضیحات{" "}
-          </button>
+          <LoadingButton
+            onClickHandler={() => asynGetRejectInformation()}
+            mainBgColor="#FFF0D8"
+            hoverBgColor="#F4A118"
+            isLoading={isGettingRejectData}
+            paddingClass="px-3 py-1"
+          >
+            توضیحات
+          </LoadingButton>
           <button className="text-[#E73F3F] bg-[#FCEAEA] hover:bg-[#E73F3F] hover:text-[#FCEAEA] duration-200 px-3 p-1 rounded-md">
             رد
           </button>

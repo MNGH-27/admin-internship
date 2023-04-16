@@ -152,7 +152,7 @@ const Layout: React.FC<PropType> = () => {
                   className="absolute -z-10 w-full h-full bg-black/70 lg:hidden"
                 ></div>
                 <ul
-                  className={`flex flex-col lg:flex-row items-start gap-x-2 gap-y-5 z-10 bg-white w-1/2 lg:w-fit h-full py-10 px-5 lg:p-0`}
+                  className={`flex flex-col lg:flex-row items-start gap-x-2 gap-y-5 z-10 bg-white w-3/4 sm:w-1/2 lg:w-fit h-full py-10 px-5 lg:p-0`}
                 >
                   <button
                     className="lg:hidden"
@@ -162,17 +162,16 @@ const Layout: React.FC<PropType> = () => {
                   </button>
                   {headerRoute.map((route, index) => (
                     <li
-                      className="px-4 py-1 transition-all duration-200"
+                      className={`${
+                        findCurrentRoute(route)
+                          ? "bg-[#F6F7F8] text-[#101114] font-semibold rounded-md"
+                          : "bg-white text-[#8B91A7]"
+                      } w-full lg:w-fit px-4 py-3 lg:py-1 transition-all duration-200`}
                       key={index}
                     >
                       <Link
                         onClick={() => setIsSidebarOpen(false)}
                         to={route.path}
-                        className={`${
-                          findCurrentRoute(route)
-                            ? "bg-[#F6F7F8] text-[#101114] font-semibold px-4 py-1 rounded-md"
-                            : "bg-white text-[#8B91A7]"
-                        }`}
                       >
                         {route.value}
                       </Link>
