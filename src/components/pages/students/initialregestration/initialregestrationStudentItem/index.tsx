@@ -147,7 +147,7 @@ const StudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
   };
 
   const studentItemAction = () => {
-    if (searchParams.verified == 0) {
+    if (searchParams.verified == 1) {
       return (
         <>
           <LoadingButton
@@ -172,7 +172,7 @@ const StudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
           </button>
         </>
       );
-    } else if (searchParams.verified == 1) {
+    } else if (searchParams.verified == 2) {
       return (
         <>
           <span className="text-[#01A63E] bg-[#E8F6ED] hover:bg-[#01A63E] hover:text-[#E8F6ED] duration-200 px-3 p-1 rounded-md">

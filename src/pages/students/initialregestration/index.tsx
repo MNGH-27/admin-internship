@@ -89,11 +89,11 @@ const StudentInitialRegestration: React.FC = () => {
     //check status of verified status
     if (
       !searchParam.verified ||
-      searchParam.verified > 2 ||
-      searchParam.verified < 0
+      searchParam.verified > 3 ||
+      searchParam.verified < 1
     ) {
       //dont have verified , add verified to route and replace
-      navigate("/students/initialregestration?verified=0", { replace: true });
+      navigate("/students/initialregestration?verified=1", { replace: true });
       //exit from useEffect
       return;
     }

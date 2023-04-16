@@ -88,9 +88,9 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
           <div className="flex items-center gap-2">
             <span className="text-[#101114] text-lg sm:text-xl md:text-2xl font-semibold">
               {title}
-              {searchParams.verified == 0
+              {searchParams.verified == 1
                 ? ""
-                : searchParams.verified == 1
+                : searchParams.verified == 2
                 ? " دانشجویان تایید شده"
                 : " دانشجویان رد شده"}
             </span>
@@ -108,11 +108,11 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
         </div>
         <div className="flex items-center justify-center flex-col sm:flex-row gap-5 w-full sm:w-fit">
           {hasSubLink &&
-            (searchParams.verified != 0 ? (
+            (searchParams.verified != 1 ? (
               <button
                 onClick={() =>
                   setSearchParams({
-                    verified: 0,
+                    verified: 1,
                   })
                 }
                 className="py-3 px-5 rounded-md flex items-center justify-start gap-2 text-white bg-[#2080F6] border-2 border-[#2080F6] hover:bg-white hover:text-[#2080F6] duration-200"
@@ -125,7 +125,7 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
                 <button
                   onClick={() =>
                     setSearchParams({
-                      verified: 1,
+                      verified: 2,
                     })
                   }
                   className="py-3 px-5 rounded-md flex items-center justify-start gap-2 text-white bg-[#2080F6] border-2 border-[#2080F6] hover:bg-white hover:text-[#2080F6] duration-200"
@@ -136,7 +136,7 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
                 <button
                   onClick={() =>
                     setSearchParams({
-                      verified: 2,
+                      verified: 3,
                     })
                   }
                   className="py-3 px-5 rounded-md flex items-center justify-start gap-2 shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)] text-[#222124] border-2 border-[#E6E6E6] hover:bg-[#E6E6E6] duration-200"

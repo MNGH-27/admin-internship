@@ -187,7 +187,7 @@ export async function GetPreregestrationRejectInfo({
   student_id: number;
 }): Promise<AxiosResponse<any>> {
   const apiCall = await useFetch().get(
-    `${endPoint}/${student_id}/preReg/desc`,
+    `${endPoint}/${student_id}/preReg/rejectionDescription`,
     {
       headers: {
         Authorization: `Bearer ` + token,

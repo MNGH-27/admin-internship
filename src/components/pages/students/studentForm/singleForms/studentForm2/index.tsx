@@ -132,20 +132,22 @@ const StudentForm2: React.FC<studentForm2Props> = ({ data }) => {
   };
 
   const generateStudentPerformance = () => {
-    return data.reports.map((reportsItem, index) => {
-      return (
-        <tr
-          key={index}
-          className="w-full text-center py-5 grid grid-cols-12 text-[#5F5F61] border-b-2 border-[#F6F6F6]"
-        >
-          <td className="col-span-2 ">{index + 1}</td>
-          <td className="col-span-2">
-            {moment(reportsItem.data).format("jYYYY/jMM/jDD")}
-          </td>
-          <td className="col-span-8 truncate">{reportsItem.desc}</td>
-        </tr>
-      );
-    });
+    return <></>;
+
+    // return data.reports.map((reportsItem, index) => {
+    //   return (
+    //     <tr
+    //       key={index}
+    //       className="w-full text-center py-5 grid grid-cols-12 text-[#5F5F61] border-b-2 border-[#F6F6F6]"
+    //     >
+    //       <td className="col-span-2 ">{index + 1}</td>
+    //       <td className="col-span-2">
+    //         {moment(reportsItem.data).format("jYYYY/jMM/jDD")}
+    //       </td>
+    //       <td className="col-span-8 truncate">{reportsItem.desc}</td>
+    //     </tr>
+    //   );
+    // });
   };
 
   return (
