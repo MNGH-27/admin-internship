@@ -23,7 +23,7 @@ type typeForm_2Student = {
 type typeForm_2ReportsItem = {
   id: number;
   desc: string;
-  data: Date;
+  date: Date;
 };
 
 type typeForm_2IndustrySupervisor = {

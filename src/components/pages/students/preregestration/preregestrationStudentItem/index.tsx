@@ -168,7 +168,7 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
             isLoading={isVerifyBtnLoading}
             paddingClass="px-3 py-1"
           >
-            تایید{" "}
+            تایید
           </LoadingButton>
           <button
             onClick={() =>
@@ -196,6 +196,12 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
             تایید شده{" "}
           </span>
           <button
+            onClick={() => setIsShowDescModal(true)}
+            className="text-[#F4A118] bg-[#FFF0D8] hover:bg-[#F4A118] hover:text-white px-3 py-1 rounded-md duration-200 "
+          >
+            توضیحات{" "}
+          </button>
+          <button
             onClick={() =>
               setRejectModal({
                 isShow: true,
@@ -211,18 +217,21 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
     } else {
       return (
         <>
+          <button
+            onClick={() => setIsShowDescModal(true)}
+            className="text-[#F4A118] bg-[#FFF0D8] hover:bg-[#F4A118] hover:text-white px-3 py-1 rounded-md duration-200 "
+          >
+            توضیحات{" "}
+          </button>
           <LoadingButton
             onClickHandler={() => asynGetRejectInformation()}
-            mainBgColor="#FFF0D8"
-            hoverBgColor="#F4A118"
+            mainBgColor="#E73F3F"
+            hoverBgColor="#FCEAEA"
             isLoading={isGettingRejectData}
             paddingClass="px-3 py-1"
           >
-            توضیحات
-          </LoadingButton>
-          <button className="text-[#E73F3F] bg-[#FCEAEA] hover:bg-[#E73F3F] hover:text-[#FCEAEA] duration-200 px-3 p-1 rounded-md">
             رد
-          </button>
+          </LoadingButton>
         </>
       );
     }

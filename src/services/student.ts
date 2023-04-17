@@ -253,14 +253,18 @@ export async function RejectSingleForm({
   token,
   formStage,
   id,
+  rejReason,
 }: {
   token: string;
   formStage: string;
   id: number;
+  rejReason?: string;
 }): Promise<AxiosResponse<any>> {
   const apiCall = await useFetch().put(
     `${endPoint}/forms/${id}/${formStage}/unverify`,
-    {},
+    {
+      rejection_reason: rejReason,
+    },
     {
       headers: {
         Authorization: `Bearer ` + token,

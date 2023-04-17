@@ -142,14 +142,6 @@ const SingleForm: React.FC = () => {
         />
         {generateFormHandler()}
       </LoadingLayout>
-      {/* {isShowPDFModal && form.data && (
-        <FormPDF
-          isShowModal={isShowPDFModal}
-          onCloseModal={() => setIsShowPdfModal(false)}
-          data={form.data}
-          formStage={searchParam.formType}
-        />
-      )} */}
     </>
   );
 };

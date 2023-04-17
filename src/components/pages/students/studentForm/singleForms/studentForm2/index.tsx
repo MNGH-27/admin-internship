@@ -1,15 +1,24 @@
 import React, { useState } from "react";
+
+//react toastify
+import { toast } from "react-toastify";
+
 //moment
 import moment from "moment-jalaali";
+
 //react router dom
 import { useNavigate } from "react-router-dom";
+
 //component
 import TableWrapper from "../../../../../common/tableWrapper";
 import LoadingButton from "../../../../../common/loadingBtn";
+import RejectFormModal from "../rejectFormModal";
 //cookie
 import { useCookies } from "react-cookie";
+
 //hooks
 import { useCustomSearchParams } from "../../../../../../hooks/useCustomSearchParams";
+
 //service
 import {
   RejectSingleForm,
@@ -18,7 +27,6 @@ import {
 
 //interface
 import { typeForm_2 } from "../../../../../../types/studentForm";
-import { toast } from "react-toastify";
 
 //interface
 interface studentForm2Props {
@@ -56,23 +64,39 @@ const studentPerformanceHeader = [
 ];
 const StudentForm2: React.FC<studentForm2Props> = ({ data }) => {
   moment.loadPersian({ usePersianDigits: true });
+
   //navigate
   const navigate = useNavigate();
+
   //cookie
   const [cookies] = useCookies(["token"]);
+
   //useSearchParams (custome hook)
   const [searchParams] = useCustomSearchParams();
 
-  const [rejectBtnLoading, setRejectBtnLoading] = useState(false);
+  const [rejectModal, setRejectModal] = useState<{
+    isShow: boolean;
+    isBtnLoading: boolean;
+    hasDesc?: boolean;
+    desc?: string;
+  }>({
+    isShow: false,
+    isBtnLoading: false,
+  });
   const [verifyBtnLoading, setVerifyBtnLoading] = useState(false);
 
-  const asyncRejectStudentForm2 = async () => {
-    setRejectBtnLoading(true);
+  const asyncRejectStudentForm2 = async (rejReason: string) => {
+    setRejectModal({
+      isShow: true,
+      isBtnLoading: true,
+    });
+
     try {
       const response = await RejectSingleForm({
         token: cookies.token,
         formStage: "form2",
         id: searchParams.studentId,
+        rejReason,
       });
       if (response.status === 200) {
         toast.success("دانشجو با موفقیت رد شد");
@@ -83,7 +107,11 @@ const StudentForm2: React.FC<studentForm2Props> = ({ data }) => {
     } catch (error) {
       console.log("error");
     }
-    setRejectBtnLoading(false);
+
+    setRejectModal({
+      isShow: false,
+      isBtnLoading: false,
+    });
   };
 
   const asyncVerifyStudentForm2 = async () => {
@@ -104,6 +132,21 @@ const StudentForm2: React.FC<studentForm2Props> = ({ data }) => {
       console.log("error");
     }
     setVerifyBtnLoading(false);
+  };
+
+  const onCloseRejectFormModal = (reqCondition?: boolean, desc?: string) => {
+    if (!reqCondition) {
+      setRejectModal({
+        isShow: false,
+        isBtnLoading: false,
+      });
+      return;
+    }
+
+    //check if desc is defined
+    if (desc) {
+      asyncRejectStudentForm2(desc);
+    }
   };
 
   const generateSchaduleAttandance = () => {
@@ -132,22 +175,20 @@ const StudentForm2: React.FC<studentForm2Props> = ({ data }) => {
   };
 
   const generateStudentPerformance = () => {
-    return <></>;
-
-    // return data.reports.map((reportsItem, index) => {
-    //   return (
-    //     <tr
-    //       key={index}
-    //       className="w-full text-center py-5 grid grid-cols-12 text-[#5F5F61] border-b-2 border-[#F6F6F6]"
-    //     >
-    //       <td className="col-span-2 ">{index + 1}</td>
-    //       <td className="col-span-2">
-    //         {moment(reportsItem.data).format("jYYYY/jMM/jDD")}
-    //       </td>
-    //       <td className="col-span-8 truncate">{reportsItem.desc}</td>
-    //     </tr>
-    //   );
-    // });
+    return data.reports.map((reportsItem, index) => {
+      return (
+        <tr
+          key={index}
+          className="w-full text-center py-5 grid grid-cols-12 text-[#5F5F61] border-b-2 border-[#F6F6F6]"
+        >
+          <td className="col-span-2 ">{index + 1}</td>
+          <td className="col-span-2">
+            {moment(reportsItem.date).format("jYYYY/jMM/jDD")}
+          </td>
+          <td className="col-span-8 truncate">{reportsItem.desc}</td>
+        </tr>
+      );
+    });
   };
 
   return (
@@ -258,25 +299,45 @@ const StudentForm2: React.FC<studentForm2Props> = ({ data }) => {
       </div>
 
       <div className="flex items-center justify-end gap-5 w-full mb-10">
-        <LoadingButton
-          isLoading={rejectBtnLoading}
-          onClickHandler={asyncRejectStudentForm2}
-          hoverBgColor="#E73F3F"
-          mainBgColor="#FCEAEA"
-          paddingClass="px-6 py-3"
-        >
-          رد فرم شماره 2
-        </LoadingButton>
-        <LoadingButton
-          isLoading={verifyBtnLoading}
-          onClickHandler={asyncVerifyStudentForm2}
-          mainBgColor="#EBF1FD"
-          hoverBgColor="#2080F6"
-          paddingClass="px-6 py-3"
-        >
-          تایید فرم شماره 2
-        </LoadingButton>
+        {data.status === "3" ? (
+          <span className="text-red-700 font-medium">
+            دانشجو در وضعیت رد شده قرار دارد
+          </span>
+        ) : (
+          <button
+            onClick={() => {
+              setRejectModal({
+                isShow: true,
+                isBtnLoading: false,
+              });
+            }}
+            className="px-6 py-3 rounded-lg bg-[#FCEAEA] hover:bg-[#E73F3F] text-[#E73F3F] hover:text-[#FCEAEA] border-2 border-[#FCEAEA] duration-200"
+          >
+            رد فرم شماره 2
+          </button>
+        )}
+        {data.status === "2" ? (
+          <span className="text-green-700 font-medium">
+            دانشجو در وضعیت تایید شده قرار دارد
+          </span>
+        ) : (
+          <LoadingButton
+            isLoading={verifyBtnLoading}
+            onClickHandler={asyncVerifyStudentForm2}
+            mainBgColor="#EBF1FD"
+            hoverBgColor="#2080F6"
+            paddingClass="px-6 py-3"
+          >
+            تایید فرم شماره 2
+          </LoadingButton>
+        )}
       </div>
+      {rejectModal.isShow && (
+        <RejectFormModal
+          closeModalHandler={onCloseRejectFormModal}
+          rejectData={rejectModal}
+        />
+      )}
     </>
   );
 };
