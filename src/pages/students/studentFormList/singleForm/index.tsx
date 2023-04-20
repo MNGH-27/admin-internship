@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+
+//react-pdf
+import ReactToPrint from "react-to-print";
 
 //hooks
 import { useCustomSearchParams } from "../../../../hooks/useCustomSearchParams";
@@ -30,7 +33,7 @@ import {
   typeFormWeeklyReport,
   typeFormFinishInternship,
 } from "../../../../types/studentForm";
-import { Link } from "react-router-dom";
+import { Form, Link } from "react-router-dom";
 
 const SingleForm: React.FC = () => {
   //cookie
@@ -39,11 +42,14 @@ const SingleForm: React.FC = () => {
   //custom useSearchParams
   const [searchParam] = useCustomSearchParams();
 
+  //useRef
+  const formContainer = useRef<HTMLDivElement>(null);
+
   const [form, setForm] = useState<typeStudentForm>({
     isLoading: false,
     hasHeader: false,
   });
-  // const [isShowPDFModal, setIsShowPdfModal] = useState(false);
+  const [isShowPDFModal, setIsShowPdfModal] = useState(false);
 
   useEffect(() => {
     if (
@@ -135,6 +141,7 @@ const SingleForm: React.FC = () => {
 
   return (
     <>
+      <button onClick={() => setIsShowPdfModal(true)}>نشان دادن pdf</button>
       <LoadingLayout loadingClass="my-32" isLoading={form.isLoading}>
         <SingleFormContextHeader
           formStatus={form.data?.status}
@@ -142,6 +149,12 @@ const SingleForm: React.FC = () => {
         />
         {generateFormHandler()}
       </LoadingLayout>
+      {formContainer && (
+        <ReactToPrint
+          trigger={() => <button>Print this!</button>}
+          content={() => formContainer.current}
+        />
+      )}
     </>
   );
 };
