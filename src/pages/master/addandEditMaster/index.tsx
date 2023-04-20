@@ -149,7 +149,13 @@ const AddAndEditMaster = () => {
         singleMasterData.faculty["name"] =
           singleMasterData.faculty["faculty_name"];
         delete singleMasterData.faculty["faculty_name"];
+
+        //remove extra data (created_at and updated_at)
+        delete singleMasterData.faculty["created_at"];
+        delete singleMasterData.faculty["updated_at"];
         ////
+
+        console.log("singleMasterData : ", singleMasterData);
 
         setDataSchema({
           ...singleMasterData,
@@ -249,7 +255,7 @@ const AddAndEditMaster = () => {
   };
 
   return (
-    <div>
+    <div className="mb-10">
       <div className="flex flex-col items-start w-full gap-3 my-16">
         <Link
           to={"/teachers"}
