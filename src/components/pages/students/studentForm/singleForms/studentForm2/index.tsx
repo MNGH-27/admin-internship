@@ -272,6 +272,7 @@ const StudentForm2: React.FC<studentForm2Props> = ({ data }) => {
           </div>
         </div>
       </div>
+
       <div className="w-full flex flex-col items-start gap-10 mb-16">
         <span className="text-lg font-semibold text-[#101114]">
           برنامه زمانی حضور در محل کارآموزی
@@ -298,24 +299,27 @@ const StudentForm2: React.FC<studentForm2Props> = ({ data }) => {
         </TableWrapper>
       </div>
 
-      <div className="flex items-center justify-end gap-5 w-full mb-10">
-        {data.status === "3" ? (
-          <span className="text-red-700 font-medium">
-            دانشجو در وضعیت رد شده قرار دارد
-          </span>
-        ) : (
-          <button
-            onClick={() => {
+      <div className="flex flex-col sm:flex-row items-center justify-end gap-5 w-full mb-10">
+        <button
+          onClick={() => {
+            if (data.form2.rejection_reason) {
+              setRejectModal({
+                isShow: true,
+                isBtnLoading: false,
+                hasDesc: true,
+                desc: data.form2.rejection_reason,
+              });
+            } else {
               setRejectModal({
                 isShow: true,
                 isBtnLoading: false,
               });
-            }}
-            className="px-6 py-3 rounded-lg bg-[#FCEAEA] hover:bg-[#E73F3F] text-[#E73F3F] hover:text-[#FCEAEA] border-2 border-[#FCEAEA] duration-200"
-          >
-            رد فرم شماره 2
-          </button>
-        )}
+            }
+          }}
+          className="px-6 py-3 rounded-lg bg-[#FCEAEA] hover:bg-[#E73F3F] text-[#E73F3F] hover:text-[#FCEAEA] border-2 border-[#FCEAEA] duration-200"
+        >
+          {data.status === "3" ? "مشاهده دلیل رد" : "رد فرم شماره 2"}
+        </button>
         {data.status === "2" ? (
           <span className="text-green-700 font-medium">
             دانشجو در وضعیت تایید شده قرار دارد
@@ -335,6 +339,7 @@ const StudentForm2: React.FC<studentForm2Props> = ({ data }) => {
       {rejectModal.isShow && (
         <RejectFormModal
           closeModalHandler={onCloseRejectFormModal}
+          stNumber={data.student.student_number}
           rejectData={rejectModal}
         />
       )}

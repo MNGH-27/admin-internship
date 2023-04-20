@@ -38,6 +38,7 @@ export interface typeForm_2 {
     introduction_letter_number: number;
     internship_start_date: Date;
     schedule_table: typeForm_2ScheduleTable[];
+    rejection_reason: string | null;
   };
   industry_supervisor: typeForm_2IndustrySupervisor;
   reports: typeForm_2ReportsItem[];

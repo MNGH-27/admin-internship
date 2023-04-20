@@ -18,11 +18,13 @@ interface typeRejectModal {
 interface rejectStudentModalProps {
   closeModalHandler: (reqCondition?: boolean, detail?: string) => void;
   rejectData: typeRejectModal;
+  stNumber: number;
 }
 
 const RejectFormModal: React.FC<rejectStudentModalProps> = ({
   closeModalHandler,
   rejectData,
+  stNumber,
 }) => {
   const textboxContainer = useRef<HTMLTextAreaElement>(null);
 
@@ -42,7 +44,7 @@ const RejectFormModal: React.FC<rejectStudentModalProps> = ({
           رد کردن دانشجو برای فرم شماره 2
         </span>
         <span className="text-[#5F5F61] text-xs">
-          آیا از رد کردن دانشجو به شماره دانشجویی 3981231008 مطمئن هستید؟
+          آیا از رد کردن دانشجو به شماره دانشجویی {stNumber} مطمئن هستید؟
         </span>
         <div className="flex flex-col items-start justify-center gap-2 w-full my-3">
           <label className="text-[#5F5F61] text-xs">علت رد دانشجو</label>
@@ -55,17 +57,19 @@ const RejectFormModal: React.FC<rejectStudentModalProps> = ({
           />
         </div>
         <div className="flex justify-end gap-2 w-full">
-          <LoadingButton
-            onClickHandler={() =>
-              closeModalHandler(true, textboxContainer.current?.value)
-            }
-            paddingClass="px-4 py-2"
-            mainBgColor="#FCEAEA"
-            hoverBgColor="#E73F3F"
-            isLoading={rejectData.isBtnLoading}
-          >
-            رد کردن
-          </LoadingButton>
+          {!rejectData.hasDesc && (
+            <LoadingButton
+              onClickHandler={() =>
+                closeModalHandler(true, textboxContainer.current?.value)
+              }
+              paddingClass="px-4 py-2"
+              mainBgColor="#FCEAEA"
+              hoverBgColor="#E73F3F"
+              isLoading={rejectData.isBtnLoading}
+            >
+              رد کردن
+            </LoadingButton>
+          )}
           <button
             onClick={() => closeModalHandler()}
             className="shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)] px-4 py-2 rounded-md border-2 border-[#E6E6E6] hover:bg-[#E6E6E6] duration-200"
