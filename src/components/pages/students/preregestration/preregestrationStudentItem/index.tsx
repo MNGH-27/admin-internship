@@ -267,6 +267,7 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
       {rejectModal.isShow && (
         <RejectStudentModal
           rejectData={rejectModal}
+          stNumber={data.student_number}
           closeModalHandler={onCloseModalHandler}
         />
       )}
