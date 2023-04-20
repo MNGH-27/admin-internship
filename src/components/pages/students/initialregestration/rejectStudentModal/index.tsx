@@ -22,11 +22,13 @@ interface rejectStudentModalProps {
     status?: "reject" | "verify"
   ) => void;
   rejectData: typeRejectModal;
+  stNumber: number;
 }
 
 const RejectStudentModal: React.FC<rejectStudentModalProps> = ({
   closeModalHandler,
   rejectData,
+  stNumber,
 }) => {
   const textboxContainer = useRef<HTMLTextAreaElement>(null);
 
@@ -46,7 +48,7 @@ const RejectStudentModal: React.FC<rejectStudentModalProps> = ({
           رد کردن دانشجو
         </span>
         <span className="text-[#5F5F61] text-xs">
-          آیا از رد کردن دانشجو به شماره دانشجویی 3981231008 مطمئن هستید؟
+          آیا از رد کردن دانشجو به شماره دانشجویی {stNumber} مطمئن هستید؟
         </span>
         <div className="flex flex-col items-start justify-center gap-2 w-full my-3">
           <label className="text-[#5F5F61] text-xs">علت رد دانشجو</label>

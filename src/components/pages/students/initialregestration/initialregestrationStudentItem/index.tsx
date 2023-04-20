@@ -227,6 +227,7 @@ const StudentItem: React.FC<StudetItemProps> = ({ data, index }) => {
       </tr>
       {rejectModal?.isShow && (
         <RejectStudentModal
+          stNumber={data.student_number}
           rejectData={rejectModal}
           closeModalHandler={onCloseModalHandler}
         />

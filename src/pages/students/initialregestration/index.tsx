@@ -82,10 +82,6 @@ const StudentInitialRegestration: React.FC = () => {
 
   //call on searchParam changes
   useEffect(() => {
-    /**
-     * !check searchParams to be correct
-     * *searchParam should have verified
-     */
     //check status of verified status
     if (
       !searchParam.verified ||
