@@ -2,25 +2,38 @@ import React, { useState } from "react";
 
 //react-router-dom
 import { useNavigate } from "react-router-dom";
+
 //cookies
 import { useCookies } from "react-cookie";
+
 //component
 import RejectStudentModal from "../rejectStudentModal";
 import LoadingButton from "../../../../common/loadingBtn";
+import ModalDescriptionPreregestration from "../descriptionModal";
+
 //service
 import {
   PutUnVarifyStudentPreRegestration,
   PutVarifyStudentPreRegestration,
+  GetPreregestrationRejectInfo,
 } from "../../../../../services/student";
-import ModalDescriptionPreregestration from "../descriptionModal";
+
 //hooks
 import { useCustomSearchParams } from "../../../../../hooks/useCustomSearchParams";
+
 //interface
 import { typeSinglePreRegestration } from "../../../../../types";
 import { toast } from "react-toastify";
 interface StudetItemProps {
   index: number;
   data: typeSinglePreRegestration;
+}
+
+interface typeRejectModal {
+  isShow: boolean;
+  isLoading: boolean;
+  hasDesc?: boolean;
+  desc?: string;
 }
 
 const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
@@ -34,61 +47,59 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
 
   const [isVerifyBtnLoading, setIsVerifyBtnLoading] = useState(false);
 
-  const [rejectModal, setRejectModal] = useState<{
-    isShow: boolean;
-    student: {
-      id: number;
-      studentNumber: number;
-    };
-    isBtnLoading: boolean;
-  }>({
+  const [isGettingRejectData, setIsGettingRejectData] = useState(false);
+  const [rejectModal, setRejectModal] = useState<typeRejectModal>({
     isShow: false,
-    student: {
-      id: 0,
-      studentNumber: 0,
-    },
-    isBtnLoading: false,
+    isLoading: false,
   });
 
   const [isShowDescModal, setIsShowDescModal] = useState(false);
 
-  const closeRejectModalHandler = (
+  const onCloseModalHandler = async (
     reqCondition: boolean = false,
-    data?: { id: number; desc: string }
+    detail?: string,
+    status?: "reject" | "verify"
   ) => {
+    //check reqConditon
     if (!reqCondition) {
+      //reqCondition is false => just closing modal
       setRejectModal({
         isShow: false,
-        student: {
-          id: 0,
-          studentNumber: 0,
-        },
-        isBtnLoading: false,
+        isLoading: false,
       });
       return;
     }
 
-    if (!data) return;
+    //reqCondition is true , check detail be undefined
+    if (status === "verify" || (detail && status === "reject")) {
+      //config rejectModal to loading button in modal and make modal open
+      setRejectModal({
+        isLoading: true,
+        isShow: true,
+      });
 
-    asyncRejectStudentHandler({ desc: data.desc, id: data.id });
+      //check status of request
+      if (status === "reject" && detail) {
+        //status is reject , call reject function
+        await asyncRejectStudentHandler({ detail });
+      } else {
+        //status is verify , vall verify function
+        await asyncVerifyStudent();
+      }
+
+      setRejectModal({
+        isShow: false,
+        isLoading: false,
+      });
+    }
   };
 
-  const asyncRejectStudentHandler = async ({
-    desc,
-    id,
-  }: {
-    desc: string;
-    id: number;
-  }) => {
-    setRejectModal((prevState) => ({
-      ...prevState,
-      isBtnLoading: true,
-    }));
+  const asyncRejectStudentHandler = async ({ detail }: { detail: string }) => {
     try {
       const response = await PutUnVarifyStudentPreRegestration({
         token: cookies.token,
-        detail: desc,
-        student_id: id,
+        detail,
+        student_id: data.id,
       });
 
       if (response.status === 200) {
@@ -100,14 +111,6 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
     } catch (error) {
       console.log(error);
     }
-    setRejectModal({
-      isShow: false,
-      student: {
-        id: 0,
-        studentNumber: 0,
-      },
-      isBtnLoading: false,
-    });
   };
 
   const asyncVerifyStudent = async () => {
@@ -130,8 +133,32 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
     setIsVerifyBtnLoading(false);
   };
 
+  const asynGetRejectInformation = async () => {
+    setIsGettingRejectData(true);
+    try {
+      const response = await GetPreregestrationRejectInfo({
+        token: cookies.token,
+        student_id: data.id,
+      });
+
+      if (response.status === 200) {
+        setRejectModal({
+          isShow: true,
+          isLoading: false,
+          desc: response.data.message,
+          hasDesc: true,
+        });
+      } else {
+        //an error occure
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setIsGettingRejectData(false);
+  };
+
   const studentItemAction = () => {
-    if (+searchParams.verified === 0) {
+    if (+searchParams.verified === 1) {
       return (
         <>
           <LoadingButton
@@ -141,17 +168,13 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
             isLoading={isVerifyBtnLoading}
             paddingClass="px-3 py-1"
           >
-            تایید{" "}
+            تایید
           </LoadingButton>
           <button
             onClick={() =>
               setRejectModal({
                 isShow: true,
-                student: {
-                  id: data.id,
-                  studentNumber: data.student_number,
-                },
-                isBtnLoading: false,
+                isLoading: false,
               })
             }
             className="text-[#E73F3F] bg-[#FCEAEA] hover:bg-[#E73F3F] hover:text-[#FCEAEA] duration-200 px-3 p-1 rounded-md"
@@ -166,21 +189,49 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
           </button>
         </>
       );
-    } else if (+searchParams.verified === 1) {
+    } else if (+searchParams.verified === 2) {
       return (
-        <span className="text-[#01A63E] bg-[#E8F6ED] hover:bg-[#01A63E] hover:text-[#E8F6ED] duration-200 px-3 p-1 rounded-md">
-          تایید شده{" "}
-        </span>
+        <>
+          <span className="text-[#01A63E] bg-[#E8F6ED] hover:bg-[#01A63E] hover:text-[#E8F6ED] duration-200 px-3 p-1 rounded-md">
+            تایید شده{" "}
+          </span>
+          <button
+            onClick={() => setIsShowDescModal(true)}
+            className="text-[#F4A118] bg-[#FFF0D8] hover:bg-[#F4A118] hover:text-white px-3 py-1 rounded-md duration-200 "
+          >
+            توضیحات{" "}
+          </button>
+          <button
+            onClick={() =>
+              setRejectModal({
+                isShow: true,
+                isLoading: false,
+              })
+            }
+            className="text-[#E73F3F] bg-[#FCEAEA] hover:bg-[#E73F3F] hover:text-[#FCEAEA] duration-200 px-3 p-1 rounded-md"
+          >
+            رد
+          </button>
+        </>
       );
     } else {
       return (
         <>
-          <button className="text-[#F4A118] bg-[#FFF0D8] hover:bg-[#F4A118] hover:text-[#FFF0D8] duration-200 px-3 p-1 rounded-md">
+          <button
+            onClick={() => setIsShowDescModal(true)}
+            className="text-[#F4A118] bg-[#FFF0D8] hover:bg-[#F4A118] hover:text-white px-3 py-1 rounded-md duration-200 "
+          >
             توضیحات{" "}
           </button>
-          <span className="text-[#E73F3F] bg-[#FCEAEA] hover:bg-[#E73F3F] hover:text-[#FCEAEA] duration-200 px-3 p-1 rounded-md">
+          <LoadingButton
+            onClickHandler={() => asynGetRejectInformation()}
+            mainBgColor="#E73F3F"
+            hoverBgColor="#FCEAEA"
+            isLoading={isGettingRejectData}
+            paddingClass="px-3 py-1"
+          >
             رد
-          </span>
+          </LoadingButton>
         </>
       );
     }
@@ -215,10 +266,9 @@ const PreregestrationStudentItem: React.FC<StudetItemProps> = ({
       </tr>
       {rejectModal.isShow && (
         <RejectStudentModal
-          isBtnLoading={rejectModal.isBtnLoading}
-          isShow={rejectModal.isShow}
-          onCloseHandler={closeRejectModalHandler}
-          student={rejectModal.student}
+          rejectData={rejectModal}
+          stNumber={data.student_number}
+          closeModalHandler={onCloseModalHandler}
         />
       )}
       {isShowDescModal && (

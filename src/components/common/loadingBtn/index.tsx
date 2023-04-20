@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 //interface
 interface loadingButtonProps {
@@ -22,11 +22,33 @@ const LoadingButton: React.FC<loadingButtonProps> = ({
   paddingClass,
   buttonClass,
 }) => {
+  const [isHover, setIsHover] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHover(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHover(false);
+  };
+
+  const btnUnhover = {
+    color: hoverBgColor,
+    backgroundColor: mainBgColor,
+  };
+
+  const btnInHover = {
+    color: mainBgColor,
+    backgroundColor: hoverBgColor,
+  };
+
   return (
     <button
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       onClick={() => isLoading === false && onClickHandler()}
-      className={`${buttonClass} 
-        text-[${hoverBgColor}] bg-[${mainBgColor}] hover:bg-[${hoverBgColor}] hover:text-[${mainBgColor}] 
+      style={isHover ? btnInHover : btnUnhover}
+      className={`${buttonClass}  
         border border-[${mainBgColor}]
         duration-200 rounded-md
         ${paddingClass}

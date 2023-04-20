@@ -1,6 +1,7 @@
-import React from "react";
-//pdf
-import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
+import React, { useRef } from "react";
+
+//react to pdf
+import ReactToPrint from "react-to-print";
 
 //component
 import ModalWrapper from "../../../../common/modalWrapper";
@@ -12,7 +13,7 @@ interface Form2PDFProps {
   isShowModal: boolean;
   onCloseModal: () => void;
   formStage: string;
-  data: typeForm_2;
+  data: any;
 }
 
 const FormPDF: React.FC<Form2PDFProps> = ({
@@ -21,19 +22,17 @@ const FormPDF: React.FC<Form2PDFProps> = ({
   formStage,
   data,
 }) => {
+  const formContainer = useRef<HTMLDivElement>(null);
+
   return (
     <ModalWrapper isShowedModal={isShowModal} onCloseModal={onCloseModal}>
-      <PDFViewer>
-        <Form2PDF data={data} />
-      </PDFViewer>
-      <PDFDownloadLink
-        document={<Form2PDF data={data} />}
-        fileName="somename.pdf"
-      >
-        {({ blob, url, loading, error }) =>
-          loading ? `Loading document... ${error}  ` : "Download now!"
-        }
-      </PDFDownloadLink>
+      <Form2PDF data={data} />
+      {formContainer && (
+        <ReactToPrint
+          trigger={() => <button>Print this!</button>}
+          content={() => formContainer.current}
+        />
+      )}
     </ModalWrapper>
   );
 };

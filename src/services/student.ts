@@ -179,6 +179,25 @@ export async function GetStudentPreRegestrationDescription({
   return apiCall;
 }
 
+export async function GetPreregestrationRejectInfo({
+  token,
+  student_id,
+}: {
+  token: string;
+  student_id: number;
+}): Promise<AxiosResponse<any>> {
+  const apiCall = await useFetch().get(
+    `${endPoint}/${student_id}/preReg/rejectionDescription`,
+    {
+      headers: {
+        Authorization: `Bearer ` + token,
+      },
+    }
+  );
+
+  return apiCall;
+}
+
 //form
 export async function GetStudentsFormList({
   token,
@@ -234,14 +253,18 @@ export async function RejectSingleForm({
   token,
   formStage,
   id,
+  rejReason,
 }: {
   token: string;
   formStage: string;
   id: number;
+  rejReason?: string;
 }): Promise<AxiosResponse<any>> {
   const apiCall = await useFetch().put(
     `${endPoint}/forms/${id}/${formStage}/unverify`,
-    {},
+    {
+      rejection_reason: rejReason,
+    },
     {
       headers: {
         Authorization: `Bearer ` + token,

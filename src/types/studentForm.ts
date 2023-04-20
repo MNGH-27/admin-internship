@@ -23,7 +23,7 @@ type typeForm_2Student = {
 type typeForm_2ReportsItem = {
   id: number;
   desc: string;
-  data: Date;
+  date: Date;
 };
 
 type typeForm_2IndustrySupervisor = {
@@ -38,6 +38,7 @@ export interface typeForm_2 {
     introduction_letter_number: number;
     internship_start_date: Date;
     schedule_table: typeForm_2ScheduleTable[];
+    rejection_reason: string | null;
   };
   industry_supervisor: typeForm_2IndustrySupervisor;
   reports: typeForm_2ReportsItem[];

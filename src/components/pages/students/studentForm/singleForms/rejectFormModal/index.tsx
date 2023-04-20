@@ -1,31 +1,27 @@
 import React, { useEffect, useRef } from "react";
 
 //component
-import ModalWrapper from "../../../../common/modalWrapper";
-import LoadingButton from "../../../../common/loadingBtn";
+import ModalWrapper from "../../../../../common/modalWrapper";
+import LoadingButton from "../../../../../common/loadingBtn";
+
 //svg
-import { ReactComponent as CloseSvg } from "./../../../../../assets/icons/svg/close-circle.svg";
+import { ReactComponent as CloseSvg } from "./../../../../../../assets/icons/svg/close-circle.svg";
 
 //interface
-
 interface typeRejectModal {
   isShow: boolean;
-  isLoading: boolean;
+  isBtnLoading: boolean;
   hasDesc?: boolean;
   desc?: string;
 }
 
 interface rejectStudentModalProps {
-  closeModalHandler: (
-    reqCondition?: boolean,
-    detail?: string,
-    status?: "reject" | "verify"
-  ) => void;
+  closeModalHandler: (reqCondition?: boolean, detail?: string) => void;
   rejectData: typeRejectModal;
   stNumber: number;
 }
 
-const RejectStudentModal: React.FC<rejectStudentModalProps> = ({
+const RejectFormModal: React.FC<rejectStudentModalProps> = ({
   closeModalHandler,
   rejectData,
   stNumber,
@@ -45,7 +41,7 @@ const RejectStudentModal: React.FC<rejectStudentModalProps> = ({
           <CloseSvg />
         </button>
         <span className="text-[#222124] text-xl font-semibold">
-          رد کردن دانشجو
+          رد کردن دانشجو برای فرم شماره 2
         </span>
         <span className="text-[#5F5F61] text-xs">
           آیا از رد کردن دانشجو به شماره دانشجویی {stNumber} مطمئن هستید؟
@@ -61,39 +57,17 @@ const RejectStudentModal: React.FC<rejectStudentModalProps> = ({
           />
         </div>
         <div className="flex justify-end gap-2 w-full">
-          {!rejectData.hasDesc ? (
+          {!rejectData.hasDesc && (
             <LoadingButton
               onClickHandler={() =>
-                closeModalHandler(
-                  true,
-                  textboxContainer.current?.value,
-                  "reject"
-                )
+                closeModalHandler(true, textboxContainer.current?.value)
               }
-              // buttonClass="text-white"
               paddingClass="px-4 py-2"
               mainBgColor="#FCEAEA"
               hoverBgColor="#E73F3F"
-              isLoading={rejectData.isLoading}
+              isLoading={rejectData.isBtnLoading}
             >
               رد کردن
-            </LoadingButton>
-          ) : (
-            <LoadingButton
-              onClickHandler={() =>
-                closeModalHandler(
-                  true,
-                  textboxContainer.current?.value,
-                  "verify"
-                )
-              }
-              mainBgColor="#EBF1FD"
-              hoverBgColor="#2080F6"
-              buttonClass="text-sm"
-              isLoading={rejectData.isLoading}
-              paddingClass="px-3 py-1"
-            >
-              تغییر وضعیت به تایید شده
             </LoadingButton>
           )}
           <button
@@ -108,4 +82,4 @@ const RejectStudentModal: React.FC<rejectStudentModalProps> = ({
   );
 };
 
-export default RejectStudentModal;
+export default RejectFormModal;

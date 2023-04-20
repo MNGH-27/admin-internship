@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 // useCookies
 import { useCookies } from "react-cookie";
 // react-router
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+
 //hooks
 import { useCustomSearchParams } from "../../../hooks/useCustomSearchParams";
+
 //component
 import LoadingLayout from "../../../components/common/loadingLayout";
 import TableWrapper from "../../../components/common/tableWrapper";
@@ -74,23 +76,34 @@ const tableHeader = [
 const StudentPreregestration: React.FC = () => {
   const [cookies] = useCookies(["token"]);
 
-  const [searchParams, setSearchParams] = useCustomSearchParams();
-
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const [searchParam] = useCustomSearchParams();
 
   const [preRegestrationData, setPreregestrationData] =
     useState<typePreregestrationData>({
       isLoading: false,
     });
 
-  useEffect(() => {
-    setSearchParams({
-      verified: 0,
-    });
-  }, []);
-
   //call on searchParam changes
   useEffect(() => {
+    /**
+     * !check searchParams to be correct
+     * *searchParam should have verified
+     */
+    //check status of verified status
+    if (
+      !searchParam.verified ||
+      searchParam.verified > 3 ||
+      searchParam.verified < 1
+    ) {
+      //dont have verified , add verified to route and replace
+      navigate("/students/preregestration?verified=0", { replace: true });
+      //exit from useEffect
+      return;
+    }
+
     //on search for course after filtering data,
     //check if we have any search params
 

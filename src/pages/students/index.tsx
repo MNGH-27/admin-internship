@@ -59,7 +59,7 @@ const Students: React.FC = () => {
       <LoadingLayout isLoading={isLoading}>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           <Link
-            to={"/students/initialregestration"}
+            to={"/students/initialregestration?verified=1"}
             className="flex flex-col items-center md:items-start justify-center gap-3 border-2 hover:border-[#4C526D] border-[#EEEEF2] rounded-md px-6 py-5 shadow-[0px_1px_2px_0px_rgba(24,24,28,0.04)] hover:shadow-[0px_1px_6px_0px_rgba(24,24,28,0.04)] duration-200 transition-all"
           >
             <span className="text-[#101114] font-semibold text-2xl mb-2">
@@ -68,21 +68,21 @@ const Students: React.FC = () => {
             <div className="font-semibold text-lg">
               <p className="flex items-center justify-center gap-2 mb-2">
                 <span className="text-[#52A86E]">
-                  {userStatus.initReg_unverified}
+                  {userStatus.initReg_verified}
                 </span>
 
                 <span className="text-[#4C526D]">دانشجو تایید شده</span>
               </p>
               <p className="flex items-center justify-center gap-2">
                 <span className="text-[#E73F3F]">
-                  {userStatus.initReg_verified}
+                  {userStatus.initReg_unverified}
                 </span>
                 <span className="text-[#4C526D]">دانشجو های رد شده</span>
               </p>
             </div>
           </Link>
           <Link
-            to={"/students/preregestration"}
+            to={"/students/preregestration?verified=1"}
             className="flex flex-col items-center md:items-start justify-center gap-3 border-2 hover:border-[#4C526D] border-[#EEEEF2] rounded-md px-6 py-5 shadow-[0px_1px_2px_0px_rgba(24,24,28,0.04)] hover:shadow-[0px_1px_6px_0px_rgba(24,24,28,0.04)] duration-200 transition-all"
           >
             <span className="text-[#101114] font-semibold text-2xl mb-2">
@@ -91,13 +91,13 @@ const Students: React.FC = () => {
             <div className="font-semibold text-lg">
               <p className="flex items-center justify-center gap-2 mb-2">
                 <span className="text-[#52A86E]">
-                  {userStatus.preReg_unverified}
+                  {userStatus.preReg_verified}
                 </span>
                 <span className="text-[#4C526D]">دانشجو تایید شده</span>
               </p>
               <p className="flex items-center justify-center gap-2">
                 <span className="text-[#E73F3F]">
-                  {userStatus.preReg_verified}
+                  {userStatus.preReg_unverified}
                 </span>
                 <span className="text-[#4C526D]">دانشجو های رد شده</span>
               </p>
