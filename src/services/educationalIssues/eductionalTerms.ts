@@ -96,3 +96,61 @@ export async function DeleteTerm({
 
   return apiCall;
 }
+
+export async function GetSingleTermStudentsList({
+  token,
+  filter,
+  termId,
+}: {
+  token: string;
+  filter: string;
+  termId: string;
+}): Promise<AxiosResponse<any>> {
+  const apiCall = await useFetch().get(
+    `${endPoint}/${termId}/students?${filter}`,
+    {
+      headers: {
+        Authorization: `Bearer ` + token,
+      },
+    }
+  );
+
+  return apiCall;
+}
+
+export async function GetSingleTermMasterList({
+  token,
+  filter,
+  termId,
+}: {
+  token: string;
+  filter: string;
+  termId: string;
+}): Promise<AxiosResponse<any>> {
+  const apiCall = await useFetch().get(
+    `${endPoint}/${termId}/masters?${filter}`,
+    {
+      headers: {
+        Authorization: `Bearer ` + token,
+      },
+    }
+  );
+
+  return apiCall;
+}
+
+export async function GetSingleTerm({
+  token,
+  termId,
+}: {
+  token: string;
+  termId: string;
+}): Promise<AxiosResponse<any>> {
+  const apiCall = await useFetch().get(`${endPoint}/${termId}`, {
+    headers: {
+      Authorization: `Bearer ` + token,
+    },
+  });
+
+  return apiCall;
+}

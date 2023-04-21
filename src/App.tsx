@@ -20,6 +20,9 @@ import EducationalIssue from "./pages/educationalIssues";
 import Faculties from "./pages/educationalIssues/faculties";
 import Terms from "./pages/educationalIssues/terms";
 
+import TermsDetail from "./pages/educationalIssues/termDetail";
+import DetailTermStudentList from "./pages/educationalIssues/termDetail/detailTermStudents";
+import DetailTermMaster from "./pages/educationalIssues/termDetail/detailTermMaster";
 function App() {
   return (
     <div className="App">
@@ -44,6 +47,19 @@ function App() {
           <Route element={<EducationalIssue />} path="/educational-issues" />
           <Route element={<Faculties />} path="/educational-issues/faculties" />
           <Route element={<Terms />} path="/educational-issues/terms" />
+
+          <Route
+            element={<TermsDetail />}
+            path="/educational-issues/terms-detail"
+          />
+          <Route
+            element={<DetailTermStudentList />}
+            path="/educational-issues/terms-detail/student/:id"
+          />
+          <Route
+            element={<DetailTermMaster />}
+            path="/educational-issues/terms-detail/master/:id"
+          />
 
           <Route element={<Dashboard />} path="/" />
         </Route>
