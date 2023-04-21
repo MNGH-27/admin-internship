@@ -117,7 +117,7 @@ const TermsDetail = () => {
 
   return (
     <div className="my-10">
-      <div className="flex flex-col gap-y-5">
+      <div className="flex flex-col gap-y-5 mb-10">
         <Link
           to={"/educational-issues"}
           className="w-fit bg-blue-700 text-white hover:text-blue-700 hover:bg-white border-2 border-blue-700 duration-200 text-lg px-7 py-2 rounded-md"
