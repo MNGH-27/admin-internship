@@ -92,7 +92,7 @@ const StudentFormList: React.FC = () => {
 
     //checking that a request has not already been made
 
-    if (data.isLoading === false && location.search.substring(1).length > 0) {
+    if (location.search.substring(1).length > 0) {
       asyncGetStudentsFromList(location.search.substring(1));
     }
   }, [location]);

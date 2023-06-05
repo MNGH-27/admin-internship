@@ -48,9 +48,9 @@ const headerRoute = [
     path: "/teachers",
   },
   {
-    name: "compony",
+    name: "company",
     value: "شرکت ها",
-    path: "/compony",
+    path: "/company",
   },
   {
     name: "Educational issues",

@@ -109,10 +109,7 @@ const StudentPreregestration: React.FC = () => {
 
     //checking that a request has not already been made
 
-    if (
-      preRegestrationData.isLoading === false &&
-      location.search.substring(1).length > 0
-    ) {
+    if (location.search.substring(1).length > 0) {
       aysncGetPereregestrationStudents(location.search.substring(1));
     }
   }, [location]);

@@ -16,6 +16,9 @@ import SingleForm from "./pages/students/studentFormList/singleForm";
 import Master from "./pages/master";
 import AddAndEditMaster from "./pages/master/addandEditMaster";
 
+import Company from "./pages/company";
+import AddAndEditCompany from "./pages/company/addandEditCompany";
+
 import EducationalIssue from "./pages/educationalIssues";
 import Faculties from "./pages/educationalIssues/faculties";
 import Terms from "./pages/educationalIssues/terms";
@@ -43,6 +46,12 @@ function App() {
 
           <Route element={<Master />} path="/teachers" />
           <Route element={<AddAndEditMaster />} path="/teachers/singlemaster" />
+
+          <Route element={<Company />} path="/company" />
+          <Route
+            element={<AddAndEditCompany />}
+            path="/company/singleCompany"
+          />
 
           <Route element={<EducationalIssue />} path="/educational-issues" />
           <Route element={<Faculties />} path="/educational-issues/faculties" />
