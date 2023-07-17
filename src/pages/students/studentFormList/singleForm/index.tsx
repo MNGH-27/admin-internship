@@ -149,12 +149,6 @@ const SingleForm: React.FC = () => {
         />
         {generateFormHandler()}
       </LoadingLayout>
-      {formContainer && (
-        <ReactToPrint
-          trigger={() => <button>Print this!</button>}
-          content={() => formContainer.current}
-        />
-      )}
     </>
   );
 };

@@ -318,9 +318,11 @@ const StudentForm2: React.FC<studentForm2Props> = ({ data }) => {
           }}
           className="px-6 py-3 rounded-lg bg-[#FCEAEA] hover:bg-[#E73F3F] text-[#E73F3F] hover:text-[#FCEAEA] border-2 border-[#FCEAEA] duration-200"
         >
-          {data.status === "3" ? "مشاهده دلیل رد" : "رد فرم شماره 2"}
+          {data.status?.toString() === "3"
+            ? "مشاهده دلیل رد"
+            : "رد فرم شماره 2"}
         </button>
-        {data.status === "2" ? (
+        {data.status?.toString() === "2" ? (
           <span className="text-green-700 font-medium">
             دانشجو در وضعیت تایید شده قرار دارد
           </span>

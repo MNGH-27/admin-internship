@@ -72,15 +72,14 @@ const SingleStudentForm: React.FC = () => {
     if (forms !== undefined) {
       return Object.keys(forms).map((formItem, index) => {
         const formFeildWithType = formItem as formFieldType;
+
         if (formItem !== "student") {
           return (
             <Link
               key={index}
               to={`/students/form/singleform?formType=${formFeildWithType}&studentId=${id}`}
               className={`${
-                forms !== undefined &&
-                forms[formFeildWithType].status === 0 &&
-                "pointer-events-none"
+                forms[formFeildWithType]?.status === 0 && "pointer-events-none"
               } flex flex-col items-center md:items-start justify-center gap-3 border-2 hover:border-[#4C526D] border-[#EEEEF2] rounded-md px-6 py-5 shadow-[0px_1px_2px_0px_rgba(24,24,28,0.04)] hover:shadow-[0px_1px_6px_0px_rgba(24,24,28,0.04)] duration-200 transition-all`}
             >
               <span className="text-[#101114] font-bold">
@@ -90,7 +89,18 @@ const SingleStudentForm: React.FC = () => {
                 <span className="text-[#4C526D]">
                   {findFormDetail(formFeildWithType)}
                 </span>
-                <span className="text-[#5F5F61] bg-[#F6F6F6] rounded-md px-2 py-1">
+                <span
+                  className={`${
+                    forms[formFeildWithType]?.status === 2
+                      ? //status is accepted
+                        "text-white bg-[#198754]"
+                      : forms[formFeildWithType]?.status === 3
+                      ? //status is rejected
+                        "text-white bg-[#FF9494]"
+                      : //status is notdefined
+                        "text-[#5F5F61] bg-[#F6F6F6]"
+                  } rounded-md px-2 py-1`}
+                >
                   {findFormStatusShower(formFeildWithType)}
                 </span>
               </div>

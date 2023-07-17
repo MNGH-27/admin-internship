@@ -39,12 +39,12 @@ const SingleFormContextHeader: React.FC<SingleFormContextHeaderProps> = ({
       </Link>
       <div className="w-full flex flex-col items-start justify-center gap-7 mb-16 mt-7">
         <div>
-          {formStatus === "3" ? (
+          {formStatus?.toString() === "3" ? (
             <span className="flex items-center font-semibold gap-2 text-red-700">
               <UserRemoveSvg />
               دانشجو در وضعیت رد شده قرار دارد
             </span>
-          ) : formStatus === "2" ? (
+          ) : formStatus?.toString() === "2" ? (
             <span className="flex items-center font-semibold gap-2 text-green-700">
               <UserTickSvg />
               دانشجو در وضعیت تایید شده قرار دارد
