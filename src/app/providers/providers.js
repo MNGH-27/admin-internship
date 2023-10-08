@@ -1,19 +1,31 @@
+'use client'
+
 import { ConfigProvider } from 'antd'
 import frFR from 'antd/locale/fr_FR'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { Toaster } from 'react-hot-toast'
 
 export function Providers({ children }) {
+  // Create a client
+  const queryClient = new QueryClient()
+
   return (
-    <ConfigProvider
-      direction="rtl"
-      locale={frFR}
-      theme={{
-        token: {
-          // Seed Token
-          colorPrimary: '#003B7E',
-        },
-      }}
-    >
-      {children}
-    </ConfigProvider>
+    <>
+      <QueryClientProvider client={queryClient}>
+        <ConfigProvider
+          direction="rtl"
+          locale={frFR}
+          theme={{
+            token: {
+              // Seed Token
+              colorPrimary: '#003B7E',
+            },
+          }}
+        >
+          {children}
+        </ConfigProvider>
+      </QueryClientProvider>
+      <Toaster position="bottom-left" containerClassName="text-sm" />
+    </>
   )
 }

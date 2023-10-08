@@ -1,3 +1,7 @@
-export default function Home() {
-  return <>thsi is ,ai</>
+import { AuthTemplate } from '@template/index'
+
+const Auth = () => {
+  return <AuthTemplate />
 }
+
+export default Auth

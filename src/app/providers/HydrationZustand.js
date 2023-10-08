@@ -10,7 +10,7 @@ const HydrationZustand = ({ children }) => {
     setIsHydrated(true)
   }, [])
 
-  return <>{isHydrated ? <div>{children}</div> : null}</>
+  return <>{isHydrated ? children : null}</>
 }
 
 export default HydrationZustand

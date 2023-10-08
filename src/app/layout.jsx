@@ -9,7 +9,7 @@ import HydrationZustand from './providers/HydrationZustand'
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body dir="rtl">
+      <body dir="rtl" className="min-h-screen">
         <Providers>
           <HydrationZustand>{children}</HydrationZustand>
         </Providers>
