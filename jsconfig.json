@@ -9,7 +9,8 @@
       "@atom/*": ["./src/components/atom/*"],
       "@molecule/*": ["./src/components/molecule/*"],
       "@organisms/*": ["./src/components/organisms/*"],
-      "@style/*": ["./src/core/style/*"]
+      "@style/*": ["./src/core/style/*"],
+      "@common/*": ["./src/core/common/*"]
     }
   }
 }
