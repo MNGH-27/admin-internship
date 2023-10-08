@@ -1,0 +1,18 @@
+@import './base/base.css';
+@import './ant.css';
+@import './tailwind.css';
+
+@font-face {
+  font-family: 'IRANSansX';
+  src: url('/fonts/IRANSansXV.woff') format('woff-variations'),
+    /* will be the standard and works in Safari now */
+      url('/fonts/IRANSansXV.woff') format('woff');
+  /* for the other supporting browsers */
+  font-weight: 100 900;
+  font-display: fallback;
+}
+
+* {
+  font-family: 'IRANSansX', sans-serif !important;
+  /* Your other CSS styles */
+}
