@@ -1,11 +1,11 @@
 import { DashboardHeader, DashboardFooter } from './resources'
 
-const DashboardLayout = ({ childern }) => {
+const DashboardLayout = ({ children }) => {
   return (
     <div className="w-full min-h-screen flex flex-col">
       <DashboardHeader />
 
-      <main className="max-w-7xl mx-auto min-h-full grow px-5">{childern}</main>
+      <main className="max-w-7xl min-h-full grow p-5">{children}</main>
 
       <DashboardFooter />
     </div>
