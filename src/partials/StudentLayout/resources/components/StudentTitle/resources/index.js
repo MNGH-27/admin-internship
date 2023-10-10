@@ -1,3 +1,4 @@
 import { extractTitle } from './utils/extract_title.utils'
 import { extractStatus } from './utils/extract_status.utils'
-export { extractTitle, extractStatus }
+import NavigationTitle from './components/NavigationTitle/NavigationTitle'
+export { extractTitle, extractStatus, NavigationTitle }

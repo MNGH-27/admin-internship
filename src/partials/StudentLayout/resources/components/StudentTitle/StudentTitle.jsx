@@ -1,31 +1,13 @@
 'use client'
+import { useCallback } from 'react'
 
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 
-import { extractStatus, extractTitle } from './resources'
-
-import { IoReturnDownBack } from 'react-icons/io5'
-import { GoStop } from 'react-icons/go'
-import { Button } from '@atom/index'
-import { useCallback } from 'react'
-import { PiNoteLight } from 'react-icons/pi'
+import { NavigationTitle, extractStatus, extractTitle } from './resources'
 
 const StudentTitle = () => {
-  const { push } = useRouter()
   const searchParams = useSearchParams()
   const pathName = usePathname()
-
-  // Get a new searchParams string by merging the current
-  // searchParams with a provided key/value pair
-  const createQueryString = useCallback(
-    (name, value) => {
-      const params = new URLSearchParams(searchParams)
-      params.set(name, value)
-
-      return params.toString()
-    },
-    [searchParams],
-  )
 
   return (
     <div className="flex items-start justify-between flex-col lg:flex-row gap-y-5 w-full">
@@ -49,42 +31,7 @@ const StudentTitle = () => {
           لیست دانشجویانی که برای ثبت نام و شروع کارآموزی نیاز به تایید دارند
         </span>
       </div>
-      <div className="flex items-center justify-center flex-col sm:flex-row gap-5 w-full sm:w-fit">
-        {searchParams.get('verified') != 1 ? (
-          <Button
-            className="h-auto py-3"
-            onClick={() =>
-              push(pathName + '?' + createQueryString('verified', '1'))
-            }
-            icon={<IoReturnDownBack size={20} />}
-            type="primary"
-          >
-            بازگشت
-          </Button>
-        ) : (
-          <>
-            <Button
-              className="h-auto py-3"
-              type="primary"
-              icon={<PiNoteLight size={20} />}
-              onClick={() =>
-                push(pathName + '?' + createQueryString('verified', '2'))
-              }
-            >
-              دانشجو های تایید شده
-            </Button>
-            <Button
-              className="h-auto py-3"
-              icon={<GoStop size={20} />}
-              onClick={() =>
-                push(pathName + '?' + createQueryString('verified', '3'))
-              }
-            >
-              دانشجو های رد شده
-            </Button>
-          </>
-        )}
-      </div>
+      <NavigationTitle />
     </div>
   )
 }
