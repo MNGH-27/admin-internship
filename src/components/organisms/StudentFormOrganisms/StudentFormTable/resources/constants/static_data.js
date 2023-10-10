@@ -38,7 +38,7 @@ export const getTableData = (push) => {
       key: 'opetration',
       render: (_, data) => (
         <Button
-          onClick={() => push(`/dashboard/students/forms/${data.index}`)}
+          onClick={() => push(`/dashboard/students/single-form/${data.index}`)}
           icon={<MdOutlineUnfoldMore size={20} />}
           type="primary"
         >
