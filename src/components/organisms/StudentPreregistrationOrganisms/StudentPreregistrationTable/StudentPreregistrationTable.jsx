@@ -11,13 +11,14 @@ import {
   RejectDescriptionModal,
 } from './resources'
 
-const StudentIntialRegistrationTable = () => {
+const StudentPreregistrationTable = () => {
   const searchParams = useSearchParams()
 
   const [rejectModal, setRejectModal] = useState({
     isShow: false,
     data: {},
   })
+
   const [rejectDescriptionModal, setRejectDescriptionModal] = useState({
     isShow: false,
     data: {},
@@ -63,4 +64,4 @@ const StudentIntialRegistrationTable = () => {
   )
 }
 
-export default StudentIntialRegistrationTable
+export default StudentPreregistrationTable
