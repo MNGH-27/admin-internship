@@ -1,5 +1,7 @@
+import { StudentIntialRegistrationTable } from '@organisms/StudentIntialRegistrationOrganisms'
+
 const InitialRegistrationPage = () => {
-  return <div>InitialRegistrationPage</div>
+  return <StudentIntialRegistrationTable />
 }
 
 export default InitialRegistrationPage

@@ -1,0 +1,19 @@
+.ant-table-wrapper {
+  @apply !w-full;
+}
+
+.ant-table-container {
+  @apply !grid;
+}
+
+.ant-table-content {
+  @apply !whitespace-nowrap overflow-x-auto;
+}
+
+.ant-table-cell {
+  @apply !text-center;
+}
+
+.ant-table-cell::before {
+  @apply hidden;
+}

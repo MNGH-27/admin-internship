@@ -5,6 +5,7 @@ const StudentLayout = ({ children }) => {
     <div className="flex flex-col items-center justify-center gap-5 w-full">
       <StudentTitle />
       <StudentFilter />
+      {children}
     </div>
   )
 }
