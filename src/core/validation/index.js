@@ -1,3 +1,3 @@
 import { loginSchema } from './loginSchema'
-
-export { loginSchema }
+import { masterSchema } from './masterSchema'
+export { loginSchema, masterSchema }

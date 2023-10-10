@@ -1,5 +1,10 @@
 import AuthTemplate from './AuthTemplate/AuthTemplate'
 import StudentTemplate from './StudentTemplate/StudentTemplate'
 import SingleStudentFormTemplate from './SingleStudentFormTemplate/SingleStudentFormTemplate'
-
-export { AuthTemplate, StudentTemplate, SingleStudentFormTemplate }
+import MastersTemplate from './MastersTemplate/MastersTemplate'
+export {
+  AuthTemplate,
+  StudentTemplate,
+  SingleStudentFormTemplate,
+  MastersTemplate,
+}

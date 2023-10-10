@@ -16,10 +16,10 @@ export const LINKS_LIST = [
     path: '/students',
   },
   {
-    name: 'teachers',
+    name: 'masters',
     value: 'اساتید',
     icon: <BiUser size={16} />,
-    path: '/teachers',
+    path: '/masters',
   },
   {
     name: 'company',
