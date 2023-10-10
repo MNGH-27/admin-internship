@@ -1,0 +1,7 @@
+.ant-modal-wrap {
+  @apply !flex !items-center !justify-center;
+}
+
+.ant-modal {
+  @apply !top-0 pb-0;
+}
