@@ -1,0 +1,7 @@
+.ant-select {
+  @apply !w-full !h-auto;
+}
+
+.ant-select-selector {
+  @apply !py-1;
+}

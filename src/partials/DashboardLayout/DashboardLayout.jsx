@@ -5,7 +5,9 @@ const DashboardLayout = ({ children }) => {
     <div className="w-full min-h-screen flex flex-col">
       <DashboardHeader />
 
-      <main className="max-w-7xl min-h-full grow p-5">{children}</main>
+      <main className="max-w-7xl min-h-full grow p-5 mx-auto w-full">
+        {children}
+      </main>
 
       <DashboardFooter />
     </div>
