@@ -4,7 +4,9 @@ import SingleStudentFormTemplate from './SingleStudentFormTemplate/SingleStudent
 import MastersTemplate from './MastersTemplate/MastersTemplate'
 import CompanyTemplate from './CompanyTemplate/CompanyTemplate'
 import NewCompanyTemplate from './NewCompanyTemplate/NewCompanyTemplate'
+import EditCompanyTemplate from './EditCompanyTemplate/EditCompanyTemplate'
 export {
+  EditCompanyTemplate,
   NewCompanyTemplate,
   CompanyTemplate,
   AuthTemplate,
