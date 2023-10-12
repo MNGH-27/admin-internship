@@ -1,7 +1,6 @@
 'use client'
-import { useCallback } from 'react'
 
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 import { NavigationTitle, extractStatus, extractTitle } from './resources'
 

@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 
-import { useSearchParams, usePathname } from 'next/navigation'
+import { useSearchParams, usePathname, useRouter } from 'next/navigation'
 
 import { Button } from '@atom/index'
 
@@ -9,6 +9,7 @@ import { IoReturnDownBack } from 'react-icons/io5'
 import { PiNoteLight } from 'react-icons/pi'
 
 const NavigationTitle = () => {
+  const { push } = useRouter()
   const pathName = usePathname()
   const searchParams = useSearchParams()
 
