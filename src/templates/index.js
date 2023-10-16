@@ -6,7 +6,9 @@ import CompanyTemplate from './CompanyTemplate/CompanyTemplate'
 import NewCompanyTemplate from './NewCompanyTemplate/NewCompanyTemplate'
 import EditCompanyTemplate from './EditCompanyTemplate/EditCompanyTemplate'
 import EducationalIssuesTemplate from './EducationalIssuesTemplate/EducationalIssuesTemplate'
+import FacultiesTemplate from './FacultiesTemplate/FacultiesTemplate'
 export {
+  FacultiesTemplate,
   EducationalIssuesTemplate,
   EditCompanyTemplate,
   NewCompanyTemplate,
