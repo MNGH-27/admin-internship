@@ -8,8 +8,10 @@ import Modal from './Modal/Modal'
 import Tooltip from './Tooltip/Tooltip'
 import Badge from './Badge/Badge'
 import Table from './Table/table'
+import DatePicker from './DatePicker/DatePicker'
 export {
   Table,
+  DatePicker,
   Badge,
   Tooltip,
   Modal,
