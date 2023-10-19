@@ -8,7 +8,7 @@ const Input = ({ className = '', type = 'default', ...rest }) => {
   if (type === 'textArea') {
     return (
       <AntInput.TextArea
-        className={'min-h-[50px] ' + className}
+        className={'!min-h-[75px] !max-h-[250px] ' + className}
         autoComplete="off"
         {...rest}
       />
