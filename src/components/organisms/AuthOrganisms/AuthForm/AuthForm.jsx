@@ -1,17 +1,20 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { FiLogIn } from 'react-icons/fi'
 import { Button, Input } from '@atom/index'
 import { FromContainer } from '@molecule/index'
 import { Formik } from 'formik'
 
 import { loginSchema } from '@core/validation'
-
+import { setCookie } from 'cookies-next'
 import { loginUserHttp } from '@core/services'
 import { useMutation } from 'react-query'
 import toast from 'react-hot-toast'
 
 const AuthForm = () => {
+  const { push } = useRouter()
+
   const { mutate, isLoading } = useMutation({
     mutationKey: ['login'],
     mutationFn: (data) => loginUserHttp(data),
@@ -19,10 +22,17 @@ const AuthForm = () => {
       toast.error('ورود با مشکل مواجه شد')
     },
     onSuccess: (response) => {
-      toast.success('با موفقیت وارد شدید')
-      /**
-       * TODO: handle response status , redirect , add data to zustand , add data to Token
-       */
+      //check ther role of user we get to be admin
+      if (response.data.user.role === 'admin') {
+        //this user is admin
+        setCookie('token', response.data.authorisation.token)
+        toast.success('با موفقیت وارد شدید')
+
+        push('/dashboard')
+      } else {
+        //this is not acceptable user for this panel
+        toast.error('ورود با مشکل مواجه شد')
+      }
     },
   })
 

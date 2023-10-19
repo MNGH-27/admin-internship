@@ -1,12 +1,12 @@
-import { CookieUtil } from '@core/utils'
-import axiosInstance from './axiosInstance'
+import axiosInstance from './axisoInstance'
 import toast from 'react-hot-toast'
+import { getCookie } from 'cookies-next'
 
 const AxiosFetch = (route = null) => {
   axiosInstance.interceptors.request.use(
     function (config) {
-      if (CookieUtil.getCookie('token')) {
-        config.headers.Authorization = `Bearer ${CookieUtil.getCookie('token')}`
+      if (getCookie('token')) {
+        config.headers.Authorization = `Bearer ${getCookie('token')}`
       } else {
         toast.error('توکن نداری')
       }

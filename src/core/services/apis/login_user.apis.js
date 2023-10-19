@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export async function loginUserHttp({ username, password }) {
-  const apiCall = await axios.post('https://bineshpro.ir/api/admin/login', {
+  const apiCall = await axios.post('https://api.testsajad.ir/api/login', {
     username,
     password,
   })
