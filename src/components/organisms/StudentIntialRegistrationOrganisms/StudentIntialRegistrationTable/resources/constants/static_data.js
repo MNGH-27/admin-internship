@@ -10,36 +10,37 @@ export const getTableData = (
       title: '#',
       dataIndex: 'index',
       key: 'index',
+      render: (_, data, index) => <span>{index + 1}</span>,
     },
     {
       title: 'نام',
-      dataIndex: 'firstName',
-      key: 'firstName',
+      dataIndex: 'name',
+      key: 'name',
     },
     {
       title: 'نام خانوادگی',
-      dataIndex: 'lastName',
-      key: 'lastName',
+      dataIndex: 'last_name',
+      key: 'last_name',
     },
     {
       title: 'شماره دانشجویی',
-      dataIndex: 'studentNumber',
-      key: 'studentNumber',
+      dataIndex: 'student_number',
+      key: 'student_number',
     },
     {
       title: 'سال ورود',
-      dataIndex: 'entranceDate',
-      key: 'entranceDate',
+      dataIndex: 'entrance_year',
+      key: 'entrance_year',
     },
     {
       title: 'شماره ملی',
-      dataIndex: 'nationalCode',
-      key: 'nationalCode',
+      dataIndex: 'national_code',
+      key: 'national_code',
     },
     {
       title: 'شماره تلفن',
-      dataIndex: 'phoneNumber',
-      key: 'phoneNumber',
+      dataIndex: 'phone_number',
+      key: 'phone_number',
     },
     {
       title: '',
@@ -70,51 +71,3 @@ export const getTableData = (
 
   return TABLE_HEADER
 }
-
-export const DUMMY_DATA = [
-  {
-    index: '1',
-    firstName: 'عباس',
-    lastName: 'عباسی',
-    studentNumber: '1234567890',
-    entranceDate: '1205/12/30',
-    nationalCode: '9876543210',
-    phoneNumber: '147852369',
-  },
-  {
-    index: '1',
-    firstName: 'عباس',
-    lastName: 'عباسی',
-    studentNumber: '1234567890',
-    entranceDate: '1205/12/30',
-    nationalCode: '9876543210',
-    phoneNumber: '147852369',
-  },
-  {
-    index: '1',
-    firstName: 'عباس',
-    lastName: 'عباسی',
-    studentNumber: '1234567890',
-    entranceDate: '1205/12/30',
-    nationalCode: '9876543210',
-    phoneNumber: '147852369',
-  },
-  {
-    index: '1',
-    firstName: 'عباس',
-    lastName: 'عباسی',
-    studentNumber: '1234567890',
-    entranceDate: '1205/12/30',
-    nationalCode: '9876543210',
-    phoneNumber: '147852369',
-  },
-  {
-    index: '1',
-    firstName: 'عباس',
-    lastName: 'عباسی',
-    studentNumber: '1234567890',
-    entranceDate: '1205/12/30',
-    nationalCode: '9876543210',
-    phoneNumber: '147852369',
-  },
-]

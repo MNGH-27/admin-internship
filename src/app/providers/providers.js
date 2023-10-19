@@ -4,6 +4,7 @@ import { ConfigProvider } from 'antd'
 import frFR from 'antd/locale/fr_FR'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Toaster } from 'react-hot-toast'
+import { Empty } from '@atom/index'
 
 export function Providers({ children }) {
   // Create a client
@@ -13,6 +14,7 @@ export function Providers({ children }) {
     <>
       <QueryClientProvider client={queryClient}>
         <ConfigProvider
+          renderEmpty={() => <Empty />}
           direction="rtl"
           locale={frFR}
           theme={{

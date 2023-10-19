@@ -2,14 +2,14 @@
 
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
-import { Table } from '@atom/index'
-
+import { Spinner, Table } from '@atom/index'
+import { useQuery } from 'react-query'
 import {
-  DUMMY_DATA,
   RejectStudentModal,
   getTableData,
   RejectDescriptionModal,
 } from './resources'
+import { getInitialRegestrationStundets } from '@core/services'
 
 const StudentIntialRegistrationTable = () => {
   const searchParams = useSearchParams()
@@ -21,6 +21,11 @@ const StudentIntialRegistrationTable = () => {
   const [rejectDescriptionModal, setRejectDescriptionModal] = useState({
     isShow: false,
     data: {},
+  })
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['initial_registration_list'],
+    queryFn: getInitialRegestrationStundets,
   })
 
   const onOpenRejectModal = (data) => {
@@ -40,20 +45,20 @@ const StudentIntialRegistrationTable = () => {
   return (
     <>
       <Table
+        loading={isLoading}
+        rowKey={(record) => record.id}
         headerList={getTableData(
           onOpenRejectModal,
           onOpenRejectDescriptionModal,
           searchParams.get('verified'),
         )}
-        data={DUMMY_DATA}
+        data={data?.data?.students}
       />
-
       <RejectStudentModal
         isShow={rejectModal.isShow}
         data={rejectModal.data}
         onClose={() => setRejectModal({ isShow: false })}
       />
-
       <RejectDescriptionModal
         isShow={rejectDescriptionModal.isShow}
         data={rejectDescriptionModal.data}

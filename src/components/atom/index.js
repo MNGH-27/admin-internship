@@ -10,7 +10,9 @@ import Badge from './Badge/Badge'
 import Table from './Table/table'
 import DatePicker from './DatePicker/DatePicker'
 import Spinner from './Spinner/Spinner'
+import Empty from './Empty/Empty'
 export {
+  Empty,
   Spinner,
   Table,
   DatePicker,
