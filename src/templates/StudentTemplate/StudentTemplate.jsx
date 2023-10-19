@@ -1,6 +1,17 @@
+'use client'
+
+import { useQuery } from 'react-query'
+
 import Link from 'next/link'
+import { getStudentHomeHttp } from '@core/services/apis/student/get_student_home.api'
+import { Spinner } from '@atom/index'
 
 const StudentTemplate = () => {
+  const { isSuccess, data: homeData } = useQuery({
+    queryKey: ['student_home'],
+    queryFn: getStudentHomeHttp,
+  })
+
   return (
     <div className="flex flex-col">
       <h2 className="text-[#101114] text-2xl font-semibold mb-5 text-center md:text-right">
@@ -14,17 +25,25 @@ const StudentTemplate = () => {
           <span className="text-[#101114] font-semibold text-lg mb-2">
             ثبت نام اولیه ها
           </span>
-          <div className="font-semibold text-sm space-y-2">
-            <p className="flex items-center justify-start gap-2">
-              <span className="text-[#52A86E]">12</span>
+          {isSuccess ? (
+            <div className="font-semibold text-sm space-y-2">
+              <p className="flex items-center justify-start gap-2">
+                <span className="text-[#52A86E]">
+                  {homeData?.counters?.initReg_verified}
+                </span>
 
-              <span className="text-[#4C526D]">دانشجو تایید شده</span>
-            </p>
-            <p className="flex items-center justify-start gap-2">
-              <span className="text-[#E73F3F]">22</span>
-              <span className="text-[#4C526D]">دانشجو های رد شده</span>
-            </p>
-          </div>
+                <span className="text-[#4C526D]">دانشجو تایید شده</span>
+              </p>
+              <p className="flex items-center justify-start gap-2">
+                <span className="text-[#E73F3F]">
+                  {homeData?.counters?.initReg_unverified}
+                </span>
+                <span className="text-[#4C526D]">دانشجو های رد شده</span>
+              </p>
+            </div>
+          ) : (
+            <Spinner />
+          )}
         </Link>
         <Link
           href={'/dashboard/students/pre-registration?verified=1'}
@@ -33,16 +52,24 @@ const StudentTemplate = () => {
           <span className="text-[#101114] font-semibold text-lg mb-2">
             پیش ثبت نام ها
           </span>
-          <div className="font-semibold text-sm space-y-2">
-            <p className="flex items-center justify-start gap-2">
-              <span className="text-[#52A86E]">22</span>
-              <span className="text-[#4C526D]">دانشجو تایید شده</span>
-            </p>
-            <p className="flex items-center justify-start gap-2">
-              <span className="text-[#E73F3F]">12</span>
-              <span className="text-[#4C526D]">دانشجو های رد شده</span>
-            </p>
-          </div>
+          {isSuccess ? (
+            <div className="font-semibold text-sm space-y-2">
+              <p className="flex items-center justify-start gap-2">
+                <span className="text-[#52A86E]">
+                  {homeData?.counters?.preReg_verified}
+                </span>
+                <span className="text-[#4C526D]">دانشجو تایید شده</span>
+              </p>
+              <p className="flex items-center justify-start gap-2">
+                <span className="text-[#E73F3F]">
+                  {homeData?.counters?.preReg_unverified}
+                </span>
+                <span className="text-[#4C526D]">دانشجو های رد شده</span>
+              </p>
+            </div>
+          ) : (
+            <Spinner />
+          )}
         </Link>
         <Link
           href={'/dashboard/students/forms'}

@@ -9,7 +9,9 @@ import Tooltip from './Tooltip/Tooltip'
 import Badge from './Badge/Badge'
 import Table from './Table/table'
 import DatePicker from './DatePicker/DatePicker'
+import Spinner from './Spinner/Spinner'
 export {
+  Spinner,
   Table,
   DatePicker,
   Badge,
