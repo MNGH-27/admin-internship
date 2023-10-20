@@ -8,8 +8,9 @@ import * as yup from 'yup'
 
 import { useMutation } from 'react-query'
 import { FromContainer } from '@molecule/index'
+import toast from 'react-hot-toast'
 
-const RejectStudentModal = ({ isShow, onClose, data }) => {
+const RejectStudentModal = ({ isShow, onClose, refetch, data }) => {
   const schema = yup.object().shape({
     description: yup.string().required('مقدار توضیحات الزامی است'),
   })
@@ -18,9 +19,16 @@ const RejectStudentModal = ({ isShow, onClose, data }) => {
     mutationKey: ['unverify_initial_registration'],
     mutationFn: (detail) =>
       putUnVarifyStudentInitialRegestration({
-        student_id: data?.student_number,
+        student_id: data?.id,
         detail,
       }),
+    onSuccess: (response) => {
+      toast.success(response.message)
+      //refetch data
+      refetch()
+      //close modal
+      onClose()
+    },
   })
 
   return (

@@ -5,9 +5,12 @@ export async function putUnVarifyStudentInitialRegestration({
   detail,
 }) {
   try {
-    const response = await AxiosFetch().put(`${student_id}/initReg/unverify`, {
-      rejection_reason: detail,
-    })
+    const response = await AxiosFetch().put(
+      `students/${student_id}/initReg/unverify`,
+      {
+        rejection_reason: detail,
+      },
+    )
 
     return response.data
   } catch (error) {

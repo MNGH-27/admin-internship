@@ -23,7 +23,7 @@ const StudentIntialRegistrationTable = () => {
     data: {},
   })
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isFetching, refetch } = useQuery({
     queryKey: ['initial_registration_list'],
     queryFn: getInitialRegestrationStundets,
   })
@@ -45,7 +45,7 @@ const StudentIntialRegistrationTable = () => {
   return (
     <>
       <Table
-        loading={isLoading}
+        loading={isLoading || isFetching}
         rowKey={(record) => record.id}
         headerList={getTableData(
           onOpenRejectModal,
@@ -54,11 +54,14 @@ const StudentIntialRegistrationTable = () => {
         )}
         data={data?.data?.students}
       />
+
       <RejectStudentModal
+        refetch={refetch}
         isShow={rejectModal.isShow}
         data={rejectModal.data}
         onClose={() => setRejectModal({ isShow: false })}
       />
+
       <RejectDescriptionModal
         isShow={rejectDescriptionModal.isShow}
         data={rejectDescriptionModal.data}

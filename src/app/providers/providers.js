@@ -8,7 +8,15 @@ import { Empty } from '@atom/index'
 
 export function Providers({ children }) {
   // Create a client
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        cacheTime: 5 * 60 * 1000,
+        staleTime: 5 * 60 * 1000,
+        refetchOnWindowFocus: false,
+      },
+    },
+  })
 
   return (
     <>
