@@ -1,6 +1,6 @@
 import { ErrorMessage } from 'formik'
 
-const FromContainer = ({ label, name, children, className = '' }) => {
+const FormContainer = ({ label, name, children, className = '' }) => {
   return (
     <div
       className={
@@ -18,4 +18,4 @@ const FromContainer = ({ label, name, children, className = '' }) => {
   )
 }
 
-export default FromContainer
+export default FormContainer

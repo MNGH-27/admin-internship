@@ -1,55 +1,112 @@
+'use client'
+
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { Button, Input, Select } from '@atom/index'
 import { GiSettingsKnobs } from 'react-icons/gi'
 import { CiSearch } from 'react-icons/ci'
+
+import { useQuery } from 'react-query'
+import { getEntranceYearOfStudentFilter } from '@core/services'
+import { Formik } from 'formik'
+import { FormContainer } from '@molecule/index'
+import { useCallback } from 'react'
+
 const StudentFilter = () => {
+  const pathName = usePathname()
+  const searchParams = useSearchParams()
+  const { push } = useRouter()
+
+  const { data: entranceYear, isLoading: isLoadingEntranceYear } = useQuery({
+    queryKey: ['student_entrance_year'],
+    queryFn: getEntranceYearOfStudentFilter,
+  })
+
+  const convertEntranceYear = (entranceYear) => {
+    //check if data is Array
+    if (Array.isArray(entranceYear)) {
+      return entranceYear.map((singleEntrance) => ({
+        label: singleEntrance.entrance_year,
+        value: singleEntrance.entrance_year,
+      }))
+    }
+
+    //this is not array => return empty array
+    return []
+  }
+
+  // Get a new searchParams string by merging the current
+  // searchParams with a provided key/value pair
+  const createQueryString = useCallback(
+    ({ entrance_year, search }) => {
+      const params = new URLSearchParams(searchParams)
+
+      //add new search params
+      params.set('entrance_year', entrance_year)
+      params.set('search', search)
+
+      //check if there is page as search params
+      if (params.has('page')) {
+        //in filtring data we don't nee to have pagination => remove page field of url
+        params.delete('page')
+      }
+
+      return params.toString()
+    },
+    [searchParams],
+  )
+
   return (
     <div className="w-full my-3">
       <div className="flex items-center justify-start text-[#5F5F61] w-full">
         <GiSettingsKnobs size={24} />
         <p>مرتب سازی براساس:</p>
       </div>
-      <div className="flex flex-col lg:flex-row items-start lg:items-end justify-start gap-5 mt-5">
-        <div className="flex flex-col items-start gap-2 w-32">
-          <label className="text-[#8B91A7] text-xs">سال ورود</label>
-          <Select
-            className="w-full"
-            selectList={[
-              {
-                value: 'asd',
-                label: 'asdf',
-              },
-            ]}
-            // value={JSON.stringify(yearIntranceContainer)}
-            // onChange={(e) =>
-            //   setyearIntranceContainer(JSON.parse(e.target.value))
-            // }
-          />
-        </div>
-        <div className="flex flex-col items-start gap-2 w-32">
-          <label className="text-[#8B91A7] text-xs">دانشکده</label>
-          <Select
-          // value={JSON.stringify(facultiesIntranceContainer)}
-          // onChange={(e) =>
-          //   setfacultiesIntranceContainer(JSON.parse(e.target.value))
-          // }
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label className="text-[#8B91A7] text-xs">جستجو </label>
-          <Input
-            //   ref={searchFieldContainer}
-            placeholder="جستجو دانشجو . . ."
-          />
-        </div>
-        <Button
-          // onClick={onSetSearchParamsHandler}
-          type="primary"
-          icon={<CiSearch size={24} />}
-          className="h-auto py-2 px-4"
-        >
-          جستجو
-        </Button>
-      </div>
+      <Formik
+        initialValues={{
+          entrance_year: searchParams.get('entrance_year') ?? '',
+          search: searchParams.get('search') ?? '',
+        }}
+        onSubmit={(values) => {
+          push(pathName + '?' + createQueryString(values))
+        }}
+      >
+        {({ values, handleSubmit, handleChange, setFieldValue }) => (
+          <form className="space-y-5">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-5 gap-x-3 mt-5">
+              <FormContainer label="تاریخ ورود" name="entrance_year">
+                <Select
+                  value={values.entrance_year}
+                  onChange={(value) => setFieldValue('entrance_year', value)}
+                  loading={isLoadingEntranceYear}
+                  selectList={convertEntranceYear(entranceYear)}
+                />
+              </FormContainer>
+              {/* <div className="flex flex-col items-start gap-2">
+                    <label className="text-[#8B91A7] text-xs">دانشکده</label>
+                    <Select />
+                  </div> 
+              */}
+              <FormContainer label="جستجو" name="search">
+                <Input
+                  name="search"
+                  onChange={handleChange}
+                  value={values.search}
+                  placeholder="جستجو دانشجو . . ."
+                />
+              </FormContainer>
+            </div>
+            <Button
+              htmlType="submit"
+              onClick={handleSubmit}
+              type="primary"
+              icon={<CiSearch size={24} />}
+              className="h-auto py-2 px-4"
+            >
+              جستجو
+            </Button>
+          </form>
+        )}
+      </Formik>
     </div>
   )
 }

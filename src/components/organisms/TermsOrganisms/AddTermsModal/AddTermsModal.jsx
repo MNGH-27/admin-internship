@@ -1,5 +1,5 @@
 import { Button, DatePicker, Input, Modal, Select } from '@atom/index'
-import { FromContainer } from '@molecule/index'
+import { FormContainer } from '@molecule/index'
 import { Formik } from 'formik'
 
 import { masterSchema } from '@core/validation'
@@ -17,31 +17,31 @@ const AddTermsModal = ({ isShow, onClose }) => {
       >
         {({ values, handleSubmit, handleChange }) => (
           <form method="post" className="space-y-2">
-            <FromContainer label="نام ترم" name="term_name">
+            <FormContainer label="نام ترم" name="term_name">
               <Input
                 name="term_name"
                 onChange={handleChange}
                 value={values.term_name}
                 placeholder="نام ترم خود را وارد کنید . . . "
               />
-            </FromContainer>
+            </FormContainer>
             <div className="w-full grid sm:grid-cols-2 gap-5">
-              <FromContainer label="نام ترم" name="term_name">
+              <FormContainer label="نام ترم" name="term_name">
                 <DatePicker
                   name="term_name"
                   onChange={handleChange}
                   value={values.term_name}
                   placeholder="نام ترم خود را وارد کنید . . . "
                 />
-              </FromContainer>
-              <FromContainer label="نام ترم" name="term_name">
+              </FormContainer>
+              <FormContainer label="نام ترم" name="term_name">
                 <DatePicker
                   name="term_name"
                   onChange={handleChange}
                   value={values.term_name}
                   placeholder="نام ترم خود را وارد کنید . . . "
                 />
-              </FromContainer>
+              </FormContainer>
             </div>
 
             <Button

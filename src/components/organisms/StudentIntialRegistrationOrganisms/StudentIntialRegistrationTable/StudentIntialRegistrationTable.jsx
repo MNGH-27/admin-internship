@@ -2,14 +2,19 @@
 
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
-import { Spinner, Table } from '@atom/index'
-import { useQuery } from 'react-query'
+
+import { Pagination, Table } from '@atom/index'
+import { useMutation, useQuery } from 'react-query'
 import {
   RejectStudentModal,
   getTableData,
   RejectDescriptionModal,
 } from './resources'
-import { getInitialRegestrationStundets } from '@core/services'
+import {
+  getInitialRegestrationStundets,
+  putVarifyStudentInitialRegestration,
+} from '@core/services'
+import toast from 'react-hot-toast'
 
 const StudentIntialRegistrationTable = () => {
   const searchParams = useSearchParams()
@@ -24,8 +29,20 @@ const StudentIntialRegistrationTable = () => {
   })
 
   const { data, isLoading, isFetching, refetch } = useQuery({
-    queryKey: ['initial_registration_list'],
-    queryFn: getInitialRegestrationStundets,
+    queryKey: ['initial_registration_list', searchParams.toString()],
+    queryFn: () => getInitialRegestrationStundets(searchParams.toString()),
+  })
+
+  const { mutate: verifyUser } = useMutation({
+    mutationKey: ['verify_initial_registration'],
+    mutationFn: (data) =>
+      putVarifyStudentInitialRegestration({ student_id: data.id }),
+    onSuccess: (response) => {
+      //show user verify successfully
+      toast.success('دانشجو تایید شد')
+      //refetch to get users data
+      refetch()
+    },
   })
 
   const onOpenRejectModal = (data) => {
@@ -50,8 +67,10 @@ const StudentIntialRegistrationTable = () => {
         headerList={getTableData(
           onOpenRejectModal,
           onOpenRejectDescriptionModal,
+          verifyUser,
           searchParams.get('verified'),
         )}
+        pagination={{}}
         data={data?.data?.students}
       />
 

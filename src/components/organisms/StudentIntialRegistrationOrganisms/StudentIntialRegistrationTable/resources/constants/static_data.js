@@ -1,8 +1,10 @@
 import { Button } from '@atom/index'
+import { AiOutlineUserAdd, AiOutlineUserDelete } from 'react-icons/ai'
 
 export const getTableData = (
   openRejectModal,
   openRejectDescription,
+  onVerifyUser,
   verified,
 ) => {
   const TABLE_HEADER = [
@@ -49,6 +51,7 @@ export const getTableData = (
       render: (_, data) => (
         <div className="flex items-center justify-center gap-2">
           <Button
+            icon={<AiOutlineUserDelete size={20} />}
             onClick={() => {
               if (verified === '3') {
                 openRejectDescription(data)
@@ -61,7 +64,12 @@ export const getTableData = (
           >
             {verified === '3' ? 'رد شده' : 'رد'}
           </Button>
-          <Button disabled={verified === '2'} type="primary">
+          <Button
+            onClick={() => onVerifyUser(data)}
+            icon={<AiOutlineUserAdd size={20} />}
+            disabled={verified === '2'}
+            type="primary"
+          >
             تایید
           </Button>
         </div>

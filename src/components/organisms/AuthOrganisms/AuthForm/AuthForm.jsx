@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { FiLogIn } from 'react-icons/fi'
 import { Button, Input } from '@atom/index'
-import { FromContainer } from '@molecule/index'
+import { FormContainer } from '@molecule/index'
 import { Formik } from 'formik'
 
 import { loginSchema } from '@core/validation'
@@ -46,21 +46,21 @@ const AuthForm = () => {
     >
       {({ values, handleSubmit, handleChange }) => (
         <form className="flex flex-col gap-y-3" onSubmit={handleSubmit}>
-          <FromContainer label="نام کاربری" name="username">
+          <FormContainer label="نام کاربری" name="username">
             <Input
               name="username"
               onChange={handleChange}
               value={values.username}
             />
-          </FromContainer>
-          <FromContainer label="رمزعبور" name="password">
+          </FormContainer>
+          <FormContainer label="رمزعبور" name="password">
             <Input
               type="password"
               name="password"
               onChange={handleChange}
               value={values.password}
             />
-          </FromContainer>
+          </FormContainer>
           <Button
             icon={<FiLogIn />}
             loading={isLoading}

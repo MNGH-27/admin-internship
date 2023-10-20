@@ -1,6 +1,6 @@
 import { Button, Input, Modal, Select } from '@atom/index'
 import { masterSchema } from '@core/validation'
-import { FromContainer } from '@molecule/index'
+import { FormContainer } from '@molecule/index'
 import { Formik } from 'formik'
 import { AiFillEdit } from 'react-icons/ai'
 
@@ -18,58 +18,58 @@ const EditMasterModal = ({ isShow, onClose, data }) => {
           {({ values, handleSubmit, handleChange }) => (
             <form method="post" className="flex flex-col gap-y-3 w-full">
               <div className="grid grid-cols-2 gap-5">
-                <FromContainer label="نام" name="first_name">
+                <FormContainer label="نام" name="first_name">
                   <Input
                     name="first_name"
                     onChange={handleChange}
                     value={values.first_name}
                     placeholder="نام خود را وارد کنید . . . "
                   />
-                </FromContainer>
-                <FromContainer label="نام خانوادگی" name="last_name">
+                </FormContainer>
+                <FormContainer label="نام خانوادگی" name="last_name">
                   <Input
                     name="last_name"
                     onChange={handleChange}
                     value={values.last_name}
                     placeholder="نام خانوادگی خود را وارد کنید . . ."
                   />
-                </FromContainer>
-                <FromContainer label="ایمیل" name="email">
+                </FormContainer>
+                <FormContainer label="ایمیل" name="email">
                   <Input
                     name="email"
                     onChange={handleChange}
                     value={values.email}
                     placeholder="ایمیل خود را وارد کنید . . ."
                   />
-                </FromContainer>
-                <FromContainer label="کد ملی" name="national_code">
+                </FormContainer>
+                <FormContainer label="کد ملی" name="national_code">
                   <Input
                     name="national_code"
                     onChange={handleChange}
                     value={values.national_code}
                     placeholder="کدملی خود را وارد کنید . . ."
                   />
-                </FromContainer>
-                <FromContainer label="شماره تلفن" name="phone_number">
+                </FormContainer>
+                <FormContainer label="شماره تلفن" name="phone_number">
                   <Input
                     name="phone_number"
                     onChange={handleChange}
                     value={values.phone_number}
                     placeholder="شماره تلفن خود را وارد کنید . . ."
                   />
-                </FromContainer>
-                <FromContainer label="کدپرسنلی" name="personal_code">
+                </FormContainer>
+                <FormContainer label="کدپرسنلی" name="personal_code">
                   <Input
                     name="personal_code"
                     onChange={handleChange}
                     value={values.personal_code}
                     placeholder="کدپرسنلی خود را وارد کنید . . ."
                   />
-                </FromContainer>
+                </FormContainer>
 
-                <FromContainer label="دانشکده" name="faculty">
+                <FormContainer label="دانشکده" name="faculty">
                   <Select />
-                </FromContainer>
+                </FormContainer>
               </div>
               <Button
                 icon={<AiFillEdit size={20} />}

@@ -11,7 +11,9 @@ import Table from './Table/table'
 import DatePicker from './DatePicker/DatePicker'
 import Spinner from './Spinner/Spinner'
 import Empty from './Empty/Empty'
+import Pagination from './Pagination/Pagination'
 export {
+  Pagination,
   Empty,
   Spinner,
   Table,

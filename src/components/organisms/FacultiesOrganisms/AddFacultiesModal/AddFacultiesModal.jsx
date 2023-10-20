@@ -1,5 +1,5 @@
 import { Button, Input, Modal, Select } from '@atom/index'
-import { FromContainer } from '@molecule/index'
+import { FormContainer } from '@molecule/index'
 import { Formik } from 'formik'
 
 import { masterSchema } from '@core/validation'
@@ -17,14 +17,14 @@ const AddFacultiesModal = ({ isShow, onClose }) => {
       >
         {({ values, handleSubmit, handleChange }) => (
           <form method="post" className="space-y-2">
-            <FromContainer label="نام دانشکده" name="company_name">
+            <FormContainer label="نام دانشکده" name="company_name">
               <Input
                 name="company_name"
                 onChange={handleChange}
                 value={values.company_name}
                 placeholder="نام دانشکده خود را وارد کنید . . . "
               />
-            </FromContainer>
+            </FormContainer>
 
             <Button
               icon={<AiOutlineUserAdd size={20} />}

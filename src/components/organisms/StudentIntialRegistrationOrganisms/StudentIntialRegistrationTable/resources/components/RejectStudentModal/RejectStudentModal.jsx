@@ -7,7 +7,7 @@ import { IoPersonRemoveSharp } from 'react-icons/io5'
 import * as yup from 'yup'
 
 import { useMutation } from 'react-query'
-import { FromContainer } from '@molecule/index'
+import { FormContainer } from '@molecule/index'
 import toast from 'react-hot-toast'
 
 const RejectStudentModal = ({ isShow, onClose, refetch, data }) => {
@@ -52,7 +52,7 @@ const RejectStudentModal = ({ isShow, onClose, refetch, data }) => {
               آیا از رد کردن دانشجو &quot;{data?.name} {data?.last_name}&quot;
               به شماره دانشجویی {data?.student_number} مطمئن هستید؟
             </span>
-            <FromContainer label="توضیحات" name="description">
+            <FormContainer label="توضیحات" name="description">
               <Input
                 name="description"
                 onChange={handleChange}
@@ -60,7 +60,7 @@ const RejectStudentModal = ({ isShow, onClose, refetch, data }) => {
                 type="textArea"
                 placeholder="توضیحات . . ."
               />
-            </FromContainer>
+            </FormContainer>
             <Button
               loading={isLoading}
               htmlType="submit"

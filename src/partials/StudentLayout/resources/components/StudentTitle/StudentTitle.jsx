@@ -20,11 +20,6 @@ const StudentTitle = () => {
               {extractStatus(searchParams.get('verified'))}
             </span>
           </span>
-          <span
-            className={` text-center duration-200 relative bottom-5 text-[#2080F6] text-[10px] font-semibold px-2 py-1 rounded-xl bg-[#EBF1FD]`}
-          >
-            12 دانشجو
-          </span>
         </div>
         <span className="text-[#5F5F61] text-xs">
           لیست دانشجویانی که برای ثبت نام و شروع کارآموزی نیاز به تایید دارند

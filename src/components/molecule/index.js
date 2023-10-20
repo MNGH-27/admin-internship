@@ -1,3 +1,3 @@
-import FromContainer from './FormContainer/FromContainer'
+import FormContainer from './FormContainer/FormContainer'
 
-export { FromContainer }
+export { FormContainer }
