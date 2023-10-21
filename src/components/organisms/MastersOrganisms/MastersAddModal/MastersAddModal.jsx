@@ -1,4 +1,4 @@
-import { QueryClient, useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { Button, Input, Modal, Select } from '@atom/index'
 import { FormContainer } from '@molecule/index'
@@ -14,14 +14,14 @@ import toast from 'react-hot-toast'
 import { AiOutlineUserAdd } from 'react-icons/ai'
 
 const MastersAddModal = ({ isShow, onClose }) => {
-  const queryClient = new QueryClient()
+  const queryClient = new useQueryClient()
 
   const { mutate, isLoading: isSubmiting } = useMutation({
     mutationKey: ['create_new_master'],
     mutationFn: (data) => createNewMasterHttp(data),
     onSuccess: (response) => {
       //revalidate data of master_list
-      queryClient.invalidateQueries(['master_list'])
+      queryClient.invalidateQueries('master_list')
       //show that master added successfully
       toast.success('استاد با موفقیت اضافه شد')
       //close modal

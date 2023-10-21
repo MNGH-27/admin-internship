@@ -4,8 +4,6 @@ import { ImCancelCircle } from 'react-icons/im'
 import { MdOutlineCancel } from 'react-icons/md'
 
 const RemoveMasterModal = ({ isShow, onClose, data }) => {
-  console.log('data : ', data)
-
   return (
     <Modal isShow={isShow} onClose={onClose}>
       <div className="flex flex-col items-start justify-center gap-3">

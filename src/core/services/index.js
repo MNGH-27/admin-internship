@@ -9,7 +9,11 @@ import { getPreRegestrationStundets } from './apis/student/get_pre_registration_
 import { getMasterListHttp } from './apis/master/get_master_list.api'
 import { createNewMasterHttp } from './apis/master/create_new_master.api'
 import { getfacultyListHttp } from './apis/faculty/get_faculty_list.api'
+import { getSingleMasterEditHttp } from './apis/master/get_single_master.api'
+import { editMasterHttp } from './apis/master/edit_master.api'
 export {
+  editMasterHttp,
+  getSingleMasterEditHttp,
   getfacultyListHttp,
   createNewMasterHttp,
   getMasterListHttp,
