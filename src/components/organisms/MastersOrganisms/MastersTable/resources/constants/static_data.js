@@ -10,18 +10,18 @@ export const getTableData = (openRemoveMaster, openEditMaster) => {
     },
     {
       title: 'نام',
-      dataIndex: 'firstName',
-      key: 'firstName',
+      dataIndex: 'first_name',
+      key: 'first_name',
     },
     {
       title: 'نام خانوادگی',
-      dataIndex: 'lastName',
-      key: 'lastName',
+      dataIndex: 'last_name',
+      key: 'last_name',
     },
     {
       title: 'کد ملی',
-      dataIndex: 'nationalCode',
-      key: 'nationalCode',
+      dataIndex: 'national_code',
+      key: 'national_code',
     },
     {
       title: 'دانشکده',
@@ -30,13 +30,13 @@ export const getTableData = (openRemoveMaster, openEditMaster) => {
     },
     {
       title: 'شماره تلفن',
-      dataIndex: 'phoneNumber',
-      key: 'phoneNumber',
+      dataIndex: 'phone',
+      key: 'phone',
     },
     {
       title: 'تعداد دانشجو',
-      dataIndex: 'studentCount',
-      key: 'studentCount',
+      dataIndex: 'student_count',
+      key: 'student_count',
     },
     {
       title: '',

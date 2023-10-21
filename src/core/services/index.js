@@ -6,7 +6,11 @@ import { getEntranceYearOfStudentFilter } from './apis/student/get_entrance_year
 import { getInitialRegestrationUnverifyDescription } from './apis/student/get_initial_registration_unverify_description.api'
 import { putVarifyStudentInitialRegestration } from './apis/student/put_verify_student.api'
 import { getPreRegestrationStundets } from './apis/student/get_pre_registration_list.api'
+import { getMasterListHttp } from './apis/master/get_master_list.api'
+import { createNewMasterHttp } from './apis/master/create_new_master.api'
 export {
+  createNewMasterHttp,
+  getMasterListHttp,
   getPreRegestrationStundets,
   putVarifyStudentInitialRegestration,
   getInitialRegestrationUnverifyDescription,

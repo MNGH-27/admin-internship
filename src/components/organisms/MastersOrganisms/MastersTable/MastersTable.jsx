@@ -4,12 +4,15 @@ import { useState } from 'react'
 
 import { Table } from '@atom/index'
 
+import { useQuery } from 'react-query'
+
 import {
   DUMMY_DATA,
   getTableData,
   EditMasterModal,
   RemoveMasterModal,
 } from './resources'
+import { getMasterListHttp } from '@core/services'
 
 const MastersTable = () => {
   const [removeMaster, setRemoveMaster] = useState({
@@ -20,6 +23,11 @@ const MastersTable = () => {
   const [editMaster, setEditMaster] = useState({
     isShow: false,
     data: {},
+  })
+
+  const { data: masterList, isLoading: isLoadingMasterList } = useQuery({
+    queryKey: ['master_list'],
+    queryFn: getMasterListHttp,
   })
 
   const onOpenRemoveMasterModal = (data) => {
@@ -39,11 +47,14 @@ const MastersTable = () => {
   return (
     <>
       <Table
+        rowKey={(record) => record.id}
+        loading={isLoadingMasterList}
         headerList={getTableData(
           onOpenRemoveMasterModal,
           onOpenEditMasterModal,
         )}
-        data={DUMMY_DATA}
+        pagination={{}}
+        data={masterList?.data?.master}
       />
 
       <EditMasterModal
