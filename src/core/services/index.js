@@ -11,7 +11,9 @@ import { createNewMasterHttp } from './apis/master/create_new_master.api'
 import { getfacultyListHttp } from './apis/faculty/get_faculty_list.api'
 import { getSingleMasterEditHttp } from './apis/master/get_single_master.api'
 import { editMasterHttp } from './apis/master/edit_master.api'
+import { deleteMasterHttp } from './apis/master/delete_master.api'
 export {
+  deleteMasterHttp,
   editMasterHttp,
   getSingleMasterEditHttp,
   getfacultyListHttp,

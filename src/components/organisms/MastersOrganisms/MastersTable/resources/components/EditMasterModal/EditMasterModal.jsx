@@ -12,7 +12,7 @@ import { convertFacultyList } from '@core/common'
 import toast from 'react-hot-toast'
 
 const EditMasterModal = ({ isShow, onClose, data }) => {
-  const queryClient = new useQueryClient()
+  const queryClient = useQueryClient()
 
   const { mutate, isLoading: isSubmiting } = useMutation({
     mutationKey: ['edit_master'],

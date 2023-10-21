@@ -14,7 +14,7 @@ import toast from 'react-hot-toast'
 import { AiOutlineUserAdd } from 'react-icons/ai'
 
 const MastersAddModal = ({ isShow, onClose }) => {
-  const queryClient = new useQueryClient()
+  const queryClient = useQueryClient()
 
   const { mutate, isLoading: isSubmiting } = useMutation({
     mutationKey: ['create_new_master'],
