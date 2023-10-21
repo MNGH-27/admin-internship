@@ -13,18 +13,18 @@ export const getTableData = (
     },
     {
       title: 'نام',
-      dataIndex: 'firstName',
-      key: 'firstName',
+      dataIndex: 'name',
+      key: 'name',
     },
     {
       title: 'نام خانوادگی',
-      dataIndex: 'lastName',
-      key: 'lastName',
+      dataIndex: 'last_name',
+      key: 'last_name',
     },
     {
       title: 'شماره دانشجویی',
-      dataIndex: 'studentNumber',
-      key: 'studentNumber',
+      dataIndex: 'student_number',
+      key: 'student_number',
     },
     {
       title: 'نام شرکت',

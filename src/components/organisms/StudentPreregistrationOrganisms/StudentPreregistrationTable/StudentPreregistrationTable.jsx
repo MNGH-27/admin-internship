@@ -10,6 +10,8 @@ import {
   getTableData,
   RejectDescriptionModal,
 } from './resources'
+import { useQuery } from 'react-query'
+import { getPreRegestrationStundets } from '@core/services'
 
 const StudentPreregistrationTable = () => {
   const searchParams = useSearchParams()
@@ -22,6 +24,11 @@ const StudentPreregistrationTable = () => {
   const [rejectDescriptionModal, setRejectDescriptionModal] = useState({
     isShow: false,
     data: {},
+  })
+
+  const { data, isLoading, isFetching, refetch } = useQuery({
+    queryKey: ['initial_registration_list', searchParams.toString()],
+    queryFn: () => getPreRegestrationStundets(searchParams.toString()),
   })
 
   const onOpenRejectModal = (data) => {
@@ -41,12 +48,15 @@ const StudentPreregistrationTable = () => {
   return (
     <>
       <Table
+        loading={isLoading || isFetching}
+        rowKey={(record) => record.id}
         headerList={getTableData(
           onOpenRejectModal,
           onOpenRejectDescriptionModal,
           searchParams.get('verified'),
         )}
-        data={DUMMY_DATA}
+        pagination={{}}
+        data={data?.data?.students}
       />
 
       <RejectStudentModal

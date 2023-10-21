@@ -5,7 +5,9 @@ import { putUnVarifyStudentInitialRegestration } from './apis/student/put_unveri
 import { getEntranceYearOfStudentFilter } from './apis/student/get_entrance_year_student_filter.api'
 import { getInitialRegestrationUnverifyDescription } from './apis/student/get_initial_registration_unverify_description.api'
 import { putVarifyStudentInitialRegestration } from './apis/student/put_verify_student.api'
+import { getPreRegestrationStundets } from './apis/student/get_pre_registration_list.api'
 export {
+  getPreRegestrationStundets,
   putVarifyStudentInitialRegestration,
   getInitialRegestrationUnverifyDescription,
   getEntranceYearOfStudentFilter,
