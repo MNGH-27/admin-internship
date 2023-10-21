@@ -1,6 +1,6 @@
 import AxiosFetch from '@core/services/config/AxiosHttp'
 
-export async function getMasterListHttp({ filter }) {
+export async function getMasterListHttp(filter = '') {
   try {
     const response = await AxiosFetch().get(`master?${filter}`)
 

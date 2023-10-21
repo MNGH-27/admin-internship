@@ -1,15 +1,19 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import { Table } from '@atom/index'
 
 import { useQuery } from 'react-query'
-
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { getTableData, EditMasterModal, RemoveMasterModal } from './resources'
 import { getMasterListHttp } from '@core/services'
 
 const MastersTable = () => {
+  const searchParams = useSearchParams()
+  const pathName = usePathname()
+  const { push } = useRouter()
+
   const [removeMaster, setRemoveMaster] = useState({
     isShow: false,
     data: {},
@@ -21,8 +25,8 @@ const MastersTable = () => {
   })
 
   const { data: masterList, isLoading: isLoadingMasterList } = useQuery({
-    queryKey: ['master_list'],
-    queryFn: getMasterListHttp,
+    queryKey: ['master_list', searchParams.toString()],
+    queryFn: () => getMasterListHttp(searchParams.toString()),
   })
 
   const onOpenRemoveMasterModal = (data) => {
@@ -39,6 +43,20 @@ const MastersTable = () => {
     })
   }
 
+  // Get a new searchParams string by merging the current
+  // searchParams with a provided key/value pair
+  const createQueryString = useCallback(
+    ({ page }) => {
+      const params = new URLSearchParams(searchParams)
+
+      //add new search params
+      params.set('page', page)
+
+      return params.toString()
+    },
+    [searchParams],
+  )
+
   return (
     <>
       <Table
@@ -48,7 +66,13 @@ const MastersTable = () => {
           onOpenRemoveMasterModal,
           onOpenEditMasterModal,
         )}
-        pagination={{}}
+        pagination={{
+          pageSize: 5, // Set the number of items per page
+          total: masterList?.meta?.total_records, // Set the total number of items
+          onChange: (page) => {
+            push(pathName + "?" + createQueryString({ page }))
+          },
+        }}
         data={masterList?.data?.master}
       />
 

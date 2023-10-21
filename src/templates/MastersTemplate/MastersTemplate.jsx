@@ -15,14 +15,14 @@ const MastersTemplate = () => {
 
   return (
     <>
-      <div className="flex items-end justify-between mb-5">
+      <div className="flex flex-col sm:flex-row items-end space-y-3 mb-5">
         <MastersFilter />
 
         <Button
           onClick={() => setIsShowAddMasterModal(true)}
           icon={<AiOutlineUserAdd size={20} />}
           type="primary"
-          className="h-auto py-2"
+          className="h-auto py-2 w-fit mr-auto"
         >
           اضافه کردن استاد
         </Button>
