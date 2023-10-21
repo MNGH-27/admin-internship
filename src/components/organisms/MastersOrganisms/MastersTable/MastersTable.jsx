@@ -6,12 +6,7 @@ import { Table } from '@atom/index'
 
 import { useQuery } from 'react-query'
 
-import {
-  DUMMY_DATA,
-  getTableData,
-  EditMasterModal,
-  RemoveMasterModal,
-} from './resources'
+import { getTableData, EditMasterModal, RemoveMasterModal } from './resources'
 import { getMasterListHttp } from '@core/services'
 
 const MastersTable = () => {

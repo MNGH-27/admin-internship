@@ -8,7 +8,9 @@ import { putVarifyStudentInitialRegestration } from './apis/student/put_verify_s
 import { getPreRegestrationStundets } from './apis/student/get_pre_registration_list.api'
 import { getMasterListHttp } from './apis/master/get_master_list.api'
 import { createNewMasterHttp } from './apis/master/create_new_master.api'
+import { getfacultyListHttp } from './apis/faculty/get_faculty_list.api'
 export {
+  getfacultyListHttp,
   createNewMasterHttp,
   getMasterListHttp,
   getPreRegestrationStundets,

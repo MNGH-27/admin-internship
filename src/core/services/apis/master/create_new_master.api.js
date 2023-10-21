@@ -6,18 +6,26 @@ export async function createNewMasterHttp({
   email,
   national_code,
   personal_code,
-  faculty,
+  faculty_id,
   phone_number,
 }) {
-  const apiCall = await AxiosFetch().post(`master`, {
-    first_name,
-    last_name,
-    email,
-    personal_code,
-    national_code,
-    phone_number,
-    faculty_id: faculty.id,
-  })
+  try {
+    const response = await AxiosFetch().post(`master`, {
+      first_name,
+      last_name,
+      email,
+      personal_code,
+      national_code,
+      phone_number,
+      faculty_id,
+    })
 
-  return apiCall
+    if (response.status === 200) {
+      return response.data
+    }
+
+    return Promise.reject(response.data)
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }

@@ -10,6 +10,7 @@ import { getEntranceYearOfStudentFilter } from '@core/services'
 import { Formik } from 'formik'
 import { FormContainer } from '@molecule/index'
 import { useCallback } from 'react'
+import { convertEntranceYear } from '@core/common'
 
 const StudentFilter = () => {
   const pathName = usePathname()
@@ -20,19 +21,6 @@ const StudentFilter = () => {
     queryKey: ['student_entrance_year'],
     queryFn: getEntranceYearOfStudentFilter,
   })
-
-  const convertEntranceYear = (entranceYear) => {
-    //check if data is Array
-    if (Array.isArray(entranceYear)) {
-      return entranceYear.map((singleEntrance) => ({
-        label: singleEntrance.entrance_year,
-        value: singleEntrance.entrance_year,
-      }))
-    }
-
-    //this is not array => return empty array
-    return []
-  }
 
   // Get a new searchParams string by merging the current
   // searchParams with a provided key/value pair

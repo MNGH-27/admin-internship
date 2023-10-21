@@ -1,20 +1,56 @@
+import { QueryClient, useMutation, useQuery } from 'react-query'
+
 import { Button, Input, Modal, Select } from '@atom/index'
 import { FormContainer } from '@molecule/index'
+
+import { createNewMasterHttp, getfacultyListHttp } from '@core/services'
+import { convertFacultyList } from '@core/common'
+import { masterSchema } from '@core/validation'
+
 import { Formik } from 'formik'
 
-import { masterSchema } from '@core/validation'
+import toast from 'react-hot-toast'
+
 import { AiOutlineUserAdd } from 'react-icons/ai'
 
 const MastersAddModal = ({ isShow, onClose }) => {
+  const queryClient = new QueryClient()
+
+  const { mutate, isLoading: isSubmiting } = useMutation({
+    mutationKey: ['create_new_master'],
+    mutationFn: (data) => createNewMasterHttp(data),
+    onSuccess: (response) => {
+      //revalidate data of master_list
+      queryClient.invalidateQueries(['master_list'])
+      //show that master added successfully
+      toast.success('استاد با موفقیت اضافه شد')
+      //close modal
+      onClose()
+    },
+    onError: (error) => {
+      toast.error('اضافه کردن استاد ناموفق بود')
+    },
+  })
+
+  const { data: facultyList, isLoading: isLoadingFaculty } = useQuery({
+    queryKey: ['faculty_list'],
+    queryFn: getfacultyListHttp,
+  })
+
   return (
     <Modal isShow={isShow} onClose={onClose} maskClosable={false}>
       <p className="mb-5 font-semibold">اطلاعات مربوط به استاد را وارد کنید</p>
       <Formik
         initialValues={{ ...masterSchema.getDefault() }}
         validationSchema={masterSchema}
+        onSubmit={(data) => mutate(data)}
       >
-        {({ values, handleSubmit, handleChange }) => (
-          <form method="post" className="flex flex-col gap-y-3 w-full">
+        {({ values, handleSubmit, handleChange, setFieldValue }) => (
+          <form
+            onSubmit={handleSubmit}
+            method="post"
+            className="flex flex-col gap-y-3 w-full"
+          >
             <div className="grid grid-cols-2 gap-5">
               <FormContainer label="نام" name="first_name">
                 <Input
@@ -65,11 +101,18 @@ const MastersAddModal = ({ isShow, onClose }) => {
                 />
               </FormContainer>
 
-              <FormContainer label="دانشکده" name="faculty">
-                <Select />
+              <FormContainer label="دانشکده" name="faculty_id">
+                <Select
+                  value={values.faculty_id}
+                  onChange={(value) => setFieldValue('faculty_id', value)}
+                  loading={isLoadingFaculty}
+                  selectList={convertFacultyList(facultyList?.data)}
+                />
               </FormContainer>
             </div>
             <Button
+              loading={isSubmiting}
+              htmlType="submit"
               icon={<AiOutlineUserAdd size={20} />}
               className="w-fit h-auto py-2"
               type="primary"
