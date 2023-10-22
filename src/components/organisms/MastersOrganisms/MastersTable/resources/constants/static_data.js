@@ -7,6 +7,7 @@ export const getTableData = (openRemoveMaster, openEditMaster) => {
       title: '#',
       dataIndex: 'index',
       key: 'index',
+      render: (_, data, index) => <span>{index + 1}</span>,
     },
     {
       title: 'نام',

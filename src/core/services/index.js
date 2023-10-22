@@ -12,7 +12,9 @@ import { getfacultyListHttp } from './apis/faculty/get_faculty_list.api'
 import { getSingleMasterEditHttp } from './apis/master/get_single_master.api'
 import { editMasterHttp } from './apis/master/edit_master.api'
 import { deleteMasterHttp } from './apis/master/delete_master.api'
+import { getCompaniesList } from './apis/company/get_company_list.api'
 export {
+  getCompaniesList,
   deleteMasterHttp,
   editMasterHttp,
   getSingleMasterEditHttp,

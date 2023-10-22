@@ -8,26 +8,27 @@ export const getTableData = (openDetailModal, openRemoveModal) => {
       title: '#',
       dataIndex: 'index',
       key: 'index',
+      render: (_, data, index) => <span>{index + 1}</span>,
     },
     {
       title: 'نام شرکت',
-      dataIndex: 'companyName',
-      key: 'companyName',
+      dataIndex: 'company_name',
+      key: 'company_name',
     },
     {
       title: 'رئیس شرکت',
-      dataIndex: 'companyBoss',
-      key: 'companyBoss',
+      dataIndex: 'company_boss_name',
+      key: 'company_boss_name',
     },
     {
       title: 'تلفن',
-      dataIndex: 'phoneNumber',
-      key: 'phoneNumber',
+      dataIndex: 'company_phone',
+      key: 'company_phone',
     },
     {
       title: 'شماره ثبت',
-      dataIndex: 'number',
-      key: 'number',
+      dataIndex: 'company_number',
+      key: 'company_number',
     },
     {
       title: '',
@@ -36,7 +37,7 @@ export const getTableData = (openDetailModal, openRemoveModal) => {
       render: (_, data) => (
         <div className="flex items-center justify-center gap-2 flex-wrap">
           <Button
-            onClick={() => openDetailModal()}
+            onClick={() => openDetailModal(data)}
             icon={<BiSolidUserDetail size={20} />}
             className="bg-yellow-700 hover:!bg-yellow-900"
             type="primary"

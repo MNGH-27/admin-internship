@@ -1,38 +1,84 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import { Table } from '@atom/index'
 
-import {
-  DUMMY_DATA,
-  getTableData,
-  DetailCompanyModal,
-  RemoveCompanyModal,
-} from './resources'
+import { useQuery } from 'react-query'
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
+import { getTableData, DetailCompanyModal, RemoveCompanyModal } from './resources'
+import { getCompaniesList, } from '@core/services'
 
 const CompanyTable = () => {
-  const [isShowDetailModal, setIsShowDetailModal] = useState(false)
+  const searchParams = useSearchParams()
+  const pathName = usePathname()
+  const { push } = useRouter()
+
+
+  const [detailModal, setDetailModal] = useState({
+    isShow: false, data: {}
+  })
   const [isShowRemoveModal, setIsShowRemoveModal] = useState(false)
 
-  const onOpenDetailModal = () => {
-    setIsShowDetailModal(true)
+
+  const { data: companyList, isLoading: isLoadingCompanyList } = useQuery({
+    queryKey: ['companies_list', searchParams.toString()],
+    queryFn: () => getCompaniesList(searchParams.toString()),
+  })
+
+
+  // Get a new searchParams string by merging the current
+  // searchParams with a provided key/value pair
+  const createQueryString = useCallback(
+    ({ page }) => {
+      const params = new URLSearchParams(searchParams)
+
+      //add new search params
+      params.set('page', page)
+
+      return params.toString()
+    },
+    [searchParams],
+  )
+
+  const onOpenDetailModal = (data) => {
+    setDetailModal({
+      isShow: true,
+      data
+    })
   }
 
   const onOpenRemoveModal = () => {
     setIsShowRemoveModal(true)
   }
 
+
   return (
     <>
       <Table
-        headerList={getTableData(onOpenDetailModal, onOpenRemoveModal)}
-        data={DUMMY_DATA}
+        rowKey={(record) => record.id}
+        loading={isLoadingCompanyList}
+        headerList={getTableData(
+          onOpenDetailModal,
+          onOpenRemoveModal,
+        )}
+        pagination={{
+          pageSize: 5, // Set the number of items per page
+          total: companyList?.meta?.total_records, // Set the total number of items
+          onChange: (page) => {
+            push(pathName + "?" + createQueryString({ page }))
+          },
+        }}
+        data={companyList?.data}
       />
 
       <DetailCompanyModal
-        isShow={isShowDetailModal}
-        onClose={() => setIsShowDetailModal(false)}
+        isShow={detailModal.isShow}
+        onClose={() => setDetailModal({
+          isShow: false,
+          data: {}
+        })}
+        data={detailModal.data}
       />
 
       <RemoveCompanyModal
