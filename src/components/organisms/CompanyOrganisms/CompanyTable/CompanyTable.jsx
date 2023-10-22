@@ -18,7 +18,9 @@ const CompanyTable = () => {
   const [detailModal, setDetailModal] = useState({
     isShow: false, data: {}
   })
-  const [isShowRemoveModal, setIsShowRemoveModal] = useState(false)
+  const [removeModal, setRemoveModal] = useState({
+    isShow: false, data: {}
+  })
 
 
   const { data: companyList, isLoading: isLoadingCompanyList } = useQuery({
@@ -48,8 +50,11 @@ const CompanyTable = () => {
     })
   }
 
-  const onOpenRemoveModal = () => {
-    setIsShowRemoveModal(true)
+  const onOpenRemoveModal = (data) => {
+    setRemoveModal({
+      isShow: true,
+      data
+    })
   }
 
 
@@ -82,8 +87,12 @@ const CompanyTable = () => {
       />
 
       <RemoveCompanyModal
-        isShow={isShowRemoveModal}
-        onClose={() => setIsShowRemoveModal(false)}
+        isShow={removeModal.isShow}
+        onClose={() => setRemoveModal({
+          isShow: false,
+          data: {}
+        })}
+        data={removeModal.data}
       />
     </>
   )
