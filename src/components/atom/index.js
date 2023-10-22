@@ -12,7 +12,9 @@ import DatePicker from './DatePicker/DatePicker'
 import Spinner from './Spinner/Spinner'
 import Empty from './Empty/Empty'
 import Pagination from './Pagination/Pagination'
+import Upload from './Upload/Upload'
 export {
+  Upload,
   Pagination,
   Empty,
   Spinner,

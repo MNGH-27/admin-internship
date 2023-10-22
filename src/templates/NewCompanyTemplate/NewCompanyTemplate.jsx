@@ -3,9 +3,8 @@
 import { Formik } from 'formik'
 
 import { Button } from '@atom/index'
-
+import { useRouter } from 'next/navigation'
 import { IoReturnDownBack } from 'react-icons/io5'
-
 import {
   ConfigCompanyDetail,
   ConfigCompanyManagerDetail,
@@ -15,8 +14,33 @@ import { configCompanySchema } from '@core/validation/configCompanySchema'
 
 import { AiOutlineUserAdd } from 'react-icons/ai'
 import Link from 'next/link'
+import { useMutation, useQueryClient } from 'react-query'
+import { createNewComapanyHttp } from '@core/services'
+import toast from 'react-hot-toast'
 
 const NewCompanyTemplate = () => {
+  const { push } = useRouter()
+  const queryClient = useQueryClient()
+
+
+  const { mutate, isLoading: isSubmiting } = useMutation({
+    mutationKey: ['create_new_company'],
+    mutationFn: (data) => createNewComapanyHttp(data),
+    onSuccess: (response) => {
+      //revalidate data of master_list
+      queryClient.invalidateQueries('companies_list')
+      //show that master added successfully
+      toast.success('استاد با موفقیت اضافه شد')
+      //redirect to company list
+      push("/dashboard/company")
+    },
+    onError: (error) => {
+      toast.error('اضافه کردن شرکت ناموفق بود')
+    },
+  })
+
+
+
   return (
     <div>
       <Link
@@ -36,20 +60,24 @@ const NewCompanyTemplate = () => {
       <Formik
         initialValues={{ ...configCompanySchema.getDefault() }}
         validationSchema={configCompanySchema}
-        // onSubmit={(values) => {
-        //   mutate(values)
-        // }}
+        onSubmit={(data) => mutate(data)}
       >
-        {({ values, handleSubmit, handleChange }) => (
+        {({ values, handleSubmit, handleChange, setFieldValue }) => (
           <form onSubmit={handleSubmit}>
-            <ConfigCompanyDetail values={values} handleChange={handleChange} />
+            <ConfigCompanyDetail
+              values={values}
+              handleChange={handleChange}
+              setFieldValue={setFieldValue}
+            />
 
             <ConfigCompanyManagerDetail
               values={values}
               handleChange={handleChange}
+              setFieldValue={setFieldValue}
             />
 
             <Button
+              loading={isSubmiting}
               icon={<AiOutlineUserAdd size={24} />}
               htmlType="submit"
               className="h-auto py-3 px-6 ml-auto text-base"

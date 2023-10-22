@@ -1,16 +1,16 @@
-import { Input } from '@atom/index'
+import { Input, Upload } from '@atom/index'
 import { FormContainer } from '@molecule/index'
 
 import { TbListDetails } from 'react-icons/tb'
 
-const ConfigCompanyDetail = ({ values, handleChange }) => {
+const ConfigCompanyDetail = ({ values, handleChange, setFieldValue }) => {
   return (
     <div className="mb-4">
       <div className="text-xl font-semibold flex items-center justify-start gap-x-2 mb-2">
         <TbListDetails size={24} />
         <span>اطلاعات شرکت</span>
       </div>
-      <div className="grid grid-cols-2 gap-y-6 sm:gap-y-10 sm:gap-x-10">
+      <div className="grid sm:grid-cols-2 gap-y-6 sm:gap-y-10 sm:gap-x-10">
         <FormContainer label="نام شرکت" name="company_name">
           <Input
             name="company_name"
@@ -58,6 +58,19 @@ const ConfigCompanyDetail = ({ values, handleChange }) => {
             name="company_type"
             onChange={handleChange}
             value={values.company_type}
+          />
+        </FormContainer>
+        <FormContainer label="لوگو شرکت" name="image" >
+          <Upload
+            name="image"
+            onChange={(value) => {
+              if (value.fileList.length !== 0)
+                setFieldValue('image', value.file)
+              else
+                setFieldValue('image', "")
+
+            }}
+            value={values.image}
           />
         </FormContainer>
         <FormContainer

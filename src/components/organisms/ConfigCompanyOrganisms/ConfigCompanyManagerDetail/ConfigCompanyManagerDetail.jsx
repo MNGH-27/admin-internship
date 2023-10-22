@@ -1,8 +1,16 @@
 import { Input, Select } from '@atom/index'
+import { convertFacultyList } from '@core/common'
+import { getfacultyListHttp } from '@core/services'
 import { FormContainer } from '@molecule/index'
 import { TbListDetails } from 'react-icons/tb'
+import { useQuery } from 'react-query'
 
-const ConfigCompanyManagerDetail = ({ values, handleChange }) => {
+const ConfigCompanyManagerDetail = ({ values, handleChange, setFieldValue }) => {
+  const { data: facultyList, isLoading: isLoadingFaculty } = useQuery({
+    queryKey: ['faculty_list'],
+    queryFn: getfacultyListHttp,
+  })
+
   return (
     <div className="mb-4">
       <div className="text-xl font-semibold flex items-center justify-start gap-x-2 mb-2">
@@ -43,6 +51,7 @@ const ConfigCompanyManagerDetail = ({ values, handleChange }) => {
             value={values.username}
           />
         </FormContainer>
+
         <FormContainer label="تلفن سرپرست" name="phone_number">
           <Input
             name="phone_number"
@@ -51,14 +60,15 @@ const ConfigCompanyManagerDetail = ({ values, handleChange }) => {
           />
         </FormContainer>
 
-        <FormContainer label="دانشکده" name="faculty">
+        <FormContainer label="دانشکده" name="faculty_id">
           <Select
-          // value={JSON.stringify(facultiesIntranceContainer)}
-          // onChange={(e) =>
-          //   setfacultiesIntranceContainer(JSON.parse(e.target.value))
-          // }
+            value={values.faculty_id}
+            onChange={(value) => setFieldValue('faculty_id', value)}
+            loading={isLoadingFaculty}
+            selectList={convertFacultyList(facultyList?.data)}
           />
         </FormContainer>
+
       </div>
     </div>
   )
