@@ -15,7 +15,9 @@ import { deleteMasterHttp } from './apis/master/delete_master.api'
 import { getCompaniesList } from './apis/company/get_company_list.api'
 import { createNewComapanyHttp } from './apis/company/create_new_company.api'
 import { deleteCompanyhttp } from './apis/company/delete_company.api'
+import { getSingleCompanyHttp } from './apis/company/get_single_company.api'
 export {
+  getSingleCompanyHttp,
   deleteCompanyhttp,
   createNewComapanyHttp,
   getCompaniesList,

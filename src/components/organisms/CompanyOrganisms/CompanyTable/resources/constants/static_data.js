@@ -1,4 +1,5 @@
 import { Button } from '@atom/index'
+import Link from 'next/link'
 import { AiFillEdit } from 'react-icons/ai'
 import { BiSolidUserDetail } from 'react-icons/bi'
 import { MdDelete } from 'react-icons/md'
@@ -44,7 +45,12 @@ export const getTableData = (openDetailModal, openRemoveModal) => {
           >
             جزئیات
           </Button>
-          <Button icon={<AiFillEdit size={20} />} type="primary">
+          <Button
+            href={`/dashboard/company/edit-company/${data.id}`}
+            as={Link}
+            icon={<AiFillEdit size={20} />}
+            type="primary"
+          >
             ویرایش
           </Button>
           <Button

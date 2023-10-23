@@ -2,7 +2,7 @@
 
 import { Formik } from 'formik'
 
-import { Button } from '@atom/index'
+import { Button, Spinner } from '@atom/index'
 
 import { IoReturnDownBack } from 'react-icons/io5'
 
@@ -15,11 +15,20 @@ import { configCompanySchema } from '@core/validation/configCompanySchema'
 
 import { AiOutlineUserAdd } from 'react-icons/ai'
 import Link from 'next/link'
+import { useQuery } from 'react-query'
+import { getSingleCompanyHttp } from '@core/services'
 
-const EditCompanyTemplate = ({ id }) => {
-  /**
-   * TODO: Fetch that comapny data and pass it to inputs
-   */
+const EditCompanyTemplate = ({ companyId }) => {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['single_company'],
+    queryFn: () => getSingleCompanyHttp({ id: companyId }),
+  })
+
+  if (isLoading)
+    return <div className='flex items-center justify-center w-full my-5'>
+      <Spinner />
+    </div>
+
 
   return (
     <div>
@@ -40,9 +49,9 @@ const EditCompanyTemplate = ({ id }) => {
       <Formik
         initialValues={{ ...configCompanySchema.getDefault() }}
         validationSchema={configCompanySchema}
-        // onSubmit={(values) => {
-        //   mutate(values)
-        // }}
+      // onSubmit={(values) => {
+      //   mutate(values)
+      // }}
       >
         {({ values, handleSubmit, handleChange }) => (
           <form onSubmit={handleSubmit}>
