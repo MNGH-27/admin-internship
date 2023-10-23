@@ -16,17 +16,17 @@ const EditFacultiesModal = ({ isShow, onClose, data }) => {
   })
 
   const { mutate, isLoading } = useMutation({
-    mutationKey: ['create_faculty'],
+    mutationKey: ['edit_faculty'],
     mutationFn: ({ name }) => editEducationalFacultiesHttp({ name, id: data?.id }),
     onSuccess: (response) => {
-      toast.success("دانشکده با موفقیت اضافه شد")
+      toast.success("دانشکده با موفقیت ویرایش شد")
 
       queryClient.invalidateQueries(['faculties_list'])
 
       onClose()
     },
     onError: (error) => {
-      toast.error("اضافه کردن دانشکده با مشکل مواجه شد")
+      toast.error("ویرایش کردن دانشکده با مشکل مواجه شد")
     }
   })
 

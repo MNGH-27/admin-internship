@@ -29,7 +29,7 @@ export const getTableData = (openDetailModal, openRemoveModal) => {
             ویرایش
           </Button>
           <Button
-            onClick={() => openRemoveModal()}
+            onClick={() => openRemoveModal(data)}
             icon={<MdDelete size={20} />}
             type="primary"
             className="bg-red-700 hover:!bg-red-900"

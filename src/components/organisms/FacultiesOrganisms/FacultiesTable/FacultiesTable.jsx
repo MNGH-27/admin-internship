@@ -25,8 +25,7 @@ const FacultiesTable = () => {
     data: {}
   })
 
-  const [isShowRemoveFacultiesModal, setIsShowRemoveFacultiesModal] =
-    useState(false)
+  const [removeFacultiesModal, setRemoveFacultiesModal] = useState({ isShow: false, data: {} })
 
   const onOpenDetailModal = (data) => {
     setEditModal({
@@ -35,8 +34,11 @@ const FacultiesTable = () => {
     })
   }
 
-  const onOpenRemoveModal = () => {
-    setIsShowRemoveFacultiesModal(true)
+  const onOpenRemoveModal = (data) => {
+    setRemoveFacultiesModal({
+      isShow: true,
+      data
+    })
   }
 
   const { data: facultiesList, isLoading: isLoadingFaculties } = useQuery({
@@ -84,8 +86,12 @@ const FacultiesTable = () => {
       />
 
       <RemoveFacultiesModal
-        isShow={isShowRemoveFacultiesModal}
-        onClose={() => setIsShowRemoveFacultiesModal(false)}
+        isShow={removeFacultiesModal.isShow}
+        onClose={() => setRemoveFacultiesModal({
+          isShow: false,
+          data: []
+        })}
+        data={removeFacultiesModal.data}
       />
     </>
   )
