@@ -17,8 +17,9 @@ import { createNewComapanyHttp } from './apis/company/create_new_company.api'
 import { deleteCompanyhttp } from './apis/company/delete_company.api'
 import { getSingleCompanyHttp } from './apis/company/get_single_company.api'
 import { getEducationalFacultiesListHttp } from './apis/educational-faculties/get_educational_faculties.api'
-
+import { createNewFacultiesHttp } from './apis/educational-faculties/create_new_faculties.api'
 export {
+  createNewFacultiesHttp,
   getEducationalFacultiesListHttp,
   getSingleCompanyHttp,
   deleteCompanyhttp,
