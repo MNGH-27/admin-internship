@@ -8,11 +8,12 @@ export const getTableData = (openDetailModal, openRemoveModal) => {
       title: '#',
       dataIndex: 'index',
       key: 'index',
+      render: (_, data, index) => <span>{index + 1}</span>,
     },
     {
       title: 'نام دانشکده',
-      dataIndex: 'facultyName',
-      key: 'facultyName',
+      dataIndex: 'name',
+      key: 'name',
     },
     {
       title: '',
