@@ -13,14 +13,14 @@ const FacultiesTemplate = () => {
 
   return (
     <div>
-      <div className="flex items-end justify-between mb-5">
+      <div className="flex flex-col sm:flex-row items-end space-y-3 mb-5">
         <FacultiesFilter />
 
         <Button
           onClick={() => setIsShowAddFaculty(true)}
           icon={<AiOutlineUserAdd size={20} />}
           type="primary"
-          className="h-auto py-2"
+          className="h-auto py-2 w-full sm:w-fit"
         >
           اضافه کردن دانشکده
         </Button>
