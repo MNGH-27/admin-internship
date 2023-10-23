@@ -21,7 +21,11 @@ export const getTableData = (openDetailModal, openRemoveModal) => {
       key: 'opetration',
       render: (_, data) => (
         <div className="flex items-center justify-end gap-2 flex-wrap">
-          <Button icon={<AiFillEdit size={20} />} type="primary">
+          <Button
+            onClick={() => openDetailModal(data)}
+            icon={<AiFillEdit size={20} />}
+            type="primary"
+          >
             ویرایش
           </Button>
           <Button

@@ -20,13 +20,19 @@ const FacultiesTable = () => {
   const { push } = useRouter()
 
 
-  const [isShowEditFacultiesModal, setIsShowEditFacultiesModal] =
-    useState(false)
+  const [editModal, setEditModal] = useState({
+    isShow: false,
+    data: {}
+  })
+
   const [isShowRemoveFacultiesModal, setIsShowRemoveFacultiesModal] =
     useState(false)
 
-  const onOpenDetailModal = () => {
-    setIsShowEditFacultiesModal(true)
+  const onOpenDetailModal = (data) => {
+    setEditModal({
+      isShow: true,
+      data
+    })
   }
 
   const onOpenRemoveModal = () => {
@@ -69,8 +75,12 @@ const FacultiesTable = () => {
       />
 
       <EditFacultiesModal
-        isShow={isShowEditFacultiesModal}
-        onClose={() => setIsShowEditFacultiesModal(false)}
+        isShow={editModal.isShow}
+        onClose={() => setEditModal({
+          isShow: false,
+          data: []
+        })}
+        data={editModal.data}
       />
 
       <RemoveFacultiesModal
