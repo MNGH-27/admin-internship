@@ -20,7 +20,11 @@ import { getEducationalFacultiesListHttp } from './apis/educational-faculties/ge
 import { createNewFacultiesHttp } from './apis/educational-faculties/create_new_faculties.api'
 import { editEducationalFacultiesHttp } from './apis/educational-faculties/edit_faculties.api'
 import { deleteEducationalFacultiesHttp } from './apis/educational-faculties/delete_faculties.api'
+import { getEducationalTermsListHttp } from './apis/educational-terms/get_educational_terms_list.api'
+import { createNewTermsHttp } from './apis/educational-terms/create_new_educational_term.api'
 export {
+  createNewTermsHttp,
+  getEducationalTermsListHttp,
   deleteEducationalFacultiesHttp,
   editEducationalFacultiesHttp,
   createNewFacultiesHttp,
