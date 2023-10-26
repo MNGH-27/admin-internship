@@ -68,8 +68,8 @@ const TermsTable = () => {
         rowKey={(record) => record.id}
         loading={isLoadingTermData}
         headerList={getTableData(
-          onOpenRemoveTermModal,
           onOpenEditTermModal,
+          onOpenRemoveTermModal,
         )}
         pagination={{
           pageSize: 5, // Set the number of items per page

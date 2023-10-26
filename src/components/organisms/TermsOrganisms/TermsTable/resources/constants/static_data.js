@@ -1,8 +1,7 @@
 import { Button } from '@atom/index'
 import { AiFillEdit } from 'react-icons/ai'
-import { BiSolidUserDetail } from 'react-icons/bi'
 import { MdDelete } from 'react-icons/md'
-export const getTableData = (openDetailModal, openRemoveModal) => {
+export const getTableData = (openEditModal, openRemoveModal) => {
   const TABLE_HEADER = [
     {
       title: '#',
@@ -36,11 +35,15 @@ export const getTableData = (openDetailModal, openRemoveModal) => {
       key: 'opetration',
       render: (_, data) => (
         <div className="flex items-center justify-end gap-2 flex-wrap">
-          <Button icon={<AiFillEdit size={20} />} type="primary">
+          <Button
+            onClick={() => openEditModal(data)}
+            icon={<AiFillEdit size={20} />}
+            type="primary"
+          >
             ویرایش
           </Button>
           <Button
-            onClick={() => openRemoveModal()}
+            onClick={() => openRemoveModal(data)}
             icon={<MdDelete size={20} />}
             type="primary"
             className="bg-red-700 hover:!bg-red-900"

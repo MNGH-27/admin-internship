@@ -22,7 +22,9 @@ import { editEducationalFacultiesHttp } from './apis/educational-faculties/edit_
 import { deleteEducationalFacultiesHttp } from './apis/educational-faculties/delete_faculties.api'
 import { getEducationalTermsListHttp } from './apis/educational-terms/get_educational_terms_list.api'
 import { createNewTermsHttp } from './apis/educational-terms/create_new_educational_term.api'
+import { editEducationalTermsHttp } from './apis/educational-terms/edit_educational_term.api'
 export {
+  editEducationalTermsHttp,
   createNewTermsHttp,
   getEducationalTermsListHttp,
   deleteEducationalFacultiesHttp,

@@ -1,40 +1,91 @@
-import { Modal } from '@atom/index'
+import { Button, Input, Modal, DatePicker } from '@atom/index'
+import { Formik } from 'formik'
+import toast from 'react-hot-toast'
+import { useMutation, useQueryClient } from 'react-query'
+import { educationalTermsSchema } from '@core/validation'
+import { FormContainer } from '@molecule/index'
+import { AiOutlineUserAdd } from 'react-icons/ai'
+import { editEducationalTermsHttp } from '@core/services'
+import moment from 'moment-jalaali'
 
-const EditTermsModal = ({ isShow, onClose }) => {
+const EditTermsModal = ({ isShow, onClose, data }) => {
+  const queryClient = useQueryClient()
+
+  const { mutate, isLoading: isSubmitting } = useMutation({
+    mutationFn: (values) => editEducationalTermsHttp(values, data?.id),
+    onSuccess: (response) => {
+      //revalidate data of educatioanl_terms_list
+      queryClient.invalidateQueries(['educatioanl_terms_list'])
+      //show that master added successfully
+      toast.success('سر ترم با موفقیت ویرایش شد')
+      //close modal
+      onClose()
+    },
+    onError: (error) => {
+      if (error.message) {
+        toast.error(error.message)
+      } else {
+
+        toast.error('ویرایش کردن سر ترم ناموفق بود')
+      }
+    },
+  })
+
   return (
-    <Modal isShow={isShow} onClose={onClose}>
-      <div>
-        <p className="text-xl mb-7">
-          مشاهده ی اطلاعات بیشتر شرکت{' '}
-          <span className="font-semibold">company.company_name</span>
-        </p>
-        <div className="flex gap-5 flex-col w-full">
-          <div className="flex items-center justify-between gap-1.5 font-medium">
-            <span className="text-gray-400">رئیس شرکت</span>
-            <span className="">company.company_boss_name</span>
-          </div>
-          <div className="flex items-center justify-between gap-1.5 font-medium">
-            <span className="text-gray-400">شماره تلفن</span>
-            <span className="">company.company_phone</span>
-          </div>
-          <div className="flex items-center justify-between gap-1.5 font-medium">
-            <span className="text-gray-400">شماره ثبت شرکت</span>
-            <span className="">company.company_registry</span>
-          </div>
-          <div className="flex items-center justify-between gap-1.5 font-medium">
-            <span className="text-gray-400">شناسه شرکت</span>
-            <span className="">company.company_number </span>
-          </div>
-          <div className="flex items-center justify-between gap-1.5 font-medium">
-            <span className="text-gray-400">نمره شرکت</span>
-            <span className="">company.company_grade </span>
-          </div>
-          <div className="flex flex-col items-start justify-between gap-1.5 font-medium max-w-[500px]">
-            <span className="text-gray-400">توضیحات شرکت</span>
-            <span className="">company.caption</span>
-          </div>
-        </div>
-      </div>
+    <Modal isShow={isShow} onClose={onClose} maskClosable={false}>
+      <p className="mb-5 font-semibold">
+        اطلاعات مربوط به ترم را وارد کنید
+      </p>
+      <Formik
+        initialValues={{ ...data }}
+        validationSchema={educationalTermsSchema}
+        onSubmit={(values) => mutate({
+          ...values,
+          start_date: moment(values.start_date).format("YYYY/MM/DD"),
+          end_date: moment(values.end_date).format("YYYY/MM/DD")
+        })}
+      >
+        {({ values, handleSubmit, handleChange, setFieldValue }) => (
+          <form onSubmit={handleSubmit} method="post" className="space-y-2">
+            <FormContainer label="نام ترم" name="name">
+              <Input
+                name="name"
+                onChange={handleChange}
+                value={values.name}
+                placeholder="نام ترم خود را وارد کنید . . . "
+              />
+            </FormContainer>
+            <div className="w-full grid sm:grid-cols-2 gap-5">
+              <FormContainer label="تاریخ شروع" name="start_date">
+                <DatePicker
+                  name="start_date"
+                  onChange={(data) => setFieldValue("start_date", new Date(data))}
+                  value={values.start_date}
+                  placeholder="تاریخ شروع خود را وارد کنید . . . "
+                />
+              </FormContainer>
+              <FormContainer label="تاریخ پایان" name="end_date">
+                <DatePicker
+                  name="end_date"
+                  onChange={(data) => setFieldValue("end_date", new Date(data))}
+                  value={values.end_date}
+                  placeholder="تاریخ پایان خود را وارد کنید . . . "
+                />
+              </FormContainer>
+            </div>
+
+            <Button
+              loading={isSubmitting}
+              htmlType='submit'
+              icon={<AiOutlineUserAdd size={20} />}
+              className="w-fit h-auto py-2"
+              type="primary"
+            >
+              ثبت
+            </Button>
+          </form>
+        )}
+      </Formik>
     </Modal>
   )
 }
