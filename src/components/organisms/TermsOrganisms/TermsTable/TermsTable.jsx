@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import { Table } from '@atom/index'
 
@@ -10,34 +10,93 @@ import {
   EditTermsModal,
   RemoveTermsModal,
 } from './resources'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { getEducationalTermsListHttp } from '@core/services/apis/educational-terms/get_educational_terms_list.api'
+import { useQuery } from 'react-query'
 
 const TermsTable = () => {
-  const [isShowEditTermsModal, setIsShowEditTermsModal] = useState(false)
-  const [isShowRemoveTermsModal, setIsShowRemoveTermsModal] = useState(false)
+  const searchParams = useSearchParams()
+  const pathName = usePathname()
+  const { push } = useRouter()
 
-  const onOpenDetailModal = () => {
-    setIsShowEditTermsModal(true)
+  const [removeTermModal, setRemoveTermModal] = useState({
+    isShow: false,
+    data: {},
+  })
+
+  const [editTermModal, setEditTermModal] = useState({
+    isShow: false,
+    data: {},
+  })
+
+  const { data: termsData, isLoading: isLoadingTermData } = useQuery({
+    queryKey: ['educatioanl_terms_list', searchParams.toString()],
+    queryFn: () => getEducationalTermsListHttp(searchParams.toString()),
+  })
+
+  const onOpenRemoveTermModal = (data) => {
+    setRemoveTermModal({
+      isShow: true,
+      data,
+    })
   }
 
-  const onOpenRemoveModal = () => {
-    setIsShowRemoveTermsModal(true)
+  const onOpenEditTermModal = (data) => {
+    setEditTermModal({
+      isShow: true,
+      data,
+    })
   }
+
+  // Get a new searchParams string by merging the current
+  // searchParams with a provided key/value pair
+  const createQueryString = useCallback(
+    ({ page }) => {
+      const params = new URLSearchParams(searchParams)
+
+      //add new search params
+      params.set('page', page)
+
+      return params.toString()
+    },
+    [searchParams],
+  )
 
   return (
     <>
       <Table
-        headerList={getTableData(onOpenDetailModal, onOpenRemoveModal)}
-        data={DUMMY_DATA}
+        rowKey={(record) => record.id}
+        loading={isLoadingTermData}
+        headerList={getTableData(
+          onOpenRemoveTermModal,
+          onOpenEditTermModal,
+        )}
+        pagination={{
+          pageSize: 5, // Set the number of items per page
+          total: termsData?.meta?.total_records, // Set the total number of items
+          onChange: (page) => {
+            push(pathName + "?" + createQueryString({ page }))
+          },
+        }}
+        data={termsData?.data}
       />
 
       <EditTermsModal
-        isShow={isShowEditTermsModal}
-        onClose={() => setIsShowEditTermsModal(false)}
+        isShow={editTermModal.isShow}
+        onClose={() => setEditTermModal({
+          isShow: false,
+          data: {}
+        })}
+        data={editTermModal.data}
       />
 
       <RemoveTermsModal
-        isShow={isShowRemoveTermsModal}
-        onClose={() => setIsShowRemoveTermsModal(false)}
+        isShow={removeTermModal.isShow}
+        onClose={() => setRemoveTermModal({
+          isShow: false,
+          data: {}
+        })}
+        data={removeTermModal.data}
       />
     </>
   )

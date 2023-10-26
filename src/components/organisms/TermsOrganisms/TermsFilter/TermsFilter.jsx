@@ -33,7 +33,7 @@ const TermFilter = () => {
 
   return (
     <div className="w-full">
-      <p className="mb-5 text-xl font-semibold">لیست اساتید کارآموزی</p>
+      <p className="mb-5 text-xl font-semibold">لیست سر ترم های کارآموزی</p>
       <div className="flex items-center justify-start text-[#5F5F61] w-full">
         <GiSettingsKnobs size={24} />
         <p>مرتب سازی براساس:</p>

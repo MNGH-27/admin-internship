@@ -9,7 +9,7 @@ const AddTermsModal = ({ isShow, onClose }) => {
   return (
     <Modal isShow={isShow} onClose={onClose} maskClosable={false}>
       <p className="mb-5 font-semibold">
-        اطلاعات مربوط به دانشکده را وارد کنید
+        اطلاعات مربوط به ترم را وارد کنید
       </p>
       <Formik
         initialValues={{ ...masterSchema.getDefault() }}
