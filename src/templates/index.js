@@ -9,7 +9,9 @@ import EducationalIssuesTemplate from './EducationalIssuesTemplate/EducationalIs
 import FacultiesTemplate from './FacultiesTemplate/FacultiesTemplate'
 import TermsTemplate from './TermsTemplate/TermsTemplate'
 import TermsDetailTempalte from './TermsDetailTempalte/TermsDetailTempalte'
+import StudentTermsDetailTemplate from './StudentTermsDetailTemplate/StudentTermsDetailTemplate'
 export {
+  StudentTermsDetailTemplate,
   TermsDetailTempalte,
   TermsTemplate,
   FacultiesTemplate,
