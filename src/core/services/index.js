@@ -25,7 +25,9 @@ import { createNewTermsHttp } from './apis/educational-terms/create_new_educatio
 import { editEducationalTermsHttp } from './apis/educational-terms/edit_educational_term.api'
 import { deleteEducationalTermsHttp } from './apis/educational-terms/delete_educationl_terms.api'
 import { getStudentEducationalTermsListHttp } from './apis/student-educational-detail/get_student_educational_detail.api'
+import { getMasterEducationalTermsListHttp } from './apis/master-educational-detail/get_master_educational_detail.api'
 export {
+  getMasterEducationalTermsListHttp,
   getStudentEducationalTermsListHttp,
   deleteEducationalTermsHttp,
   editEducationalTermsHttp,

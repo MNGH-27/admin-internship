@@ -12,42 +12,28 @@ export const getTableData = (openEditModal, openRemoveModal) => {
     },
     {
       title: 'نام',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'first_name',
+      key: 'first_name',
     },
     {
-      title: 'تاریخ شروع',
-      dataIndex: 'startDate',
-      key: 'startDate',
+      title: 'نام خانوادگی',
+      dataIndex: 'last_name',
+      key: 'last_name',
     },
     {
-      title: 'تاریخ پایان',
-      dataIndex: 'endDate',
-      key: 'endDate',
+      title: 'دانشکده',
+      dataIndex: 'faculty',
+      key: 'faculty',
     },
     {
-      title: 'تعداد دانشجو',
-      dataIndex: 'students',
-      key: 'students',
-      render: (currentData, data) => (
-        <Link
-          href={`/dashboard/educational-issues/terms-detail/student/${data.id}`}
-        >
-          {currentData}
-        </Link>
-      ),
+      title: 'شماره ملی',
+      dataIndex: 'national_code',
+      key: 'national_code',
     },
     {
-      title: 'تعداد اساتید',
-      dataIndex: 'masters',
-      key: 'masters',
-      render: (currentData, data) => (
-        <Link
-          href={`/dashboard/educational-issues/terms-detail/master/${data.id}`}
-        >
-          {currentData}
-        </Link>
-      ),
+      title: 'َشماره تلفن',
+      dataIndex: 'phone',
+      key: 'phone',
     },
   ]
 

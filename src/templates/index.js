@@ -10,7 +10,9 @@ import FacultiesTemplate from './FacultiesTemplate/FacultiesTemplate'
 import TermsTemplate from './TermsTemplate/TermsTemplate'
 import TermsDetailTempalte from './TermsDetailTempalte/TermsDetailTempalte'
 import StudentTermsDetailTemplate from './StudentTermsDetailTemplate/StudentTermsDetailTemplate'
+import MasterTermDetailTemplate from './MasterTermDetailTemplate/MasterTermDetailTemplate'
 export {
+  MasterTermDetailTemplate,
   StudentTermsDetailTemplate,
   TermsDetailTempalte,
   TermsTemplate,

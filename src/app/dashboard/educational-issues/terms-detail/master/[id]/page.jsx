@@ -1,8 +1,8 @@
-import React from 'react'
+import { MasterTermDetailTemplate } from '@template/index'
 
-const TermsDetailMasterPage = () => {
+const TermsDetailMasterPage = ({ params: { id } }) => {
     return (
-        <div>TermsDetailMasterPage</div>
+        <MasterTermDetailTemplate termId={id} />
     )
 }
 
