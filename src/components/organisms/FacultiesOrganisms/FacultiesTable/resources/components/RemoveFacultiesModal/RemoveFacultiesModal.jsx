@@ -8,7 +8,6 @@ const RemoveFacultiesModal = ({ isShow, onClose, data }) => {
   const queryClient = useQueryClient()
 
   const { mutate, isLoading } = useMutation({
-    mutationKey: ['remove_faculty'],
     mutationFn: () => deleteEducationalFacultiesHttp({ id: data?.id }),
     onSuccess: (response) => {
       toast.success("دانشکده با موفقیت حذف شد")
