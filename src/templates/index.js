@@ -8,7 +8,9 @@ import EditCompanyTemplate from './EditCompanyTemplate/EditCompanyTemplate'
 import EducationalIssuesTemplate from './EducationalIssuesTemplate/EducationalIssuesTemplate'
 import FacultiesTemplate from './FacultiesTemplate/FacultiesTemplate'
 import TermsTemplate from './TermsTemplate/TermsTemplate'
+import TermsDetailTempalte from './TermsDetailTempalte/TermsDetailTempalte'
 export {
+  TermsDetailTempalte,
   TermsTemplate,
   FacultiesTemplate,
   EducationalIssuesTemplate,

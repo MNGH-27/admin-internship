@@ -1,3 +1,5 @@
+'use client'
+
 import { Button, Input } from '@atom/index'
 import { FormContainer } from '@molecule/index'
 import { Formik } from 'formik'
@@ -32,7 +34,7 @@ const TermFilter = () => {
   )
 
   return (
-    <div className="w-full">
+    <div className="w-full mb-5">
       <p className="mb-5 text-xl font-semibold">لیست سر ترم های کارآموزی</p>
       <div className="flex items-center justify-start text-[#5F5F61] w-full">
         <GiSettingsKnobs size={24} />
