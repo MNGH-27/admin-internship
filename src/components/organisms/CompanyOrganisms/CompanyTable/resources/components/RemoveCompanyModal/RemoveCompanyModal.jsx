@@ -8,17 +8,17 @@ import { useMutation, useQueryClient } from 'react-query'
 const RemoveCompanyModal = ({ isShow, onClose, data }) => {
   const queryClient = useQueryClient()
 
-
   const { mutate, isLoading: isRemovingComapny } = useMutation({
     mutationKey: ['companies_list'],
     mutationFn: () => deleteCompanyhttp({ id: data?.id }),
-    onSuccess: (response) => {
-      toast.success("شرکت با موفقیت حذف شد")
-      queryClient.invalidateQueries('master_list')
+    onSuccess: () => {
+      toast.success('شرکت با موفقیت حذف شد')
+      queryClient.invalidateQueries(['companies_list'])
       onClose()
-    }, onError: (error) => {
-      toast.error("حذف شرکت ناموفق بود")
-    }
+    },
+    onError: (error) => {
+      toast.error('حذف شرکت ناموفق بود')
+    },
   })
 
   return (
