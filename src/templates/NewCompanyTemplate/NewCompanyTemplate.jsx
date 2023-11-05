@@ -36,7 +36,7 @@ const NewCompanyTemplate = () => {
     mutationFn: (data) => createNewComapanyHttp(data),
     onSuccess: () => {
       //revalidate data of master_list
-      queryClient.invalidateQueries(['companies_list'])
+      queryClient.invalidateQueries({ queryKey: ['companies_list'] })
       //show that master added successfully
       toast.success('استاد با موفقیت اضافه شد')
       //redirect to company list

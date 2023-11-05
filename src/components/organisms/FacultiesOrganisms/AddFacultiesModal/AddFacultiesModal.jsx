@@ -12,22 +12,22 @@ const AddFacultiesModal = ({ isShow, onClose }) => {
   const queryClient = useQueryClient()
 
   const schema = yup.object().shape({
-    name: yup.string().required("مقدار نام دانشکده الزامی است")
+    name: yup.string().required('مقدار نام دانشکده الزامی است'),
   })
 
   const { mutate, isLoading } = useMutation({
     mutationKey: ['create_faculty'],
     mutationFn: (data) => createNewFacultiesHttp(data),
     onSuccess: (response) => {
-      toast.success("دانشکده با موفقیت اضافه شد")
+      toast.success('دانشکده با موفقیت اضافه شد')
 
-      queryClient.invalidateQueries(['faculties_list'])
+      queryClient.invalidateQueries({ queryKey: ['faculties_list'] })
 
       onClose()
     },
     onError: (error) => {
-      toast.error("اضافه کردن دانشکده با مشکل مواجه شد")
-    }
+      toast.error('اضافه کردن دانشکده با مشکل مواجه شد')
+    },
   })
 
   return (
@@ -53,7 +53,7 @@ const AddFacultiesModal = ({ isShow, onClose }) => {
 
             <Button
               loading={isLoading}
-              htmlType='submit'
+              htmlType="submit"
               icon={<AiOutlineUserAdd size={20} />}
               className="w-fit h-auto py-2"
               type="primary"

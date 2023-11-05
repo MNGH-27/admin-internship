@@ -5,29 +5,33 @@ import * as yup from 'yup'
 
 import { useMutation, useQueryClient } from 'react-query'
 import { AiOutlineUserAdd } from 'react-icons/ai'
-import { createNewFacultiesHttp, editEducationalFacultiesHttp } from '@core/services'
+import {
+  createNewFacultiesHttp,
+  editEducationalFacultiesHttp,
+} from '@core/services'
 import toast from 'react-hot-toast'
 
 const EditFacultiesModal = ({ isShow, onClose, data }) => {
   const queryClient = useQueryClient()
 
   const schema = yup.object().shape({
-    name: yup.string().required("مقدار نام دانشکده الزامی است")
+    name: yup.string().required('مقدار نام دانشکده الزامی است'),
   })
 
   const { mutate, isLoading } = useMutation({
     mutationKey: ['edit_faculty'],
-    mutationFn: ({ name }) => editEducationalFacultiesHttp({ name, id: data?.id }),
+    mutationFn: ({ name }) =>
+      editEducationalFacultiesHttp({ name, id: data?.id }),
     onSuccess: (response) => {
-      toast.success("دانشکده با موفقیت ویرایش شد")
+      toast.success('دانشکده با موفقیت ویرایش شد')
 
-      queryClient.invalidateQueries(['faculties_list'])
+      queryClient.invalidateQueries({ queryKey: ['faculties_list'] })
 
       onClose()
     },
     onError: (error) => {
-      toast.error("ویرایش کردن دانشکده با مشکل مواجه شد")
-    }
+      toast.error('ویرایش کردن دانشکده با مشکل مواجه شد')
+    },
   })
 
   return (
@@ -36,7 +40,7 @@ const EditFacultiesModal = ({ isShow, onClose, data }) => {
         اطلاعات مربوط به دانشکده را وارد کنید
       </p>
       <Formik
-        initialValues={{ name: data.name ?? "" }}
+        initialValues={{ name: data.name ?? '' }}
         validationSchema={schema}
         onSubmit={(values) => mutate(values)}
       >
@@ -53,7 +57,7 @@ const EditFacultiesModal = ({ isShow, onClose, data }) => {
 
             <Button
               loading={isLoading}
-              htmlType='submit'
+              htmlType="submit"
               icon={<AiOutlineUserAdd size={20} />}
               className="w-fit h-auto py-2"
               type="primary"

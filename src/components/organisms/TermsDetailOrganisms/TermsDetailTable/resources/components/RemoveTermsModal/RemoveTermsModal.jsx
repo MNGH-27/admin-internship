@@ -8,16 +8,16 @@ import { useMutation, useQueryClient } from 'react-query'
 const RemoveTermsModal = ({ isShow, onClose, data }) => {
   const queryClient = useQueryClient()
 
-
   const { mutate, isLoading: isRemovingEducationlTerms } = useMutation({
     mutationFn: () => deleteEducationalTermsHttp({ id: data?.id }),
     onSuccess: (response) => {
-      toast.success("استاد با موفقیت حذف شد")
-      queryClient.invalidateQueries('master_list')
+      toast.success('استاد با موفقیت حذف شد')
+      queryClient.invalidateQueries({ queryKey: ['master_list'] })
       onClose()
-    }, onError: (error) => {
-      toast.error("حذف استاد نا موفق بود")
-    }
+    },
+    onError: (error) => {
+      toast.error('حذف استاد نا موفق بود')
+    },
   })
 
   return (

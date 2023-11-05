@@ -13,7 +13,7 @@ const RemoveCompanyModal = ({ isShow, onClose, data }) => {
     mutationFn: () => deleteCompanyhttp({ id: data?.id }),
     onSuccess: () => {
       toast.success('شرکت با موفقیت حذف شد')
-      queryClient.invalidateQueries(['companies_list'])
+      queryClient.invalidateQueries({ queryKey: ['companies_list'] })
       onClose()
     },
     onError: (error) => {

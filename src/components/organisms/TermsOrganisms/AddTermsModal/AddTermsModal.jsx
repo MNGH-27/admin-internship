@@ -16,7 +16,7 @@ const AddTermsModal = ({ isShow, onClose }) => {
     mutationFn: (data) => createNewTermsHttp(data),
     onSuccess: (response) => {
       //revalidate data of educatioanl_terms_list
-      queryClient.invalidateQueries(['educatioanl_terms_list'])
+      queryClient.invalidateQueries({ queryKey: ['educatioanl_terms_list'] })
       //show that master added successfully
       toast.success('سر ترم با موفقیت اضافه شد')
       //close modal
@@ -26,27 +26,24 @@ const AddTermsModal = ({ isShow, onClose }) => {
       if (error.message) {
         toast.error(error.message)
       } else {
-
         toast.error('اضافه کردن سر ترم ناموفق بود')
       }
-
-
     },
   })
 
   return (
     <Modal isShow={isShow} onClose={onClose} maskClosable={false}>
-      <p className="mb-5 font-semibold">
-        اطلاعات مربوط به ترم را وارد کنید
-      </p>
+      <p className="mb-5 font-semibold">اطلاعات مربوط به ترم را وارد کنید</p>
       <Formik
         initialValues={{ ...educationalTermsSchema.getDefault() }}
         validationSchema={educationalTermsSchema}
-        onSubmit={(values) => mutate({
-          ...values,
-          start_date: moment(values.start_date).format("YYYY/MM/DD"),
-          end_date: moment(values.end_date).format("YYYY/MM/DD")
-        })}
+        onSubmit={(values) =>
+          mutate({
+            ...values,
+            start_date: moment(values.start_date).format('YYYY/MM/DD'),
+            end_date: moment(values.end_date).format('YYYY/MM/DD'),
+          })
+        }
       >
         {({ values, handleSubmit, handleChange, setFieldValue }) => (
           <form onSubmit={handleSubmit} method="post" className="space-y-2">
@@ -62,7 +59,9 @@ const AddTermsModal = ({ isShow, onClose }) => {
               <FormContainer label="تاریخ شروع" name="start_date">
                 <DatePicker
                   name="start_date"
-                  onChange={(data) => setFieldValue("start_date", new Date(data))}
+                  onChange={(data) =>
+                    setFieldValue('start_date', new Date(data))
+                  }
                   value={values.start_date}
                   placeholder="تاریخ شروع خود را وارد کنید . . . "
                 />
@@ -70,7 +69,7 @@ const AddTermsModal = ({ isShow, onClose }) => {
               <FormContainer label="تاریخ پایان" name="end_date">
                 <DatePicker
                   name="end_date"
-                  onChange={(data) => setFieldValue("end_date", new Date(data))}
+                  onChange={(data) => setFieldValue('end_date', new Date(data))}
                   value={values.end_date}
                   placeholder="تاریخ پایان خود را وارد کنید . . . "
                 />
@@ -79,7 +78,7 @@ const AddTermsModal = ({ isShow, onClose }) => {
 
             <Button
               loading={isSubmitting}
-              htmlType='submit'
+              htmlType="submit"
               icon={<AiOutlineUserAdd size={20} />}
               className="w-fit h-auto py-2"
               type="primary"

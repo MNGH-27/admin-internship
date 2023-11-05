@@ -10,21 +10,23 @@ const RemoveFacultiesModal = ({ isShow, onClose, data }) => {
   const { mutate, isLoading } = useMutation({
     mutationFn: () => deleteEducationalFacultiesHttp({ id: data?.id }),
     onSuccess: (response) => {
-      toast.success("دانشکده با موفقیت حذف شد")
+      toast.success('دانشکده با موفقیت حذف شد')
 
-      queryClient.invalidateQueries(['faculties_list'])
+      queryClient.invalidateQueries({ queryKey: ['faculties_list'] })
 
       onClose()
     },
     onError: (error) => {
-      toast.error("حذف کردن دانشکده با مشکل مواجه شد")
-    }
+      toast.error('حذف کردن دانشکده با مشکل مواجه شد')
+    },
   })
 
   return (
     <Modal isShow={isShow} onClose={onClose}>
       <div className="flex flex-col items-start justify-center gap-3">
-        <span className="text-[#222124] text-xl font-semibold">حذف دانشکده</span>
+        <span className="text-[#222124] text-xl font-semibold">
+          حذف دانشکده
+        </span>
         <span className="text-[#5F5F61] text-xs">
           آیا از حذف دانشکده &quot;{data?.name}&quot; مطمئن هستید
         </span>
