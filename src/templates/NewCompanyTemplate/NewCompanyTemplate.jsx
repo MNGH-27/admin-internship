@@ -1,48 +1,62 @@
 'use client'
 
-import { Formik } from 'formik'
-
-import { Button } from '@atom/index'
 import { useRouter } from 'next/navigation'
-import { IoReturnDownBack } from 'react-icons/io5'
+import Link from 'next/link'
+
+import toast from 'react-hot-toast'
+import { useMutation, useQueryClient } from 'react-query'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Button } from '@atom/index'
 import {
   ConfigCompanyDetail,
   ConfigCompanyManagerDetail,
 } from '@organisms/ConfigCompanyOrganisms'
-
 import { configCompanySchema } from '@core/validation/configCompanySchema'
-
-import { AiOutlineUserAdd } from 'react-icons/ai'
-import Link from 'next/link'
-import { useMutation, useQueryClient } from 'react-query'
 import { createNewComapanyHttp } from '@core/services'
-import toast from 'react-hot-toast'
+
+import { IoReturnDownBack } from 'react-icons/io5'
+import { AiOutlineUserAdd } from 'react-icons/ai'
 
 const NewCompanyTemplate = () => {
   const { push } = useRouter()
   const queryClient = useQueryClient()
 
+  const {
+    control,
+    formState: { errors },
+    setError,
+    handleSubmit,
+  } = useForm({
+    defaultValues: { ...configCompanySchema.getDefault() },
+    resolver: yupResolver(configCompanySchema),
+  })
 
   const { mutate, isLoading: isSubmiting } = useMutation({
-    mutationKey: ['create_new_company'],
     mutationFn: (data) => createNewComapanyHttp(data),
-    onSuccess: (response) => {
+    onSuccess: () => {
       //revalidate data of master_list
-      queryClient.invalidateQueries('companies_list')
+      queryClient.invalidateQueries(['companies_list'])
       //show that master added successfully
       toast.success('استاد با موفقیت اضافه شد')
       //redirect to company list
-      push("/dashboard/company")
+      push('/dashboard/company')
     },
     onError: (error) => {
+      if (error.message) {
+        for (const singleError in error.message) {
+          setError(`${singleError.trim()}`, {
+            type: 'custom',
+            message: error.message[singleError][0],
+          })
+        }
+      }
       toast.error('اضافه کردن شرکت ناموفق بود')
     },
   })
 
-
-
   return (
-    <div>
+    <div className="mb-12">
       <Link
         type="primary"
         className="flex items-center justify-start gap-x-2 py-2 px-4 rounded-md bg-[#003B7E] text-white w-fit"
@@ -57,37 +71,21 @@ const NewCompanyTemplate = () => {
           برای اضافه کردن اطلاعات مورد هر نیاز هر شرکت را وارد کنید{' '}
         </span>
       </div>
-      <Formik
-        initialValues={{ ...configCompanySchema.getDefault() }}
-        validationSchema={configCompanySchema}
-        onSubmit={(data) => mutate(data)}
-      >
-        {({ values, handleSubmit, handleChange, setFieldValue }) => (
-          <form onSubmit={handleSubmit}>
-            <ConfigCompanyDetail
-              values={values}
-              handleChange={handleChange}
-              setFieldValue={setFieldValue}
-            />
+      <form onSubmit={handleSubmit((values) => mutate(values))}>
+        <ConfigCompanyDetail control={control} errors={errors} />
 
-            <ConfigCompanyManagerDetail
-              values={values}
-              handleChange={handleChange}
-              setFieldValue={setFieldValue}
-            />
+        <ConfigCompanyManagerDetail control={control} errors={errors} />
 
-            <Button
-              loading={isSubmiting}
-              icon={<AiOutlineUserAdd size={24} />}
-              htmlType="submit"
-              className="h-auto py-3 px-6 ml-auto text-base"
-              type="primary"
-            >
-              اضافه کردن شرکت
-            </Button>
-          </form>
-        )}
-      </Formik>
+        <Button
+          loading={isSubmiting}
+          icon={<AiOutlineUserAdd size={24} />}
+          htmlType="submit"
+          className="h-auto py-3 px-6 ml-auto text-base"
+          type="primary"
+        >
+          اضافه کردن شرکت
+        </Button>
+      </form>
     </div>
   )
 }

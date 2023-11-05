@@ -1,11 +1,14 @@
+import { useQuery } from 'react-query'
+import { Controller } from 'react-hook-form'
+
 import { Input, Select } from '@atom/index'
 import { convertFacultyList } from '@core/common'
 import { getfacultyListHttp } from '@core/services'
 import { FormContainer } from '@molecule/index'
-import { TbListDetails } from 'react-icons/tb'
-import { useQuery } from 'react-query'
 
-const ConfigCompanyManagerDetail = ({ values, handleChange, setFieldValue }) => {
+import { TbListDetails } from 'react-icons/tb'
+
+const ConfigCompanyManagerDetail = ({ control, errors }) => {
   const { data: facultyList, isLoading: isLoadingFaculty } = useQuery({
     queryKey: ['faculty_list'],
     queryFn: getfacultyListHttp,
@@ -18,57 +21,96 @@ const ConfigCompanyManagerDetail = ({ values, handleChange, setFieldValue }) => 
         <span>اطلاعات سرپرست شرکت</span>
       </div>
       <div className="grid grid-cols-2 gap-y-6 sm:gap-y-10 sm:gap-x-10">
-        <FormContainer label="نام سرپرست" name="first_name">
-          <Input
-            name="first_name"
-            onChange={handleChange}
-            value={values.first_name}
-          />
-        </FormContainer>
+        <Controller
+          name="first_name"
+          control={control}
+          render={({ field }) => (
+            <FormContainer errors={errors} label="نام سرپرست" name={field.name}>
+              <Input {...field} />
+            </FormContainer>
+          )}
+        />
+        <Controller
+          name="last_name"
+          control={control}
+          render={({ field }) => (
+            <FormContainer
+              errors={errors}
+              label="نام خانوادگی سرپرست"
+              name={field.name}
+            >
+              <Input {...field} />
+            </FormContainer>
+          )}
+        />
+        <Controller
+          name="email"
+          control={control}
+          render={({ field }) => (
+            <FormContainer
+              errors={errors}
+              label="ایمیل سرپرست"
+              name={field.name}
+            >
+              <Input {...field} />
+            </FormContainer>
+          )}
+        />
+        <Controller
+          name="national_code"
+          control={control}
+          render={({ field }) => (
+            <FormContainer
+              errors={errors}
+              label="کدملی سرپرست"
+              name={field.name}
+            >
+              <Input {...field} />
+            </FormContainer>
+          )}
+        />
 
-        <FormContainer label="نام خانوادگی سرپرست" name="last_name">
-          <Input
-            name="last_name"
-            onChange={handleChange}
-            value={values.last_name}
-          />
-        </FormContainer>
+        <Controller
+          name="username"
+          control={control}
+          render={({ field }) => (
+            <FormContainer
+              errors={errors}
+              label="نام کاربری سرپرست"
+              name={field.name}
+            >
+              <Input {...field} />
+            </FormContainer>
+          )}
+        />
 
-        <FormContainer label="ایمیل سرپرست" name="email">
-          <Input name="email" onChange={handleChange} value={values.email} />
-        </FormContainer>
-        <FormContainer label="کدملی سرپرست" name="national_code">
-          <Input
-            name="national_code"
-            onChange={handleChange}
-            value={values.national_code}
-          />
-        </FormContainer>
-        <FormContainer label="نام کاربری سرپرست" name="username">
-          <Input
-            name="username"
-            onChange={handleChange}
-            value={values.username}
-          />
-        </FormContainer>
+        <Controller
+          name="phone_number"
+          control={control}
+          render={({ field }) => (
+            <FormContainer
+              errors={errors}
+              label="تلفن سرپرست"
+              name={field.name}
+            >
+              <Input {...field} />
+            </FormContainer>
+          )}
+        />
 
-        <FormContainer label="تلفن سرپرست" name="phone_number">
-          <Input
-            name="phone_number"
-            onChange={handleChange}
-            value={values.phone_number}
-          />
-        </FormContainer>
-
-        <FormContainer label="دانشکده" name="faculty_id">
-          <Select
-            value={values.faculty_id}
-            onChange={(value) => setFieldValue('faculty_id', value)}
-            loading={isLoadingFaculty}
-            selectList={convertFacultyList(facultyList?.data)}
-          />
-        </FormContainer>
-
+        <Controller
+          name="faculty_id"
+          control={control}
+          render={({ field }) => (
+            <FormContainer errors={errors} label="دانشکده" name={field.name}>
+              <Select
+                loading={isLoadingFaculty}
+                selectList={convertFacultyList(facultyList?.data)}
+                {...field}
+              />
+            </FormContainer>
+          )}
+        />
       </div>
     </div>
   )

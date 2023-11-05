@@ -4,7 +4,7 @@ export const configCompanySchema = yup.object().shape({
   company_name: yup.string().required('مقدار نام شرکت الزامی است').default(''),
   company_phone: yup
     .string()
-    .matches(/^09\d{9}$/, 'شماره تلفن را به درستی وارد کنید')
+    .matches(/^0\d{10}$/, 'شماره تلفن را به درستی وارد کنید')
     .length(11, 'شماره تلفن باید 11 رقمی باشد')
     .required('مقدار تلفن شرکت الزامی است')
     .default(''),
@@ -17,6 +17,8 @@ export const configCompanySchema = yup.object().shape({
   company_registry_code: yup
     .string()
     .required('مقدار شناسه شرکت الزامی است')
+    .min(8, 'شناسه ی شرکت حداقل 8 رقمی است')
+    .max(11, 'شناسه ی شرکت حداکثر 11 رقمی است')
     .default(''),
   company_postal_code: yup
     .string()
@@ -33,7 +35,7 @@ export const configCompanySchema = yup.object().shape({
     .string()
     .required('مقدار آدرس شرکت الزامی است')
     .default(''),
-  image: yup.string().required('مقدار لوگو الزامی است'),
+  image: yup.mixed().required('مقدار لوگو الزامی است'),
 
   // manager details schema
   first_name: yup.string().required('مقدار نام سرپرست الزامی است').default(''),

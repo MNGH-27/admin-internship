@@ -1,6 +1,5 @@
-import { ErrorMessage } from 'formik'
-
-const FormContainer = ({ label, name, children, className = '' }) => {
+import { ErrorMessage } from '@hookform/error-message'
+const FormContainer = ({ label, name, children, errors, className = '' }) => {
   return (
     <div
       className={
@@ -10,9 +9,12 @@ const FormContainer = ({ label, name, children, className = '' }) => {
       <label className="text-sm">{label}</label>
       {children}
       <ErrorMessage
+        errors={errors}
         className="text-red-700 text-sm font-medium"
         name={name}
-        component="div"
+        render={({ message }) => (
+          <p className="text-sm font-medium text-red-700">{message}</p>
+        )}
       />
     </div>
   )
