@@ -1,5 +1,6 @@
 import { Button, Modal } from '@atom/index'
 import { deleteEducationalFacultiesHttp } from '@core/services'
+import toast from 'react-hot-toast'
 import { IoPersonRemoveOutline } from 'react-icons/io5'
 import { MdOutlineCancel } from 'react-icons/md'
 import { useMutation, useQueryClient } from 'react-query'
@@ -9,7 +10,7 @@ const RemoveFacultiesModal = ({ isShow, onClose, data }) => {
 
   const { mutate, isLoading } = useMutation({
     mutationFn: () => deleteEducationalFacultiesHttp({ id: data?.id }),
-    onSuccess: (response) => {
+    onSuccess: () => {
       toast.success('دانشکده با موفقیت حذف شد')
 
       queryClient.invalidateQueries({ queryKey: ['faculties_list'] })

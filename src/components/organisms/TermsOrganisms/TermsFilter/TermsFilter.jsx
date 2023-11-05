@@ -5,6 +5,7 @@ import { FormContainer } from '@molecule/index'
 import { Formik } from 'formik'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { useCallback } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import { CiSearch } from 'react-icons/ci'
 import { GiSettingsKnobs } from 'react-icons/gi'
 
@@ -13,6 +14,15 @@ const TermFilter = () => {
   const searchParams = useSearchParams()
   const { push } = useRouter()
 
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      search: searchParams.get('search') ?? '',
+    },
+  })
 
   // Get a new searchParams string by merging the current
   // searchParams with a provided key/value pair
@@ -40,38 +50,33 @@ const TermFilter = () => {
         <GiSettingsKnobs size={24} />
         <p>مرتب سازی براساس:</p>
       </div>
-      <Formik
-        initialValues={{
-          search: searchParams.get('search') ?? '',
-        }}
-        onSubmit={(values) => {
+      <form
+        onSubmit={handleSubmit((values) => {
           push(pathName + '?' + createQueryString(values))
-        }}
+        })}
+        className="space-y-5 mt-5"
       >
-        {({ values, handleSubmit, handleChange, setFieldValue }) => (
-          <form className="space-y-5 mt-5">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 w-full">
-              <FormContainer label="جستجو" name="search">
-                <Input
-                  name="search"
-                  onChange={handleChange}
-                  value={values.search}
-                  placeholder="جستجو دانشجو . . ."
-                />
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 w-full">
+          <Controller
+            name="search"
+            control={control}
+            render={({ field }) => (
+              <FormContainer errors={errors} label="جستجو" name={field.name}>
+                <Input {...field} placeholder="جستجو دانشجو . . ." />
               </FormContainer>
-            </div>
-            <Button
-              onClick={handleSubmit}
-              type="primary"
-              icon={<CiSearch size={24} />}
-              className="h-auto py-2 px-4 sm:w-fit w-full"
-            >
-              جستجو
-            </Button>
-          </form >
-        )}
-      </Formik >
-    </div >
+            )}
+          />
+        </div>
+        <Button
+          htmlType="submit"
+          type="primary"
+          icon={<CiSearch size={24} />}
+          className="h-auto py-2 px-4 w-full sm:w-fit"
+        >
+          جستجو
+        </Button>
+      </form>
+    </div>
   )
 }
 

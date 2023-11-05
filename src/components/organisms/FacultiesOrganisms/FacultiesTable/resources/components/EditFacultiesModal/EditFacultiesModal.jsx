@@ -10,6 +10,8 @@ import {
   editEducationalFacultiesHttp,
 } from '@core/services'
 import toast from 'react-hot-toast'
+import { Controller, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 const EditFacultiesModal = ({ isShow, onClose, data }) => {
   const queryClient = useQueryClient()
@@ -18,11 +20,22 @@ const EditFacultiesModal = ({ isShow, onClose, data }) => {
     name: yup.string().required('مقدار نام دانشکده الزامی است'),
   })
 
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    setError,
+  } = useForm({
+    defaultValues: {
+      ...schema.getDefault(),
+    },
+    resolver: yupResolver(schema),
+  })
+
   const { mutate, isLoading } = useMutation({
-    mutationKey: ['edit_faculty'],
     mutationFn: ({ name }) =>
       editEducationalFacultiesHttp({ name, id: data?.id }),
-    onSuccess: (response) => {
+    onSuccess: () => {
       toast.success('دانشکده با موفقیت ویرایش شد')
 
       queryClient.invalidateQueries({ queryKey: ['faculties_list'] })
@@ -30,7 +43,15 @@ const EditFacultiesModal = ({ isShow, onClose, data }) => {
       onClose()
     },
     onError: (error) => {
-      toast.error('ویرایش کردن دانشکده با مشکل مواجه شد')
+      if (error.message) {
+        for (const singleError in error.message) {
+          setError(singleError, {
+            type: 'custom',
+            message: error.message[singleError][0],
+          })
+        }
+      }
+      toast.error('ویرایش کردن دانشکده ناموفق بود')
     },
   })
 
@@ -39,34 +60,38 @@ const EditFacultiesModal = ({ isShow, onClose, data }) => {
       <p className="mb-5 font-semibold">
         اطلاعات مربوط به دانشکده را وارد کنید
       </p>
-      <Formik
-        initialValues={{ name: data.name ?? '' }}
-        validationSchema={schema}
-        onSubmit={(values) => mutate(values)}
+      <form
+        onSubmit={handleSubmit((values) => mutate(values))}
+        className="space-y-2"
       >
-        {({ values, handleSubmit, handleChange }) => (
-          <form method="post" onSubmit={handleSubmit} className="space-y-2">
-            <FormContainer label="نام دانشکده" name="name">
+        <Controller
+          name="name"
+          control={control}
+          defaultValue={data.name}
+          render={({ field }) => (
+            <FormContainer
+              errors={errors}
+              label="نام دانشکده"
+              name={field.name}
+            >
               <Input
-                name="name"
-                onChange={handleChange}
-                value={values.name}
+                {...field}
                 placeholder="نام دانشکده خود را وارد کنید . . . "
               />
             </FormContainer>
+          )}
+        />
 
-            <Button
-              loading={isLoading}
-              htmlType="submit"
-              icon={<AiOutlineUserAdd size={20} />}
-              className="w-fit h-auto py-2"
-              type="primary"
-            >
-              ویرایش
-            </Button>
-          </form>
-        )}
-      </Formik>
+        <Button
+          loading={isLoading}
+          htmlType="submit"
+          icon={<AiOutlineUserAdd size={20} />}
+          className="w-fit h-auto py-2"
+          type="primary"
+        >
+          ویرایش
+        </Button>
+      </form>
     </Modal>
   )
 }

@@ -1,6 +1,8 @@
 import { Button } from '@atom/index'
 import { AiFillEdit } from 'react-icons/ai'
 import { MdDelete } from 'react-icons/md'
+import moment from 'moment-jalaali'
+
 export const getTableData = (openEditModal, openRemoveModal) => {
   const TABLE_HEADER = [
     {
@@ -16,13 +18,19 @@ export const getTableData = (openEditModal, openRemoveModal) => {
     },
     {
       title: 'تاریخ شروع',
-      dataIndex: 'startDate',
-      key: 'startDate',
+      dataIndex: 'start_date',
+      key: 'start_date',
+      render: (currentDay) => (
+        <span>{moment(currentDay).format('jYYYY/jMM/jDD')}</span>
+      ),
     },
     {
       title: 'تاریخ پایان',
-      dataIndex: 'endDate',
-      key: 'endDate',
+      dataIndex: 'end_date',
+      key: 'end_date',
+      render: (currentDay) => (
+        <span>{moment(currentDay).format('jYYYY/jMM/jDD')}</span>
+      ),
     },
     {
       title: 'تعداد دانشجو',

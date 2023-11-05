@@ -10,9 +10,9 @@ const RemoveTermsModal = ({ isShow, onClose, data }) => {
 
   const { mutate, isLoading: isRemovingEducationlTerms } = useMutation({
     mutationFn: () => deleteEducationalTermsHttp({ id: data?.id }),
-    onSuccess: (response) => {
+    onSuccess: () => {
       toast.success('استاد با موفقیت حذف شد')
-      queryClient.invalidateQueries({ queryKey: ['master_list'] })
+      queryClient.invalidateQueries({ queryKey: ['educatioanl_terms_list'] })
       onClose()
     },
     onError: (error) => {
