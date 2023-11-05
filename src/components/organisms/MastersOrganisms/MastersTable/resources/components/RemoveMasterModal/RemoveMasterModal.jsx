@@ -11,17 +11,17 @@ import toast from 'react-hot-toast'
 const RemoveMasterModal = ({ isShow, onClose, data }) => {
   const queryClient = useQueryClient()
 
-
   const { mutate, isLoading: isRemovingMaster } = useMutation({
     mutationKey: ['delete_master'],
     mutationFn: () => deleteMasterHttp({ id: data?.id }),
-    onSuccess: (response) => {
-      toast.success("استاد با موفقیت حذف شد")
-      queryClient.invalidateQueries('master_list')
+    onSuccess: () => {
+      toast.success('استاد با موفقیت حذف شد')
+      queryClient.invalidateQueries({ queryKey: ['master_list'] })
       onClose()
-    }, onError: (error) => {
-      toast.error("حذف استاد نا موفق بود")
-    }
+    },
+    onError: (error) => {
+      toast.error('حذف استاد نا موفق بود')
+    },
   })
 
   return (
@@ -29,7 +29,8 @@ const RemoveMasterModal = ({ isShow, onClose, data }) => {
       <div className="flex flex-col items-start justify-center gap-3">
         <span className="text-[#222124] text-xl font-semibold">حذف استاد</span>
         <span className="text-[#5F5F61] text-xs">
-          آیا از حذف استاد &quot;{data?.first_name} {data?.last_name}&quot; مطمئن هستید ؟
+          آیا از حذف استاد &quot;{data?.first_name} {data?.last_name}&quot;
+          مطمئن هستید ؟
         </span>
         <div className="flex items-center justify-center gap-2 w-full mt-5">
           <Button
@@ -42,7 +43,6 @@ const RemoveMasterModal = ({ isShow, onClose, data }) => {
             حذف
           </Button>
           <Button
-
             icon={<MdOutlineCancel size={20} />}
             type="primary"
             className="bg-gray-400 hover:!bg-gray-600 h-auto py-2 px-5"

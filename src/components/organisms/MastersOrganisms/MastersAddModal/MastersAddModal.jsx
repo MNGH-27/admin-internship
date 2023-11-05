@@ -7,28 +7,48 @@ import { createNewMasterHttp, getfacultyListHttp } from '@core/services'
 import { convertFacultyList } from '@core/common'
 import { masterSchema } from '@core/validation'
 
-import { Formik } from 'formik'
-
 import toast from 'react-hot-toast'
 
 import { AiOutlineUserAdd } from 'react-icons/ai'
+import { Controller, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 const MastersAddModal = ({ isShow, onClose }) => {
   const queryClient = useQueryClient()
 
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    setError,
+  } = useForm({
+    defaultValues: {
+      ...masterSchema.getDefault(),
+    },
+    resolver: yupResolver(masterSchema),
+  })
+
   const { mutate, isLoading: isSubmiting } = useMutation({
-    mutationKey: ['create_new_master'],
     mutationFn: (data) => createNewMasterHttp(data),
-    onSuccess: (response) => {
+    onSuccess: () => {
       //revalidate data of master_list
-      queryClient.invalidateQueries('master_list')
+      queryClient.invalidateQueries({ queryKey: ['master_list'] })
       //show that master added successfully
       toast.success('استاد با موفقیت اضافه شد')
       //close modal
       onClose()
     },
+
     onError: (error) => {
-      toast.error('اضافه کردن استاد ناموفق بود')
+      if (error.message) {
+        for (const singleError in error.message) {
+          setError(singleError, {
+            type: 'custom',
+            message: error.message[singleError][0],
+          })
+        }
+      }
+      toast.error('اضافه کردن استاد نا موفق بود')
     },
   })
 
@@ -40,88 +60,107 @@ const MastersAddModal = ({ isShow, onClose }) => {
   return (
     <Modal isShow={isShow} onClose={onClose} maskClosable={false}>
       <p className="mb-5 font-semibold">اطلاعات مربوط به استاد را وارد کنید</p>
-      <Formik
-        initialValues={{ ...masterSchema.getDefault() }}
-        validationSchema={masterSchema}
-        onSubmit={(data) => mutate(data)}
+      <form
+        onSubmit={handleSubmit((values) => mutate(values))}
+        className="flex flex-col gap-y-3 w-full"
       >
-        {({ values, handleSubmit, handleChange, setFieldValue }) => (
-          <form
-            onSubmit={handleSubmit}
-            method="post"
-            className="flex flex-col gap-y-3 w-full"
-          >
-            <div className="grid grid-cols-2 gap-5">
-              <FormContainer label="نام" name="first_name">
-                <Input
-                  name="first_name"
-                  onChange={handleChange}
-                  value={values.first_name}
-                  placeholder="نام خود را وارد کنید . . . "
-                />
+        <div className="grid grid-cols-2 gap-5">
+          <Controller
+            name="first_name"
+            control={control}
+            render={({ field }) => (
+              <FormContainer errors={errors} label="نام" name={field.name}>
+                <Input {...field} placeholder="نام خود را وارد کنید . . . " />
               </FormContainer>
-              <FormContainer label="نام خانوادگی" name="last_name">
+            )}
+          />
+
+          <Controller
+            name="last_name"
+            control={control}
+            render={({ field }) => (
+              <FormContainer
+                errors={errors}
+                label="نام خانوادگی"
+                name={field.name}
+              >
                 <Input
-                  name="last_name"
-                  onChange={handleChange}
-                  value={values.last_name}
+                  {...field}
                   placeholder="نام خانوادگی خود را وارد کنید . . ."
                 />
               </FormContainer>
-              <FormContainer label="ایمیل" name="email">
-                <Input
-                  name="email"
-                  onChange={handleChange}
-                  value={values.email}
-                  placeholder="ایمیل خود را وارد کنید . . ."
-                />
+            )}
+          />
+          <Controller
+            name="email"
+            control={control}
+            render={({ field }) => (
+              <FormContainer errors={errors} label="ایمیل" name={field.name}>
+                <Input {...field} placeholder="ایمیل خود را وارد کنید . . ." />
               </FormContainer>
-              <FormContainer label="کد ملی" name="national_code">
-                <Input
-                  name="national_code"
-                  onChange={handleChange}
-                  value={values.national_code}
-                  placeholder="کدملی خود را وارد کنید . . ."
-                />
+            )}
+          />
+          <Controller
+            name="national_code"
+            control={control}
+            render={({ field }) => (
+              <FormContainer errors={errors} label="کد ملی" name={field.name}>
+                <Input {...field} placeholder="کدملی خود را وارد کنید . . ." />
               </FormContainer>
-              <FormContainer label="شماره تلفن" name="phone_number">
+            )}
+          />
+          <Controller
+            name="phone_number"
+            control={control}
+            render={({ field }) => (
+              <FormContainer
+                errors={errors}
+                label="شماره تلفن"
+                name={field.name}
+              >
                 <Input
-                  name="phone_number"
-                  onChange={handleChange}
-                  value={values.phone_number}
+                  {...field}
                   placeholder="شماره تلفن خود را وارد کنید . . ."
                 />
               </FormContainer>
-              <FormContainer label="کدپرسنلی" name="personal_code">
+            )}
+          />
+          <Controller
+            name="personal_code"
+            control={control}
+            render={({ field }) => (
+              <FormContainer errors={errors} label="کدپرسنلی" name={field.name}>
                 <Input
-                  name="personal_code"
-                  onChange={handleChange}
-                  value={values.personal_code}
+                  {...field}
                   placeholder="کدپرسنلی خود را وارد کنید . . ."
                 />
               </FormContainer>
-
-              <FormContainer label="دانشکده" name="faculty_id">
+            )}
+          />
+          <Controller
+            name="faculty_id"
+            control={control}
+            render={({ field }) => (
+              <FormContainer errors={errors} label="دانشکده" name={field.name}>
                 <Select
-                  value={values.faculty_id}
-                  onChange={(value) => setFieldValue('faculty_id', value)}
+                  {...field}
                   loading={isLoadingFaculty}
                   selectList={convertFacultyList(facultyList?.data)}
                 />
               </FormContainer>
-            </div>
-            <Button
-              loading={isSubmiting}
-              htmlType="submit"
-              icon={<AiOutlineUserAdd size={20} />}
-              className="w-fit h-auto py-2"
-              type="primary"
-            >
-              ثبت
-            </Button>
-          </form>
-        )}
-      </Formik>
+            )}
+          />
+        </div>
+        <Button
+          loading={isSubmiting}
+          htmlType="submit"
+          icon={<AiOutlineUserAdd size={20} />}
+          className="w-fit h-auto py-2"
+          type="primary"
+        >
+          ثبت
+        </Button>
+      </form>
     </Modal>
   )
 }
