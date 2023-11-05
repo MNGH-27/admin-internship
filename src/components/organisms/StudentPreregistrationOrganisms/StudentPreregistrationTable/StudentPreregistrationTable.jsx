@@ -5,7 +5,6 @@ import { useState } from 'react'
 import { Table } from '@atom/index'
 
 import {
-  DUMMY_DATA,
   RejectStudentModal,
   getTableData,
   RejectDescriptionModal,

@@ -10,6 +10,7 @@ export const getTableData = (
       title: '#',
       dataIndex: 'index',
       key: 'index',
+      render: (_, data, index) => <span>{index + 1}</span>,
     },
     {
       title: 'نام',
@@ -28,8 +29,8 @@ export const getTableData = (
     },
     {
       title: 'نام شرکت',
-      dataIndex: 'companyName',
-      key: 'companyName',
+      dataIndex: 'company',
+      key: 'company',
     },
     {
       title: 'دانشکده',
@@ -38,13 +39,13 @@ export const getTableData = (
     },
     {
       title: 'ترم',
-      dataIndex: 'term',
-      key: 'term',
+      dataIndex: 'entrance_year',
+      key: 'entrance_year',
     },
     {
       title: 'واحد های پاس شده',
-      dataIndex: 'passedUnit',
-      key: 'passedUnit',
+      dataIndex: 'passed_units',
+      key: 'passed_units',
     },
     {
       title: '',
@@ -81,36 +82,3 @@ export const getTableData = (
 
   return TABLE_HEADER
 }
-
-export const DUMMY_DATA = [
-  {
-    index: '1',
-    firstName: 'عباس',
-    lastName: 'عباسی',
-    studentNumber: '1234567890',
-    companyName: 'asd',
-    faculty: 'asdasf',
-    term: '12',
-    passedUnit: '120',
-  },
-  {
-    index: '1',
-    firstName: 'عباس',
-    lastName: 'عباسی',
-    studentNumber: '1234567890',
-    companyName: 'asd',
-    faculty: 'asdasf',
-    term: '12',
-    passedUnit: '120',
-  },
-  {
-    index: '1',
-    firstName: 'عباس',
-    lastName: 'عباسی',
-    studentNumber: '1234567890',
-    companyName: 'asd',
-    faculty: 'asdasf',
-    term: '12',
-    passedUnit: '120',
-  },
-]
