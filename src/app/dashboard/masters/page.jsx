@@ -1,6 +1,6 @@
 import { MastersTemplate } from '@template/index'
 const MastersPage = () => {
-  return <MastersTemplate />
+   return <MastersTemplate />
 }
 
 export default MastersPage
