@@ -1,7 +1,7 @@
 import { StudentIntialRegistrationTable } from '@organisms/StudentIntialRegistrationOrganisms'
 
 const InitialRegistrationPage = () => {
-  return <StudentIntialRegistrationTable />
+   return <StudentIntialRegistrationTable />
 }
 
 export default InitialRegistrationPage

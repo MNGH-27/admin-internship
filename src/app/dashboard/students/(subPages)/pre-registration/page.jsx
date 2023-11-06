@@ -1,7 +1,7 @@
 import { StudentPreregistrationTable } from '@organisms/StudentPreregistrationOrganisms'
 
 const PreregistrationPage = () => {
-  return <StudentPreregistrationTable />
+   return <StudentPreregistrationTable />
 }
 
 export default PreregistrationPage
