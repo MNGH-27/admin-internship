@@ -1,6 +1,6 @@
 import { StudentFormTable } from '@organisms/StudentFormOrganisms'
 const StudentFormsPage = () => {
-  return <StudentFormTable />
+   return <StudentFormTable />
 }
 
 export default StudentFormsPage

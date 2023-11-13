@@ -1,7 +1,7 @@
 import { FacultiesTemplate } from '@template/index'
 
 const FacultiesPage = () => {
-  return <FacultiesTemplate />
+   return <FacultiesTemplate />
 }
 
 export default FacultiesPage

@@ -1,9 +1,7 @@
-const { TermsDetailTempalte } = require("@template/index")
+const { TermsDetailTempalte } = require('@template/index')
 
 const TermsDetailPage = () => {
-    return (
-        <TermsDetailTempalte />
-    )
+   return <TermsDetailTempalte />
 }
 
 export default TermsDetailPage

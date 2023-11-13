@@ -1,7 +1,7 @@
 import { NewCompanyTemplate } from '@template/index'
 
 const NewCompanyPage = () => {
-  return <NewCompanyTemplate />
+   return <NewCompanyTemplate />
 }
 
 export default NewCompanyPage

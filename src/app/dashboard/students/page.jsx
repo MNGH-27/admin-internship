@@ -1,7 +1,7 @@
 import { StudentTemplate } from '@template/index'
 
 const StudentPage = () => {
-  return <StudentTemplate />
+   return <StudentTemplate />
 }
 
 export default StudentPage
