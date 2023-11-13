@@ -1,7 +1,7 @@
 import { AuthTemplate } from '@template/index'
 
 const Auth = () => {
-  return <AuthTemplate />
+   return <AuthTemplate />
 }
 
 export default Auth

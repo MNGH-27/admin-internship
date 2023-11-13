@@ -7,35 +7,35 @@ import { Toaster } from 'react-hot-toast'
 import { Empty } from '@atom/index'
 
 export function Providers({ children }) {
-  // Create a client
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        cacheTime: 5 * 60 * 1000,
-        staleTime: 5 * 60 * 1000,
-        refetchOnWindowFocus: false,
+   // Create a client
+   const queryClient = new QueryClient({
+      defaultOptions: {
+         queries: {
+            cacheTime: 5 * 60 * 1000,
+            staleTime: 5 * 60 * 1000,
+            refetchOnWindowFocus: false,
+         },
       },
-    },
-  })
+   })
 
-  return (
-    <>
-      <QueryClientProvider client={queryClient}>
-        <ConfigProvider
-          renderEmpty={() => <Empty />}
-          direction="rtl"
-          locale={frFR}
-          theme={{
-            token: {
-              // Seed Token
-              colorPrimary: '#003B7E',
-            },
-          }}
-        >
-          {children}
-        </ConfigProvider>
-      </QueryClientProvider>
-      <Toaster position="bottom-left" containerClassName="text-sm" />
-    </>
-  )
+   return (
+      <>
+         <QueryClientProvider client={queryClient}>
+            <ConfigProvider
+               renderEmpty={() => <Empty />}
+               direction="rtl"
+               locale={frFR}
+               theme={{
+                  token: {
+                     // Seed Token
+                     colorPrimary: '#003B7E',
+                  },
+               }}
+            >
+               {children}
+            </ConfigProvider>
+         </QueryClientProvider>
+         <Toaster position="bottom-left" containerClassName="text-sm" />
+      </>
+   )
 }
