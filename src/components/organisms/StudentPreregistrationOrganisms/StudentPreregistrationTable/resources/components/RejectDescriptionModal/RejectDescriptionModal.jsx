@@ -1,6 +1,14 @@
-import { Modal } from '@atom/index'
+import { Modal, Spinner } from '@atom/index'
+import { getPreRegestrationUnverifyDescription } from '@core/services'
+import { useQuery } from 'react-query'
 
 const RejectDescriptionModal = ({ isShow, onClose, data }) => {
+   const { data: userDescription, isSuccess } = useQuery({
+      queryKey: [`pre_pregistration_user_reject_discription_${data?.id}`],
+      queryFn: () => getPreRegestrationUnverifyDescription(data.id),
+      enabled: !!data?.id,
+   })
+
    return (
       <Modal isShow={isShow} onClose={onClose}>
          <div className="flex flex-col items-start justify-center gap-3">
@@ -10,9 +18,13 @@ const RejectDescriptionModal = ({ isShow, onClose, data }) => {
             </span>
             <div className="flex flex-col items-start justify-center gap-2 w-full my-3">
                <label className="text-[#5F5F61] text-xs">علت رد دانشجو</label>
-               <p className="bg-gray-200 p-3 rounded-md">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, consectetur.
-               </p>
+               {isSuccess ? (
+                  <p className="bg-gray-200 p-3 rounded-md">{userDescription?.message?.description}</p>
+               ) : (
+                  <div className="flex items-center justify-center w-full my-3">
+                     <Spinner />
+                  </div>
+               )}
             </div>
          </div>
       </Modal>

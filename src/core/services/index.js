@@ -1,11 +1,11 @@
 import { loginUserHttp } from './apis/login_user.apis'
 import { getUserInfoHttp } from './apis/user/get_user_info.api'
-import { getInitialRegestrationStundets } from './apis/student/get_initial_registration_list.api'
-import { putUnVarifyStudentInitialRegestration } from './apis/student/put_unverify_student.api'
+import { getInitialRegestrationStundets } from './apis/student/initial-registration/get_initial_registration_list.api'
+import { putUnVarifyStudentInitialRegestration } from './apis/student/initial-registration/put_unverify_student.api'
 import { getEntranceYearOfStudentFilter } from './apis/student/get_entrance_year_student_filter.api'
-import { getInitialRegestrationUnverifyDescription } from './apis/student/get_initial_registration_unverify_description.api'
-import { putVarifyStudentInitialRegestration } from './apis/student/put_verify_student.api'
-import { getPreRegestrationStundets } from './apis/student/get_pre_registration_list.api'
+import { getInitialRegestrationUnverifyDescription } from './apis/student/initial-registration/get_initial_registration_unverify_description.api'
+import { putVarifyStudentInitialRegestration } from './apis/student/initial-registration/put_verify_student.api'
+import { getPreRegestrationStundets } from './apis/student/pre-registration/get_pre_registration_list.api'
 import { getMasterListHttp } from './apis/master/get_master_list.api'
 import { createNewMasterHttp } from './apis/master/create_new_master.api'
 import { getfacultyListHttp } from './apis/faculty/get_faculty_list.api'
@@ -26,33 +26,41 @@ import { editEducationalTermsHttp } from './apis/educational-terms/edit_educatio
 import { deleteEducationalTermsHttp } from './apis/educational-terms/delete_educationl_terms.api'
 import { getStudentEducationalTermsListHttp } from './apis/student-educational-detail/get_student_educational_detail.api'
 import { getMasterEducationalTermsListHttp } from './apis/master-educational-detail/get_master_educational_detail.api'
+import { putUnVarifyStudentPreRegestration } from './apis/student/pre-registration/put-unverify-pre-registration.api'
+import { getPreRegestrationDescriptionStundets } from './apis/student/pre-registration/get-pre-registration-description.api'
+import { getPreRegestrationUnverifyDescription } from './apis/student/pre-registration/get-pre-registration-unverify-description.api'
+import { putVarifyStudentPreRegestration } from './apis/student/pre-registration/put-verify-pre-registration.api'
 export {
-  getMasterEducationalTermsListHttp,
-  getStudentEducationalTermsListHttp,
-  deleteEducationalTermsHttp,
-  editEducationalTermsHttp,
-  createNewTermsHttp,
-  getEducationalTermsListHttp,
-  deleteEducationalFacultiesHttp,
-  editEducationalFacultiesHttp,
-  createNewFacultiesHttp,
-  getEducationalFacultiesListHttp,
-  getSingleCompanyHttp,
-  deleteCompanyhttp,
-  createNewComapanyHttp,
-  getCompaniesList,
-  deleteMasterHttp,
-  editMasterHttp,
-  getSingleMasterEditHttp,
-  getfacultyListHttp,
-  createNewMasterHttp,
-  getMasterListHttp,
-  getPreRegestrationStundets,
-  putVarifyStudentInitialRegestration,
-  getInitialRegestrationUnverifyDescription,
-  getEntranceYearOfStudentFilter,
-  getInitialRegestrationStundets,
-  putUnVarifyStudentInitialRegestration,
-  loginUserHttp,
-  getUserInfoHttp,
+   putVarifyStudentPreRegestration,
+   getPreRegestrationUnverifyDescription,
+   putUnVarifyStudentPreRegestration,
+   getPreRegestrationDescriptionStundets,
+   getMasterEducationalTermsListHttp,
+   getStudentEducationalTermsListHttp,
+   deleteEducationalTermsHttp,
+   editEducationalTermsHttp,
+   createNewTermsHttp,
+   getEducationalTermsListHttp,
+   deleteEducationalFacultiesHttp,
+   editEducationalFacultiesHttp,
+   createNewFacultiesHttp,
+   getEducationalFacultiesListHttp,
+   getSingleCompanyHttp,
+   deleteCompanyhttp,
+   createNewComapanyHttp,
+   getCompaniesList,
+   deleteMasterHttp,
+   editMasterHttp,
+   getSingleMasterEditHttp,
+   getfacultyListHttp,
+   createNewMasterHttp,
+   getMasterListHttp,
+   getPreRegestrationStundets,
+   putVarifyStudentInitialRegestration,
+   getInitialRegestrationUnverifyDescription,
+   getEntranceYearOfStudentFilter,
+   getInitialRegestrationStundets,
+   putUnVarifyStudentInitialRegestration,
+   loginUserHttp,
+   getUserInfoHttp,
 }

@@ -6,18 +6,18 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { Toaster } from 'react-hot-toast'
 import { Empty } from '@atom/index'
 
-export function Providers({ children }) {
-   // Create a client
-   const queryClient = new QueryClient({
-      defaultOptions: {
-         queries: {
-            cacheTime: 5 * 60 * 1000,
-            staleTime: 5 * 60 * 1000,
-            refetchOnWindowFocus: false,
-         },
+// Create a client
+const queryClient = new QueryClient({
+   defaultOptions: {
+      queries: {
+         cacheTime: 5 * 60 * 1000,
+         staleTime: 5 * 60 * 1000,
+         refetchOnWindowFocus: false,
       },
-   })
+   },
+})
 
+export function Providers({ children }) {
    return (
       <>
          <QueryClientProvider client={queryClient}>

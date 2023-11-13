@@ -1,8 +1,8 @@
 import AxiosFetch from '@core/services/config/AxiosHttp'
 
-export async function getEntranceYearOfStudentFilter() {
+export async function getInitialRegestrationStundets(filter) {
    try {
-      const response = await AxiosFetch().get(`students/entrance`)
+      const response = await AxiosFetch().get(`students/initReg?${filter}`)
 
       return response.data
    } catch (error) {

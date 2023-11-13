@@ -5,10 +5,14 @@ import { useState } from 'react'
 import { Table } from '@atom/index'
 
 import { RejectStudentModal, getTableData, RejectDescriptionModal } from './resources'
-import { useQuery } from 'react-query'
-import { getPreRegestrationStundets } from '@core/services'
+import { useMutation, useQuery } from 'react-query'
+import { getPreRegestrationStundets, putVarifyStudentPreRegestration } from '@core/services'
+import { useQueryClient } from 'react-query'
+import toast from 'react-hot-toast'
 
 const StudentPreregistrationTable = () => {
+   const queryClient = useQueryClient()
+
    const searchParams = useSearchParams()
 
    const [rejectModal, setRejectModal] = useState({
@@ -22,8 +26,19 @@ const StudentPreregistrationTable = () => {
    })
 
    const { data, isLoading, isFetching } = useQuery({
-      queryKey: ['initial_registration_list', searchParams.toString()],
+      queryKey: ['pre_registration_list', searchParams.toString()],
       queryFn: () => getPreRegestrationStundets(searchParams.toString()),
+   })
+
+   const { mutate: verifyUser } = useMutation({
+      mutationFn: (data) => putVarifyStudentPreRegestration({ student_id: data.id }),
+      onSuccess: () => {
+         //show user verify successfully
+         toast.success('دانشجو تایید شد')
+
+         //refetch to get users data
+         queryClient.invalidateQueries({ queryKey: ['pre_registration_list'] })
+      },
    })
 
    const onOpenRejectModal = (data) => {
@@ -45,7 +60,12 @@ const StudentPreregistrationTable = () => {
          <Table
             loading={isLoading || isFetching}
             rowKey={(record) => record.id}
-            headerList={getTableData(onOpenRejectModal, onOpenRejectDescriptionModal, searchParams.get('verified'))}
+            headerList={getTableData(
+               onOpenRejectModal,
+               onOpenRejectDescriptionModal,
+               verifyUser,
+               searchParams.get('verified'),
+            )}
             pagination={{}}
             data={data?.data?.students}
          />
