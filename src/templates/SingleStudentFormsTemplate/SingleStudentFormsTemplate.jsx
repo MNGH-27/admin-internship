@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { getStudentHomeHttp } from '@core/services/apis/student/get_student_home.api'
 import { Spinner } from '@atom/index'
 
-const StudentTemplate = () => {
+const SingleStudentFormsTemplate = () => {
    const { isSuccess, data: homeData } = useQuery({
       queryKey: ['student_home'],
       queryFn: getStudentHomeHttp,
@@ -73,4 +73,4 @@ const StudentTemplate = () => {
    )
 }
 
-export default StudentTemplate
+export default SingleStudentFormsTemplate

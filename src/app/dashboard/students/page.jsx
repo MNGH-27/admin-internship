@@ -1,7 +1,7 @@
-import { StudentTemplate } from '@template/index'
+import { SingleStudentFormsTemplate } from '@template/index'
 
 const StudentPage = () => {
-   return <StudentTemplate />
+   return <SingleStudentFormsTemplate />
 }
 
 export default StudentPage
