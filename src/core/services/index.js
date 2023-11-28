@@ -30,7 +30,9 @@ import { putUnVarifyStudentPreRegestration } from './apis/student/pre-registrati
 import { getPreRegestrationDescriptionStundets } from './apis/student/pre-registration/get-pre-registration-description.api'
 import { getPreRegestrationUnverifyDescription } from './apis/student/pre-registration/get-pre-registration-unverify-description.api'
 import { putVarifyStudentPreRegestration } from './apis/student/pre-registration/put-verify-pre-registration.api'
+import { GetFormsListHttp } from './apis/student/forms/get_forms_list.api'
 export {
+   GetFormsListHttp,
    putVarifyStudentPreRegestration,
    getPreRegestrationUnverifyDescription,
    putUnVarifyStudentPreRegestration,

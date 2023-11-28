@@ -9,28 +9,23 @@ export const getTableData = (push) => {
       },
       {
          title: 'نام',
-         dataIndex: 'firstName',
-         key: 'firstName',
+         dataIndex: 'name',
+         key: 'name',
       },
       {
          title: 'نام خانوادگی',
-         dataIndex: 'lastName',
-         key: 'lastName',
+         dataIndex: 'last_name',
+         key: 'last_name',
       },
       {
          title: 'شماره دانشجویی',
-         dataIndex: 'studentNumber',
-         key: 'studentNumber',
-      },
-      {
-         title: 'دانشکده',
-         dataIndex: 'faculty',
-         key: 'faculty',
+         dataIndex: 'student_number',
+         key: 'student_number',
       },
       {
          title: 'سال ورود به دانشگاه',
-         dataIndex: 'entranceDate',
-         key: 'entranceDate',
+         dataIndex: 'entrance_year',
+         key: 'entrance_year',
       },
       {
          title: '',
