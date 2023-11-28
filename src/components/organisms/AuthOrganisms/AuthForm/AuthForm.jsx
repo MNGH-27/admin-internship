@@ -26,7 +26,6 @@ const AuthForm = () => {
    })
 
    const { mutate, isLoading } = useMutation({
-      mutationKey: ['login'],
       mutationFn: (data) => loginUserHttp(data),
       onError: () => {
          toast.error('ورود با مشکل مواجه شد')

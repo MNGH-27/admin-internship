@@ -9,7 +9,6 @@ const RemoveCompanyModal = ({ isShow, onClose, data }) => {
    const queryClient = useQueryClient()
 
    const { mutate, isLoading: isRemovingComapny } = useMutation({
-      mutationKey: ['companies_list'],
       mutationFn: () => deleteCompanyhttp({ id: data?.id }),
       onSuccess: () => {
          toast.success('شرکت با موفقیت حذف شد')

@@ -26,7 +26,6 @@ const RejectStudentModal = ({ isShow, onClose, refetch, data }) => {
    })
 
    const { mutate, isLoading } = useMutation({
-      mutationKey: ['unverify_initial_registration'],
       mutationFn: (detail) =>
          putUnVarifyStudentInitialRegestration({
             student_id: data?.id,

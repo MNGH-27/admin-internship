@@ -32,7 +32,13 @@ import { getPreRegestrationUnverifyDescription } from './apis/student/pre-regist
 import { putVarifyStudentPreRegestration } from './apis/student/pre-registration/put-verify-pre-registration.api'
 import { GetFormsListHttp } from './apis/student/forms/get_forms_list.api'
 import { getSignleStudentFormsHttp } from './apis/student/forms/get_single_student_form.api'
+import { getSignleStudentFormsByStageHttp } from './apis/student/forms/get_single_student_form_by_stage.api'
+import { putVerifySingleFormHttp } from './apis/student/forms/verify_single_form.api'
+import { putUnVerifySingleFormHttp } from './apis/student/forms/unverify_single_form.api'
 export {
+   putUnVerifySingleFormHttp,
+   putVerifySingleFormHttp,
+   getSignleStudentFormsByStageHttp,
    getSignleStudentFormsHttp,
    GetFormsListHttp,
    putVarifyStudentPreRegestration,

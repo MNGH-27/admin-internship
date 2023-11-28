@@ -29,7 +29,6 @@ const StudentIntialRegistrationTable = () => {
    })
 
    const { mutate: verifyUser } = useMutation({
-      mutationKey: ['verify_initial_registration'],
       mutationFn: (data) => putVarifyStudentInitialRegestration({ student_id: data.id }),
       onSuccess: () => {
          //show user verify successfully

@@ -12,7 +12,6 @@ const RemoveMasterModal = ({ isShow, onClose, data }) => {
    const queryClient = useQueryClient()
 
    const { mutate, isLoading: isRemovingMaster } = useMutation({
-      mutationKey: ['delete_master'],
       mutationFn: () => deleteMasterHttp({ id: data?.id }),
       onSuccess: () => {
          toast.success('استاد با موفقیت حذف شد')
