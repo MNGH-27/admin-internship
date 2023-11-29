@@ -12,7 +12,9 @@ import TermsDetailTempalte from './TermsDetailTempalte/TermsDetailTempalte'
 import StudentTermsDetailTemplate from './StudentTermsDetailTemplate/StudentTermsDetailTemplate'
 import MasterTermDetailTemplate from './MasterTermDetailTemplate/MasterTermDetailTemplate'
 import Form2Template from './Form2Template/Form2Template'
+import Form3Template from './Form3Template/Form3Template'
 export {
+   Form3Template,
    Form2Template,
    MasterTermDetailTemplate,
    StudentTermsDetailTemplate,
