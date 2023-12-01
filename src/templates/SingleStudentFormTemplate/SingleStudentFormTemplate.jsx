@@ -86,7 +86,7 @@ const SingleStudentFormTemplate = ({ id }) => {
                </button>
                <button
                   disabled={Number(singleStudentForm.form4.status) === 0}
-                  onClick={() => push(`/dashboard/students/form/singleform`)}
+                  onClick={() => push(`/dashboard/students/form/${id}/form4`)}
                   className={`${
                      Number(singleStudentForm.form4.status) === 0 ? 'cursor-default' : 'hover:border-[#4C526D]'
                   } flex flex-col items-center md:items-start justify-center gap-3 border-2 border-[#EEEEF2] rounded-md px-6 py-5 shadow-[0px_1px_2px_0px_rgba(24,24,28,0.04)] hover:shadow-[0px_1px_6px_0px_rgba(24,24,28,0.04)] duration-200 transition-all`}
