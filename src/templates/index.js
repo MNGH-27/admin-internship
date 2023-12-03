@@ -14,7 +14,9 @@ import MasterTermDetailTemplate from './MasterTermDetailTemplate/MasterTermDetai
 import Form2Template from './Form2Template/Form2Template'
 import Form3Template from './Form3Template/Form3Template'
 import Form4Template from './Form4Template/Form4Template'
+import WeeklyReportTemplate from './WeeklyReportTemplate/WeeklyReportTemplate'
 export {
+   WeeklyReportTemplate,
    Form4Template,
    Form3Template,
    Form2Template,
