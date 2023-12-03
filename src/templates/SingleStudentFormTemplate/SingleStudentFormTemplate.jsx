@@ -115,7 +115,7 @@ const SingleStudentFormTemplate = ({ id }) => {
                   </div>
                </button>
                <button
-                  onClick={() => push()}
+                  onClick={() => push(`/dashboard/students/form/${id}/finish-internship`)}
                   href={`/dashboard/students/form/singleform`}
                   className={` flex flex-col items-center md:items-start justify-center gap-3 border-2 hover:border-[#4C526D] border-[#EEEEF2] rounded-md px-6 py-5 shadow-[0px_1px_2px_0px_rgba(24,24,28,0.04)] hover:shadow-[0px_1px_6px_0px_rgba(24,24,28,0.04)] duration-200 transition-all`}
                >

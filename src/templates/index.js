@@ -15,7 +15,9 @@ import Form2Template from './Form2Template/Form2Template'
 import Form3Template from './Form3Template/Form3Template'
 import Form4Template from './Form4Template/Form4Template'
 import WeeklyReportTemplate from './WeeklyReportTemplate/WeeklyReportTemplate'
+import FinishInternshipTemplate from './FinishInternshipTemplate/FinishInternshipTemplate'
 export {
+   FinishInternshipTemplate,
    WeeklyReportTemplate,
    Form4Template,
    Form3Template,
