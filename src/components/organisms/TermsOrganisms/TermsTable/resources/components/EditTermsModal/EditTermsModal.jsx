@@ -1,4 +1,4 @@
-import { Button, Input, Modal, DatePicker } from '@atom/index'
+import { Button, Input, DatePicker } from '@atom/index'
 import toast from 'react-hot-toast'
 import { useMutation, useQueryClient } from 'react-query'
 import { educationalTermsSchema } from '@core/validation'
@@ -9,7 +9,7 @@ import moment from 'moment-jalaali'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-const EditTermsModal = ({ isShow, onClose, data }) => {
+const EditTermsModal = ({ onClose, data }) => {
    const queryClient = useQueryClient()
 
    const {
@@ -18,7 +18,7 @@ const EditTermsModal = ({ isShow, onClose, data }) => {
       handleSubmit,
       setError,
    } = useForm({
-      defaultValues: { ...educationalTermsSchema.getDefault() },
+      defaultValues: { ...data },
       resolver: yupResolver(educationalTermsSchema),
    })
 
@@ -45,8 +45,10 @@ const EditTermsModal = ({ isShow, onClose, data }) => {
       },
    })
 
+   console.log('data : ', data)
+
    return (
-      <Modal isShow={isShow} onClose={onClose} maskClosable={false}>
+      <>
          <p className="mb-5 font-semibold">اطلاعات مربوط به ترم را وارد کنید</p>
          <form
             onSubmit={handleSubmit((values) =>
@@ -109,7 +111,7 @@ const EditTermsModal = ({ isShow, onClose, data }) => {
                ثبت
             </Button>
          </form>
-      </Modal>
+      </>
    )
 }
 

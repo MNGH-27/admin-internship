@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react'
 
-import { Table } from '@atom/index'
+import { Modal, Table } from '@atom/index'
 
 import { getTableData, EditTermsModal, RemoveTermsModal } from './resources'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -73,7 +73,7 @@ const TermsTable = () => {
             data={termsData?.data}
          />
 
-         <EditTermsModal
+         <Modal
             isShow={editTermModal.isShow}
             onClose={() =>
                setEditTermModal({
@@ -81,9 +81,18 @@ const TermsTable = () => {
                   data: {},
                })
             }
-            data={editTermModal.data}
-         />
-
+            maskClosable={false}
+         >
+            <EditTermsModal
+               onClose={() =>
+                  setEditTermModal({
+                     isShow: false,
+                     data: {},
+                  })
+               }
+               data={editTermModal.data}
+            />
+         </Modal>
          <RemoveTermsModal
             isShow={removeTermModal.isShow}
             onClose={() =>
