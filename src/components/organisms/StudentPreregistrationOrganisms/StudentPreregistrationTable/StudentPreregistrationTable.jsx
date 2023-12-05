@@ -1,7 +1,7 @@
 'use client'
 
-import { useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useCallback, useState } from 'react'
 import { Table } from '@atom/index'
 
 import { RejectStudentModal, getTableData, RejectDescriptionModal } from './resources'
@@ -12,6 +12,8 @@ import toast from 'react-hot-toast'
 
 const StudentPreregistrationTable = () => {
    const queryClient = useQueryClient()
+   const { push } = useRouter()
+   const pathName = usePathname()
 
    const searchParams = useSearchParams()
 
@@ -41,6 +43,20 @@ const StudentPreregistrationTable = () => {
       },
    })
 
+   // Get a new searchParams string by merging the current
+   // searchParams with a provided key/value pair
+   const createQueryString = useCallback(
+      ({ page }) => {
+         const params = new URLSearchParams(searchParams)
+
+         //add new search params
+         params.set('page', page)
+
+         return params.toString()
+      },
+      [searchParams],
+   )
+
    const onOpenRejectModal = (data) => {
       setRejectModal({
          isShow: true,
@@ -66,7 +82,13 @@ const StudentPreregistrationTable = () => {
                verifyUser,
                searchParams.get('verified'),
             )}
-            pagination={{}}
+            pagination={{
+               pageSize: 5, // Set the number of items per page
+               total: data?.meta?.total_records, // Set the total number of items
+               onChange: (page) => {
+                  push(pathName + '?' + createQueryString({ page }))
+               },
+            }}
             data={data?.data?.students}
          />
 
