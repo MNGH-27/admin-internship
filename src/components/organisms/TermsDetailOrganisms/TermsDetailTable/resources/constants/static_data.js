@@ -1,3 +1,4 @@
+import moment from 'moment-jalaali'
 import Link from 'next/link'
 export const getTableData = () => {
    const TABLE_HEADER = [
@@ -14,13 +15,15 @@ export const getTableData = () => {
       },
       {
          title: 'تاریخ شروع',
-         dataIndex: 'startDate',
-         key: 'startDate',
+         dataIndex: 'start_date',
+         key: 'start_date',
+         render: (currentData) => <span>{moment(currentData).format('jYYYY/jMM/jDD')}</span>,
       },
       {
          title: 'تاریخ پایان',
-         dataIndex: 'endDate',
-         key: 'endDate',
+         dataIndex: 'end_date',
+         key: 'end_date',
+         render: (currentData) => <span>{moment(currentData).format('jYYYY/jMM/jDD')}</span>,
       },
       {
          title: 'تعداد دانشجو',

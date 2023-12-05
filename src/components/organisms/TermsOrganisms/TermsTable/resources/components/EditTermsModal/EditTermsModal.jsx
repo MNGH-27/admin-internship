@@ -45,8 +45,6 @@ const EditTermsModal = ({ onClose, data }) => {
       },
    })
 
-   console.log('data : ', data)
-
    return (
       <>
          <p className="mb-5 font-semibold">اطلاعات مربوط به ترم را وارد کنید</p>
