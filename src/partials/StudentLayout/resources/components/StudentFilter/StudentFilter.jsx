@@ -72,7 +72,7 @@ const StudentFilter = () => {
                      <FormContainer errors={errors} label="تاریخ ورود" name={field.name}>
                         <Select
                            loading={isLoadingEntranceYear}
-                           selectList={convertEntranceYear(entranceYear)}
+                           selectList={[{ label: 'همه موارد', value: '' }].concat(convertEntranceYear(entranceYear))}
                            {...field}
                         />
                      </FormContainer>
