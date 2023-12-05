@@ -43,7 +43,7 @@ const EditMasterModal = ({ onClose, data }) => {
    })
 
    const { mutate, isLoading: isSubmiting } = useMutation({
-      mutationFn: (data) => editMasterHttp({ ...data, id: data.id }),
+      mutationFn: (vales) => editMasterHttp({ ...vales, id: data.id }),
       onSuccess: () => {
          //revalidate data of master_list
          queryClient.invalidateQueries({ queryKey: ['master_list'] })
