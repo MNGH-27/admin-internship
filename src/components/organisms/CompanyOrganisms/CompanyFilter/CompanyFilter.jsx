@@ -77,7 +77,9 @@ const CompanyFilter = () => {
                         <Select
                            {...field}
                            loading={isLoadingFaculty}
-                           selectList={convertFacultyList(facultyList?.data)}
+                           selectList={[{ label: 'همه موارد', value: '' }].concat(
+                              convertFacultyList(facultyList?.data),
+                           )}
                         />
                      </FormContainer>
                   )}
