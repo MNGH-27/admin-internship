@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react'
 
-import { Table } from '@atom/index'
+import { Modal, Table } from '@atom/index'
 
 import { useQuery } from 'react-query'
 import { useSearchParams, useRouter, usePathname } from 'next/navigation'
@@ -73,11 +73,9 @@ const MastersTable = () => {
             data={masterList?.data?.master}
          />
 
-         <EditMasterModal
-            isShow={editMaster.isShow}
-            onClose={() => setEditMaster({ isShow: false })}
-            data={editMaster.data}
-         />
+         <Modal isShow={editMaster.isShow} onClose={() => setEditMaster({ isShow: false })}>
+            <EditMasterModal onClose={() => setEditMaster({ isShow: false })} data={editMaster.data} />
+         </Modal>
 
          <RemoveMasterModal
             isShow={removeMaster.isShow}

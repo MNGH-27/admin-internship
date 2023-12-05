@@ -76,7 +76,12 @@ const MastersFilter = () => {
                         <Select
                            {...field}
                            loading={isLoadingFaculty}
-                           selectList={convertFacultyList(facultyList?.data)}
+                           selectList={convertFacultyList(facultyList?.data).concat([
+                              {
+                                 label: 'همه موارد',
+                                 value: '',
+                              },
+                           ])}
                         />
                      </FormContainer>
                   )}
