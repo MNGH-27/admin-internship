@@ -34,7 +34,7 @@ const WeeklyReportTemplate = ({ id }) => {
    if (isSuccess)
       return (
          <div>
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center mb-8">
                <Link
                   type="primary"
                   className="ml-auto flex items-center justify-start gap-x-2 py-2 px-4 rounded-md bg-[#003B7E] text-white w-fit"
@@ -51,7 +51,7 @@ const WeeklyReportTemplate = ({ id }) => {
                student={singleStudentForm?.student}
             />
 
-            <WeeklyReportList />
+            <WeeklyReportList weeks={singleStudentForm?.weeks} userId={id} />
          </div>
       )
 }

@@ -35,7 +35,9 @@ import { getSignleStudentFormsHttp } from './apis/student/forms/get_single_stude
 import { getSignleStudentFormsByStageHttp } from './apis/student/forms/get_single_student_form_by_stage.api'
 import { putVerifySingleFormHttp } from './apis/student/forms/verify_single_form.api'
 import { putUnVerifySingleFormHttp } from './apis/student/forms/unverify_single_form.api'
+import { getSingleWeekReportHttp } from './apis/student/forms/get_single_week_report.api'
 export {
+   getSingleWeekReportHttp,
    putUnVerifySingleFormHttp,
    putVerifySingleFormHttp,
    getSignleStudentFormsByStageHttp,

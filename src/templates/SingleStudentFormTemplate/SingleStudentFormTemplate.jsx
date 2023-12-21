@@ -45,12 +45,12 @@ const SingleStudentFormTemplate = ({ id }) => {
             <div>
                <p className="text-2xl font-semibold flex items-center justify-start gap-2">
                   <span className="text-[#101114]">دانشجو</span>
-                  <span className="text-[#5F5F61]">{singleStudentForm.student.full_name}</span>
+                  <span className="text-[#5F5F61]">{singleStudentForm?.student?.full_name}</span>
                </p>
                <span className="text-xs text-[#5F5F61]">
-                  {singleStudentForm.student.full_name} به شماره دانشجویی {singleStudentForm.student.student_number}{' '}
+                  {singleStudentForm?.student?.full_name} به شماره دانشجویی {singleStudentForm?.student?.student_number}{' '}
                   ورودی
-                  {singleStudentForm.student.entrance_year} فرم های ذیل را برای تایید شدن پر کرده است.
+                  {singleStudentForm?.student?.entrance_year} فرم های ذیل را برای تایید شدن پر کرده است.
                </span>
             </div>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full">
