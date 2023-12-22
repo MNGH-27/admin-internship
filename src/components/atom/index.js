@@ -13,7 +13,9 @@ import Spinner from './Spinner/Spinner'
 import Empty from './Empty/Empty'
 import Pagination from './Pagination/Pagination'
 import Upload from './Upload/Upload'
+import Image from './Image/Image'
 export {
+   Image,
    Upload,
    Pagination,
    Empty,

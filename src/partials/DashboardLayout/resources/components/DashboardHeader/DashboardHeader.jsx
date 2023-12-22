@@ -2,9 +2,9 @@
 
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { Button } from '@atom/index'
+import { Button, Image } from '@atom/index'
 import { SmallLogo } from '@public/image'
-import Image from 'next/image'
+
 import { AiOutlineClose } from 'react-icons/ai'
 import { HiOutlineMenuAlt1 } from 'react-icons/hi'
 import { IsLinkActive, LINKS_LIST } from './resources'

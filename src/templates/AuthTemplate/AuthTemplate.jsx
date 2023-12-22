@@ -1,6 +1,6 @@
 import { BigLogo } from '@public/image'
 import { AuthForm } from '@organisms/AuthOrganisms'
-import Image from 'next/image'
+import { Image } from '@atom/index'
 
 const AuthTemplate = () => {
    return (
