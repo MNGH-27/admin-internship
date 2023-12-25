@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { Button, Image } from '@atom/index'
 import { SmallLogo } from '@public/image'
@@ -13,6 +13,14 @@ const DashboardHeader = () => {
    const pathName = usePathname()
 
    const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+
+   useEffect(() => {
+      //close sidebar on change route
+      if (isSidebarOpen) {
+         setIsSidebarOpen(false)
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [pathName])
 
    return (
       <header className="border-b-2 border-b-[#EEEEF2] shadow-[0_3px_4px_0px_rgba(24,24,28,0.03)]">
