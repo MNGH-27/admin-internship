@@ -22,6 +22,8 @@ const EditTermsModal = ({ onClose, data }) => {
       resolver: yupResolver(educationalTermsSchema),
    })
 
+   console.log('data : ', moment(data.start_date).format('jYYYY-jMM-jDD'))
+
    const { mutate, isLoading: isSubmitting } = useMutation({
       mutationFn: (values) => editEducationalTermsHttp(values, data?.id),
       onSuccess: () => {
@@ -72,11 +74,12 @@ const EditTermsModal = ({ onClose, data }) => {
                <Controller
                   name="start_date"
                   control={control}
-                  defaultValue={data.start_date}
+                  defaultValue={new Date(data.start_date)}
                   render={({ field }) => (
                      <FormContainer errors={errors} label="تاریخ شروع" name={field.name}>
                         <DatePicker
                            {...field}
+                           value={moment(field.value).format('jYYYY-jMM-jDD')}
                            onChange={(data) => field.onChange(new Date(data))}
                            placeholder="تاریخ شروع خود را وارد کنید . . . "
                         />
@@ -86,11 +89,12 @@ const EditTermsModal = ({ onClose, data }) => {
                <Controller
                   name="end_date"
                   control={control}
-                  defaultValue={data.end_date}
+                  defaultValue={new Date(data.end_date)}
                   render={({ field }) => (
                      <FormContainer errors={errors} label="تاریخ پایان" name={field.name}>
                         <DatePicker
                            {...field}
+                           value={moment(field.value).format('jYYYY-jMM-jDD')}
                            onChange={(data) => field.onChange(new Date(data))}
                            placeholder="تاریخ پایان خود را وارد کنید . . . "
                         />

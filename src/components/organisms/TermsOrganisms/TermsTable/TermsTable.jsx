@@ -64,7 +64,7 @@ const TermsTable = () => {
             loading={isLoadingTermData}
             headerList={getTableData(onOpenEditTermModal, onOpenRemoveTermModal)}
             pagination={{
-               pageSize: 5, // Set the number of items per page
+               pageSize: 10, // Set the number of items per page
                total: termsData?.meta?.total_records, // Set the total number of items
                onChange: (page) => {
                   push(pathName + '?' + createQueryString({ page }))

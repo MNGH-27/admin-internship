@@ -63,7 +63,7 @@ const CompanyTable = () => {
             loading={isLoadingCompanyList}
             headerList={getTableData(onOpenDetailModal, onOpenRemoveModal)}
             pagination={{
-               pageSize: 5, // Set the number of items per page
+               pageSize: 10, // Set the number of items per page
                total: companyList?.meta?.total_records, // Set the total number of items
                onChange: (page) => {
                   push(pathName + '?' + createQueryString({ page }))

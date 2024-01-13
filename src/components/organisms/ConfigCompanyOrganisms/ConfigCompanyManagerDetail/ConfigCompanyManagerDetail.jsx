@@ -24,7 +24,7 @@ const ConfigCompanyManagerDetail = ({ defaultValues, control, errors }) => {
             <Controller
                name="first_name"
                control={control}
-               defaultValue={defaultValues.first_name}
+               defaultValue={defaultValues?.first_name ?? ''}
                render={({ field }) => (
                   <FormContainer errors={errors} label="نام سرپرست" name={field.name}>
                      <Input {...field} />
@@ -34,7 +34,7 @@ const ConfigCompanyManagerDetail = ({ defaultValues, control, errors }) => {
             <Controller
                name="last_name"
                control={control}
-               defaultValue={defaultValues.last_name}
+               defaultValue={defaultValues?.last_name ?? ''}
                render={({ field }) => (
                   <FormContainer errors={errors} label="نام خانوادگی سرپرست" name={field.name}>
                      <Input {...field} />
@@ -44,7 +44,7 @@ const ConfigCompanyManagerDetail = ({ defaultValues, control, errors }) => {
             <Controller
                name="email"
                control={control}
-               defaultValue={defaultValues.email}
+               defaultValue={defaultValues?.email ?? ''}
                render={({ field }) => (
                   <FormContainer errors={errors} label="ایمیل سرپرست" name={field.name}>
                      <Input {...field} />
@@ -54,7 +54,7 @@ const ConfigCompanyManagerDetail = ({ defaultValues, control, errors }) => {
             <Controller
                name="national_code"
                control={control}
-               defaultValue={defaultValues.national_code}
+               defaultValue={defaultValues?.national_code ?? ''}
                render={({ field }) => (
                   <FormContainer errors={errors} label="کدملی سرپرست" name={field.name}>
                      <Input {...field} />
@@ -65,7 +65,7 @@ const ConfigCompanyManagerDetail = ({ defaultValues, control, errors }) => {
             <Controller
                name="username"
                control={control}
-               defaultValue={defaultValues.username}
+               defaultValue={defaultValues?.username ?? ''}
                render={({ field }) => (
                   <FormContainer errors={errors} label="نام کاربری سرپرست" name={field.name}>
                      <Input {...field} />
@@ -76,7 +76,7 @@ const ConfigCompanyManagerDetail = ({ defaultValues, control, errors }) => {
             <Controller
                name="phone_number"
                control={control}
-               defaultValue={defaultValues.phone_number}
+               defaultValue={defaultValues?.phone_number ?? ''}
                render={({ field }) => (
                   <FormContainer errors={errors} label="تلفن سرپرست" name={field.name}>
                      <Input {...field} />
@@ -87,7 +87,7 @@ const ConfigCompanyManagerDetail = ({ defaultValues, control, errors }) => {
             <Controller
                name="faculty_id"
                control={control}
-               defaultValue={defaultValues.faculty_id}
+               defaultValue={defaultValues?.faculty_id ?? ''}
                render={({ field }) => (
                   <FormContainer errors={errors} label="دانشکده" name={field.name}>
                      <Select loading={isLoadingFaculty} selectList={convertFacultyList(facultyList?.data)} {...field} />

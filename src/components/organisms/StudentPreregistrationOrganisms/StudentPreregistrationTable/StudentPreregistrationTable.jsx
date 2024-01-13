@@ -83,7 +83,7 @@ const StudentPreregistrationTable = () => {
                searchParams.get('verified'),
             )}
             pagination={{
-               pageSize: 5, // Set the number of items per page
+               pageSize: 10, // Set the number of items per page
                total: data?.meta?.total_records, // Set the total number of items
                onChange: (page) => {
                   push(pathName + '?' + createQueryString({ page }))
