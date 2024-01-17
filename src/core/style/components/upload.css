@@ -1,0 +1,3 @@
+.ant-upload-list-item-name {
+   @apply !max-w-[250px] truncate;
+}

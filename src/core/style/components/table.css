@@ -1,19 +1,19 @@
 .ant-table-wrapper {
-  @apply !w-full;
+   @apply !w-full;
 }
 
 .ant-table-container {
-  @apply !grid;
+   @apply !grid;
 }
 
 .ant-table-content {
-  @apply !whitespace-nowrap overflow-x-auto;
+   @apply !whitespace-nowrap overflow-x-auto;
 }
 
 .ant-table-cell {
-  @apply !text-center;
+   @apply !text-center max-w-[200px] truncate;
 }
 
 .ant-table-cell::before {
-  @apply hidden;
+   @apply hidden;
 }

@@ -1,6 +1,6 @@
 import { BiHomeAlt2, BiUser } from 'react-icons/bi'
 import { PiStudentFill } from 'react-icons/pi'
-import { FaSitemap } from 'react-icons/fa6'
+import { FaNewspaper, FaSitemap } from 'react-icons/fa6'
 import { FaChalkboardTeacher } from 'react-icons/fa'
 export const LINKS_LIST = [
    {
@@ -32,5 +32,11 @@ export const LINKS_LIST = [
       value: 'مسائل آموزشی',
       icon: <FaChalkboardTeacher size={16} />,
       path: '/educational-issues',
+   },
+   {
+      name: 'news',
+      value: 'اخبار',
+      icon: <FaNewspaper size={16} />,
+      path: '/news',
    },
 ]

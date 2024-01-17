@@ -1,7 +1,11 @@
 .ant-modal-wrap {
-  @apply !flex !items-center !justify-center;
+   @apply !flex !items-center !justify-center;
 }
 
 .ant-modal {
-  @apply !top-0 pb-0;
+   @apply !top-0 pb-0;
+}
+
+.ant-modal-body {
+   @apply max-h-[85vh] overflow-auto;
 }

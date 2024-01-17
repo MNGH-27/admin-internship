@@ -2,15 +2,17 @@ import { Upload as AntUpload } from 'antd'
 import { Button } from '..'
 import { AiOutlineUpload } from 'react-icons/ai'
 import { forwardRef } from 'react'
-const Upload = forwardRef(({ ...rest }, ref) => {
+// eslint-disable-next-line no-unused-vars
+const Upload = forwardRef(({ value, ...rest }, ref) => {
    return (
       <AntUpload
          beforeUpload={() => {
             return false
          }}
+         fileList={value ? [value] : []}
          multiple={false}
          maxCount={1}
-         ref={ref}
+         listType="picture"
          {...rest}
       >
          <Button icon={<AiOutlineUpload />}>Upload</Button>

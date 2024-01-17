@@ -16,7 +16,9 @@ import Form3Template from './Form3Template/Form3Template'
 import Form4Template from './Form4Template/Form4Template'
 import WeeklyReportTemplate from './WeeklyReportTemplate/WeeklyReportTemplate'
 import FinishInternshipTemplate from './FinishInternshipTemplate/FinishInternshipTemplate'
+import NewsTemplate from './NewsTemplate/NewsTemplate'
 export {
+   NewsTemplate,
    FinishInternshipTemplate,
    WeeklyReportTemplate,
    Form4Template,
