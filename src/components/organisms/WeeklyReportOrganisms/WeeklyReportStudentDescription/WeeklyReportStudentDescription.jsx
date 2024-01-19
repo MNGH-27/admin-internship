@@ -9,12 +9,12 @@ const WeeklyReportStudentDescription = ({ student, company, industry_supervisor 
             <span className="text-black font-medium">{student?.faculty_name}</span> در مقطع تحصیلی کارشناسی و در شرکت{' '}
             <span className="text-black font-medium">{company?.name}</span> که تاریخ شروع کارآموزی :{' '}
             <span className="text-black font-medium">
-               {moment(student.internship_start_date).format('jYYYY/jMM/jDD')}
+               {moment(student?.internship_start_date).format('jYYYY/jMM/jDD')}
             </span>
             و تاریخ پایان کارآموزی :{' '}
             <span className="text-black font-medium">
                {' '}
-               {moment(student.internship_start_date).format('jYYYY/jMM/jDD')}
+               {moment(student?.internship_start_date).format('jYYYY/jMM/jDD')}
             </span>
             بود، برای تایید فرستاده شده است،که اطلاعات بیشتر به شرح ذیل است:
          </p>
