@@ -30,7 +30,7 @@ export const getTableData = () => {
          dataIndex: 'students',
          key: 'students',
          render: (currentData, data) => (
-            <Link href={`/dashboard/educational-issues/terms-detail/student/${data.id}`}>{currentData}</Link>
+            <Link href={`/dashboard/educational-issues/terms-detail/student?termId=${data.id}`}>{currentData}</Link>
          ),
       },
       {
@@ -38,7 +38,7 @@ export const getTableData = () => {
          dataIndex: 'masters',
          key: 'masters',
          render: (currentData, data) => (
-            <Link href={`/dashboard/educational-issues/terms-detail/master/${data.id}`}>{currentData}</Link>
+            <Link href={`/dashboard/educational-issues/terms-detail/master?termId=${data.id}`}>{currentData}</Link>
          ),
       },
    ]

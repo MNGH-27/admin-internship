@@ -30,7 +30,7 @@ const Form3RejectModal = ({ isShow, onClose, id, formStage, status, rejection_re
       mutationFn: (rejection_reason) => putUnVerifySingleFormHttp({ id, formStage, rejection_reason }),
       onSuccess: () => {
          toast.success('رد فرم سه دانشجو با موفقیت انجام شد')
-         push(`/dashboard/students/form/${id}`)
+         push(`/dashboard/students/form/student-form?studentId=${id}`)
          onClose()
          queryClient.invalidateQueries({ queryKey: ['single_student_form_stage'] })
          queryClient.invalidateQueries({ queryKey: ['single_student_form'] })

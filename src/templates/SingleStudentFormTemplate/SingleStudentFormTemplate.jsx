@@ -2,20 +2,30 @@
 
 import { Spinner } from '@atom/index'
 import { getSignleStudentFormsHttp } from '@core/services'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useEffect } from 'react'
 import { useQuery } from 'react-query'
 
 // eslint-disable-next-line no-unused-vars
-const SingleStudentFormTemplate = ({ id }) => {
+const SingleStudentFormTemplate = () => {
+   const searchParams = useSearchParams()
+   const studentId = searchParams.get('studentId')
+
    const { push } = useRouter()
+
+   useEffect(() => {
+      if (!studentId || studentId?.length === 0) {
+         push('/dashboard/students/forms')
+      }
+   }, [studentId])
 
    const {
       isSuccess,
       data: singleStudentForm,
       isLoading,
    } = useQuery({
-      queryKey: ['single_student_form', { id }],
-      queryFn: () => getSignleStudentFormsHttp(id),
+      queryKey: ['single_student_form', { studentId }],
+      queryFn: () => getSignleStudentFormsHttp(studentId),
    })
 
    if (isLoading) {
@@ -56,7 +66,7 @@ const SingleStudentFormTemplate = ({ id }) => {
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full">
                <button
                   disabled={Number(singleStudentForm.form2.status) === 0}
-                  onClick={() => push(`/dashboard/students/form/${id}/form2`)}
+                  onClick={() => push(`/dashboard/students/form/student-form/form2?studentId=${studentId}`)}
                   className={`${
                      Number(singleStudentForm.form2.status) === 0 ? 'cursor-default' : 'hover:border-[#4C526D]'
                   } flex flex-col items-center md:items-start justify-center gap-3 border-2 border-[#EEEEF2] rounded-md px-6 py-5 shadow-[0px_1px_2px_0px_rgba(24,24,28,0.04)] hover:shadow-[0px_1px_6px_0px_rgba(24,24,28,0.04)] duration-200 transition-all`}
@@ -71,7 +81,7 @@ const SingleStudentFormTemplate = ({ id }) => {
                </button>
                <button
                   disabled={Number(singleStudentForm.form3.status) === 0}
-                  onClick={() => push(`/dashboard/students/form/${id}/form3`)}
+                  onClick={() => push(`/dashboard/students/form/student-form/form3?studentId=${studentId}`)}
                   className={`${
                      Number(singleStudentForm.form3.status) === 0 ? 'cursor-default' : 'hover:border-[#4C526D]'
                   } flex flex-col items-center md:items-start justify-center gap-3 border-2 border-[#EEEEF2] rounded-md px-6 py-5 shadow-[0px_1px_2px_0px_rgba(24,24,28,0.04)] hover:shadow-[0px_1px_6px_0px_rgba(24,24,28,0.04)] duration-200 transition-all`}
@@ -86,7 +96,7 @@ const SingleStudentFormTemplate = ({ id }) => {
                </button>
                <button
                   disabled={Number(singleStudentForm.form4.status) === 0}
-                  onClick={() => push(`/dashboard/students/form/${id}/form4`)}
+                  onClick={() => push(`/dashboard/students/form/student-form/form4?studentId=${studentId}`)}
                   className={`${
                      Number(singleStudentForm.form4.status) === 0 ? 'cursor-default' : 'hover:border-[#4C526D]'
                   } flex flex-col items-center md:items-start justify-center gap-3 border-2 border-[#EEEEF2] rounded-md px-6 py-5 shadow-[0px_1px_2px_0px_rgba(24,24,28,0.04)] hover:shadow-[0px_1px_6px_0px_rgba(24,24,28,0.04)] duration-200 transition-all`}
@@ -101,7 +111,7 @@ const SingleStudentFormTemplate = ({ id }) => {
                </button>
                <button
                   disabled={Number(singleStudentForm.weekly_reports.status) === 0}
-                  onClick={() => push(`/dashboard/students/form/${id}/weekly_reports`)}
+                  onClick={() => push(`/dashboard/students/form/student-form/weekly_reports?studentId=${studentId}`)}
                   className={`${
                      Number(singleStudentForm.weekly_reports.status) === 0 ? 'cursor-default' : 'hover:border-[#4C526D]'
                   } flex flex-col items-center md:items-start justify-center gap-3 border-2 border-[#EEEEF2] rounded-md px-6 py-5 shadow-[0px_1px_2px_0px_rgba(24,24,28,0.04)] hover:shadow-[0px_1px_6px_0px_rgba(24,24,28,0.04)] duration-200 transition-all`}
@@ -115,7 +125,7 @@ const SingleStudentFormTemplate = ({ id }) => {
                   </div>
                </button>
                <button
-                  onClick={() => push(`/dashboard/students/form/${id}/finish-internship`)}
+                  onClick={() => push(`/dashboard/students/form/student-form/finish-internship?studentId=${studentId}`)}
                   href={`/dashboard/students/form/singleform`}
                   className={` flex flex-col items-center md:items-start justify-center gap-3 border-2 hover:border-[#4C526D] border-[#EEEEF2] rounded-md px-6 py-5 shadow-[0px_1px_2px_0px_rgba(24,24,28,0.04)] hover:shadow-[0px_1px_6px_0px_rgba(24,24,28,0.04)] duration-200 transition-all`}
                >

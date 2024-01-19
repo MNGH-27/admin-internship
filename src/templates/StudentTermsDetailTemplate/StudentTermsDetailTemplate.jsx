@@ -3,11 +3,21 @@
 import { Button } from '@atom/index'
 import { StudentTermsDetailTable } from '@organisms/StudentTermsDetail'
 import { TermsFilter } from '@organisms/TermsOrganisms'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useEffect } from 'react'
 import { IoReturnDownBack } from 'react-icons/io5'
 
-const StudentTermsDetailTemplate = ({ termId }) => {
+const StudentTermsDetailTemplate = () => {
+   const searchParams = useSearchParams()
+   const termId = searchParams.get('termId')
+
    const { push } = useRouter()
+
+   useEffect(() => {
+      if (!termId || termId?.length === 0) {
+         push('/dashboard/educational-issues/terms-detail')
+      }
+   }, [termId])
 
    return (
       <>

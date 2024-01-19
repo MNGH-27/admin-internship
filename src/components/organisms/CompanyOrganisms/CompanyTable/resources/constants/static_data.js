@@ -46,7 +46,7 @@ export const getTableData = (openDetailModal, openRemoveModal) => {
                   جزئیات
                </Button>
                <Button
-                  href={`/dashboard/company/edit-company/${data.id}`}
+                  href={`/dashboard/company/edit-company?companyId=${data.id}`}
                   as={Link}
                   icon={<AiFillEdit size={20} />}
                   type="primary"

@@ -15,17 +15,26 @@ import { getSingleCompanyHttp } from '@core/services'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { editComapanyHttp } from '@core/services/apis/company/edit_company.api'
+import { useEffect } from 'react'
 
-const EditCompanyTemplate = ({ companyId }) => {
+const EditCompanyTemplate = () => {
+   const searchParams = useSearchParams()
+   const companyId = searchParams.get('companyId')
+
    const { push } = useRouter()
    const queryClient = useQueryClient()
 
-   const { data, isLoading } = useQuery({
+   const { data, isLoading, isError } = useQuery({
       queryKey: ['single_company'],
       queryFn: () => getSingleCompanyHttp({ id: companyId }),
+      enabled: !!companyId,
    })
+
+   useEffect(() => {
+      if (!companyId || companyId?.length === 0) push('/dashboard/company')
+   }, [companyId])
 
    const {
       control,
@@ -58,6 +67,11 @@ const EditCompanyTemplate = ({ companyId }) => {
          toast.error('اضافه کردن شرکت ناموفق بود')
       },
    })
+
+   if (isError) {
+      push('/dashboard/company')
+      return <></>
+   }
 
    if (isLoading)
       return (

@@ -1,8 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { Button, Spinner } from '@atom/index'
 import { getSignleStudentFormsByStageHttp, putVerifySingleFormHttp } from '@core/services'
@@ -15,11 +15,20 @@ import {
 import { IoPerson, IoPersonAdd, IoPersonRemove, IoReturnDownBack } from 'react-icons/io5'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 
-const Form2Template = ({ id }) => {
+const Form2Template = () => {
    const [isShowRejectModal, setIsShowRejectModal] = useState(false)
    const queryClient = useQueryClient()
 
+   const searchParams = useSearchParams()
+   const studentId = searchParams.get('studentId')
+
    const { push } = useRouter()
+
+   useEffect(() => {
+      if (!studentId || studentId?.length === 0) {
+         push('/dashboard/students/forms')
+      }
+   }, [studentId])
 
    const {
       isSuccess,
@@ -27,19 +36,19 @@ const Form2Template = ({ id }) => {
       isLoading,
       refetch,
    } = useQuery({
-      queryKey: ['single_student_form_stage', { id, stage: 'form2' }],
-      queryFn: () => getSignleStudentFormsByStageHttp(id, 'form2'),
+      queryKey: ['single_student_form_stage', { studentId, stage: 'form2' }],
+      queryFn: () => getSignleStudentFormsByStageHttp(studentId, 'form2'),
    })
 
    const { mutate, isLoading: isSubmitting } = useMutation({
-      mutationFn: () => putVerifySingleFormHttp(id, 'form2'),
+      mutationFn: () => putVerifySingleFormHttp(studentId, 'form2'),
       onError: () => {
          toast.error('تایید فرم دو با مشکل مواجه شد')
       },
       onSuccess: () => {
          toast.success('فرم دو با موفقیت تایید شد')
 
-         push(`/dashboard/students/form/${id}`)
+         push(`/dashboard/students/form/student-form?studentId=${studentId}`)
 
          //refetch this user and also list of forms
          refetch()
@@ -62,7 +71,7 @@ const Form2Template = ({ id }) => {
                <Link
                   type="primary"
                   className="ml-auto flex items-center justify-start gap-x-2 py-2 px-4 rounded-md bg-[#003B7E] text-white w-fit"
-                  href={`/dashboard/students/form/${id}`}
+                  href={`/dashboard/students/form/student-form?studentId=${studentId}`}
                >
                   <IoReturnDownBack size={20} />
                   بازگشت
@@ -113,7 +122,7 @@ const Form2Template = ({ id }) => {
             </div>
             <Form2RejectModal
                formStage={'form2'}
-               id={id}
+               id={studentId}
                rejection_reason={singleStudentForm.form2.rejection_reason}
                status={singleStudentForm.status}
                isShow={isShowRejectModal}

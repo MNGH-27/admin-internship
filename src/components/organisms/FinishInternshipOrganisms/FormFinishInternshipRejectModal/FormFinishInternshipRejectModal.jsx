@@ -30,7 +30,7 @@ const FormFinishInternshipRejectModal = ({ isShow, onClose, id, formStage, statu
       mutationFn: (rejection_reason) => putUnVerifySingleFormHttp({ id, formStage, rejection_reason }),
       onSuccess: () => {
          toast.success('رد فرم پایان کارآموزی با موفقیت انجام شد')
-         push(`/dashboard/students/form/${id}`)
+         push(`/dashboard/students/form/student-form?studentId=${id}`)
          onClose()
          queryClient.invalidateQueries({ queryKey: ['single_student_form_stage'] })
          queryClient.invalidateQueries({ queryKey: ['single_student_form'] })

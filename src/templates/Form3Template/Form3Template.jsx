@@ -12,14 +12,23 @@ import {
    Form3StudentPresense,
 } from '@organisms/Form3Organisms'
 import toast from 'react-hot-toast'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
-const Form3Template = ({ id }) => {
+const Form3Template = () => {
    const [isShowRejectModal, setIsShowRejectModal] = useState(false)
    const queryClient = useQueryClient()
 
+   const searchParams = useSearchParams()
+   const studentId = searchParams.get('studentId')
+
    const { push } = useRouter()
+
+   useEffect(() => {
+      if (!studentId || studentId?.length === 0) {
+         push('/dashboard/students/forms')
+      }
+   }, [studentId])
 
    const {
       isSuccess,
@@ -27,19 +36,19 @@ const Form3Template = ({ id }) => {
       isLoading,
       refetch,
    } = useQuery({
-      queryKey: ['single_student_form_stage', { id, stage: 'form3' }],
-      queryFn: () => getSignleStudentFormsByStageHttp(id, 'form3'),
+      queryKey: ['single_student_form_stage', { studentId, stage: 'form3' }],
+      queryFn: () => getSignleStudentFormsByStageHttp(studentId, 'form3'),
    })
 
    const { mutate, isLoading: isSubmitting } = useMutation({
-      mutationFn: () => putVerifySingleFormHttp(id, 'form3'),
+      mutationFn: () => putVerifySingleFormHttp(studentId, 'form3'),
       onError: () => {
          toast.error('تایید فرم سه با مشکل مواجه شد')
       },
       onSuccess: () => {
          toast.success('فرم سه با موفقیت تایید شد')
 
-         push(`/dashboard/students/form/${id}`)
+         push(`/dashboard/students/form/student-form?studentId=${studentId}`)
 
          //refetch this user and also list of forms
          refetch()
@@ -62,7 +71,7 @@ const Form3Template = ({ id }) => {
                <Link
                   type="primary"
                   className="ml-auto flex items-center justify-start gap-x-2 py-2 px-4 rounded-md bg-[#003B7E] text-white w-fit"
-                  href={`/dashboard/students/form/${id}`}
+                  href={`/dashboard/students/form/student-form?studentId=${studentId}`}
                >
                   <IoReturnDownBack size={20} />
                   بازگشت
@@ -116,7 +125,7 @@ const Form3Template = ({ id }) => {
 
             <Form3RejectModal
                formStage={'form3'}
-               id={id}
+               id={studentId}
                rejection_reason={''}
                status={singleStudentForm.status}
                isShow={isShowRejectModal}

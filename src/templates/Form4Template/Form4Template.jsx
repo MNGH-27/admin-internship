@@ -6,8 +6,8 @@ import { getSignleStudentFormsByStageHttp, putVerifySingleFormHttp } from '@core
 import { Button, Spinner } from '@atom/index'
 
 import toast from 'react-hot-toast'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { IoPerson, IoPersonAdd, IoPersonRemove, IoReturnDownBack } from 'react-icons/io5'
 import {
    Form4RejectModal,
@@ -16,11 +16,20 @@ import {
    Form4StudentPresense,
 } from '@organisms/From4Organisms'
 
-const Form4Template = ({ id }) => {
+const Form4Template = () => {
    const [isShowRejectModal, setIsShowRejectModal] = useState(false)
    const queryClient = useQueryClient()
 
+   const searchParams = useSearchParams()
+   const studentId = searchParams.get('studentId')
+
    const { push } = useRouter()
+
+   useEffect(() => {
+      if (!studentId || studentId?.length === 0) {
+         push('/dashboard/students/forms')
+      }
+   }, [studentId])
 
    const {
       isSuccess,
@@ -28,19 +37,19 @@ const Form4Template = ({ id }) => {
       isLoading,
       refetch,
    } = useQuery({
-      queryKey: ['single_student_form_stage', { id, stage: 'form4' }],
-      queryFn: () => getSignleStudentFormsByStageHttp(id, 'form4'),
+      queryKey: ['single_student_form_stage', { studentId, stage: 'form4' }],
+      queryFn: () => getSignleStudentFormsByStageHttp(studentId, 'form4'),
    })
 
    const { mutate, isLoading: isSubmitting } = useMutation({
-      mutationFn: () => putVerifySingleFormHttp(id, 'form4'),
+      mutationFn: () => putVerifySingleFormHttp(studentId, 'form4'),
       onError: () => {
          toast.error('تایید فرم چهار با مشکل مواجه شد')
       },
       onSuccess: () => {
          toast.success('فرم چهار با موفقیت تایید شد')
 
-         push(`/dashboard/students/form/${id}`)
+         push(`/dashboard/students/form/student-form?studentId=${studentId}`)
 
          //refetch this user and also list of forms
          refetch()
@@ -63,7 +72,7 @@ const Form4Template = ({ id }) => {
                <Link
                   type="primary"
                   className="ml-auto flex items-center justify-start gap-x-2 py-2 px-4 rounded-md bg-[#003B7E] text-white w-fit"
-                  href={`/dashboard/students/form/${id}`}
+                  href={`/dashboard/students/form/student-form?studentId=${studentId}`}
                >
                   <IoReturnDownBack size={20} />
                   بازگشت
@@ -114,7 +123,7 @@ const Form4Template = ({ id }) => {
 
             <Form4RejectModal
                formStage={'form4'}
-               id={id}
+               id={studentId}
                rejection_reason={''}
                status={singleStudentForm.status}
                isShow={isShowRejectModal}

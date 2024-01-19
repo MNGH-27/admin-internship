@@ -7,16 +7,25 @@ import { Button, Spinner } from '@atom/index'
 
 import { IoReturnDownBack } from 'react-icons/io5'
 import moment from 'moment-jalaali'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { FormFinishInternshipRejectModal } from '@organisms/FinishInternshipOrganisms'
 
-const FinishInternshipTemplate = ({ id }) => {
+const FinishInternshipTemplate = () => {
    const [isShowRejectModal, setIsShowRejectModal] = useState(false)
    const queryClient = useQueryClient()
 
+   const searchParams = useSearchParams()
+   const studentId = searchParams.get('studentId')
+
    const { push } = useRouter()
+
+   useEffect(() => {
+      if (!studentId || studentId?.length === 0) {
+         push('/dashboard/students/forms')
+      }
+   }, [studentId])
 
    const {
       isSuccess,
@@ -25,19 +34,19 @@ const FinishInternshipTemplate = ({ id }) => {
       isError,
       refetch,
    } = useQuery({
-      queryKey: ['single_student_form_stage', { id, stage: 'finish_internship' }],
-      queryFn: () => getSignleStudentFormsByStageHttp(id, 'finish_internship'),
+      queryKey: ['single_student_form_stage', { studentId, stage: 'finish_internship' }],
+      queryFn: () => getSignleStudentFormsByStageHttp(studentId, 'finish_internship'),
    })
 
    const { mutate, isLoading: isSubmitting } = useMutation({
-      mutationFn: () => putVerifySingleFormHttp(id, 'finish_internship'),
+      mutationFn: () => putVerifySingleFormHttp(studentId, 'finish_internship'),
       onError: () => {
          toast.error('تایید فرم چهار با مشکل مواجه شد')
       },
       onSuccess: () => {
          toast.success('فرم چهار با موفقیت تایید شد')
 
-         push(`/dashboard/students/form/${id}`)
+         push(`/dashboard/students/form/student-form?studentId=${studentId}`)
 
          //refetch this user and also list of forms
          refetch()
@@ -64,7 +73,7 @@ const FinishInternshipTemplate = ({ id }) => {
                <Link
                   type="primary"
                   className="ml-auto flex items-center justify-start gap-x-2 py-2 px-4 rounded-md bg-[#003B7E] text-white w-fit"
-                  href={`/dashboard/students/form/${id}`}
+                  href={`/dashboard/students/form/student-form?studentId=${studentId}`}
                >
                   <IoReturnDownBack size={20} />
                   بازگشت
@@ -114,7 +123,7 @@ const FinishInternshipTemplate = ({ id }) => {
 
             <FormFinishInternshipRejectModal
                formStage={'finish_internship'}
-               id={id}
+               id={studentId}
                rejection_reason={''}
                status={singleStudentForm.status}
                isShow={isShowRejectModal}
