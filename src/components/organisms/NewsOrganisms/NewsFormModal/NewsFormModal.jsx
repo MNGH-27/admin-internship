@@ -97,7 +97,7 @@ const NewsFormModal = ({ onClose }) => {
                type="primary"
                className="h-auto py-2 px-4 w-full sm:w-fit"
             >
-               جستجو
+               اضافه کردن
             </Button>
          </form>
       </div>

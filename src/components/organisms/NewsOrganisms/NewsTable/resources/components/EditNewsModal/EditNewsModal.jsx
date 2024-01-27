@@ -71,7 +71,7 @@ const EditNewsModal = ({ data, onClose }) => {
 
    return (
       <div className="flex flex-col gap-y-5">
-         <span className="text-lg font-semibold">اضافه کردن خبر</span>
+         <span className="text-lg font-semibold">ویرایش کردن خبر</span>
          <form className="flex flex-col gap-y-2 p-2" onSubmit={handleSubmit(mutate)}>
             <Controller
                name="title"
@@ -146,7 +146,7 @@ const EditNewsModal = ({ data, onClose }) => {
                type="primary"
                className="h-auto py-2 px-4 w-full sm:w-fit"
             >
-               جستجو
+               ویرایش
             </Button>
          </form>
       </div>
