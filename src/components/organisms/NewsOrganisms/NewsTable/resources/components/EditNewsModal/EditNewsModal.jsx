@@ -4,7 +4,7 @@ import { Button, Image, Input, Upload } from '@atom/index'
 import { FormContainer } from '@molecule/index'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { createNewNewsHttp, deleteNewsImageHttp } from '@core/services'
+import { editNewNewsHttp } from '@core/services'
 import { useMutation, useQueryClient } from 'react-query'
 import toast from 'react-hot-toast'
 
@@ -20,7 +20,7 @@ const EditNewsModal = ({ data, onClose }) => {
    const {
       handleSubmit,
       control,
-      formState: { errors },
+      formState: { errors, dirtyFields },
       setError,
    } = useForm({
       resolver: yupResolver(schema),
@@ -30,7 +30,7 @@ const EditNewsModal = ({ data, onClose }) => {
    })
 
    const { mutate, isLoading: isSubmitting } = useMutation({
-      mutationFn: (values) => createNewNewsHttp(values),
+      mutationFn: (values) => editNewNewsHttp(values),
       onSuccess: () => {
          //revalidate data of news_list
          queryClient.invalidateQueries({ queryKey: ['news_list'] })
@@ -51,28 +51,19 @@ const EditNewsModal = ({ data, onClose }) => {
       },
    })
 
-   const { mutate: removeNewsBanner, isLoading: isRemovingNewsBanner } = useMutation({
-      mutationFn: deleteNewsImageHttp,
-      onSuccess: () => {
-         //show that master added successfully
-         toast.success('تصویر با موفقیت حذف شد')
-      },
-      onError: (error) => {
-         if (error.message) {
-            toast.error(error.message)
-         } else {
-            for (const errorKey in error.error) {
-               setError(errorKey, { message: error.error[errorKey] })
-            }
-         }
-         return
-      },
-   })
-
    return (
       <div className="flex flex-col gap-y-5">
          <span className="text-lg font-semibold">ویرایش کردن خبر</span>
-         <form className="flex flex-col gap-y-2 p-2" onSubmit={handleSubmit(mutate)}>
+         <form
+            className="flex flex-col gap-y-2 p-2"
+            onSubmit={handleSubmit((values) => {
+               if (Object.keys(dirtyFields).length > 0) {
+                  mutate(values)
+               }
+               //close modal
+               else onClose()
+            })}
+         >
             <Controller
                name="title"
                control={control}
@@ -97,7 +88,7 @@ const EditNewsModal = ({ data, onClose }) => {
                name="image"
                control={control}
                render={({ field }) => {
-                  if (!field.value.uid) {
+                  if (!field?.value?.uid && field?.value !== null) {
                      return (
                         <div className="flex flex-col items-start justify-start gap-y-2">
                            <span>بنر خبر</span>
@@ -106,14 +97,13 @@ const EditNewsModal = ({ data, onClose }) => {
                                  className="rounded-sm"
                                  width={100}
                                  height={100}
-                                 src={field.value}
+                                 src={field?.value ?? ''}
                                  alt="news banner"
                               />
 
                               <Button
-                                 loading={isRemovingNewsBanner}
                                  htmlType="button"
-                                 onClick={() => removeNewsBanner({ id: data.id })}
+                                 onClick={() => field.onChange(null)}
                                  type="primary"
                                  className="bg-red-700 hover:!bg-red-900 h-auto"
                               >
@@ -131,7 +121,7 @@ const EditNewsModal = ({ data, onClose }) => {
                               if (value.fileList.length > 0) {
                                  field.onChange(value.file)
                               } else {
-                                 field.onChange()
+                                 field.onChange(null)
                               }
                            }}
                         />

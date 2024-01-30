@@ -48,5 +48,4 @@ export const configCompanySchema = yup.object().shape({
       .length(11, 'شماره تلفن باید 11 رقمی باشد')
       .required('مقدار تلفن سرپرست الزامی است')
       .default(''),
-   faculty_id: yup.string().required('مقدار دانشکده الزامی است').default(''),
 })

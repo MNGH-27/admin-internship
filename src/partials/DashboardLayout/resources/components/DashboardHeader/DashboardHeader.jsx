@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { Button, Image } from '@atom/index'
 import { SmallLogo } from '@public/image'
 
@@ -9,9 +9,11 @@ import { AiOutlineClose } from 'react-icons/ai'
 import { HiOutlineMenuAlt1 } from 'react-icons/hi'
 import { IsLinkActive, LINKS_LIST } from './resources'
 import Link from 'next/link'
+import { BiLogOut } from 'react-icons/bi'
+import { deleteCookie } from 'cookies-next'
 const DashboardHeader = () => {
    const pathName = usePathname()
-
+   const { push } = useRouter()
    const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
    useEffect(() => {
@@ -21,6 +23,14 @@ const DashboardHeader = () => {
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [pathName])
+
+   const onLogoutHandler = () => {
+      //clear token
+      deleteCookie('token')
+
+      //go to authPage
+      push('/')
+   }
 
    return (
       <header className="border-b-2 border-b-[#EEEEF2] shadow-[0_3px_4px_0px_rgba(24,24,28,0.03)]">
@@ -71,15 +81,9 @@ const DashboardHeader = () => {
                      </ul>
                   </div>
                </div>
-               <div className="flex items-center justify-center gap-5 text-[#6C7389]">
-                  {/* <SearchSvg />
-            <NotificationSvg />
-            <img
-              src={UserTempPic}
-              alt="user icon"
-              className="w-10 h-10 rounded-full"
-            /> */}
-               </div>
+               <Button onClick={onLogoutHandler} className="!border-none" icon={<BiLogOut size={20} />}>
+                  خروج
+               </Button>
             </div>
          </div>
       </header>

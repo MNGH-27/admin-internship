@@ -20,6 +20,12 @@ export const getTableData = (openDetailModal, openRemoveModal) => {
          title: 'رئیس شرکت',
          dataIndex: 'company_boss_name',
          key: 'company_boss_name',
+         render: (_, data) => {
+            if (data.company_boss_data?.first_name && data.company_boss_data?.last_name)
+               return <span>{data.company_boss_data?.first_name + ' ' + data.company_boss_data?.last_name}</span>
+
+            return '-'
+         },
       },
       {
          title: 'تلفن',

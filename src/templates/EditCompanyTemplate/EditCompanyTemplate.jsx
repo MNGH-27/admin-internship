@@ -51,7 +51,7 @@ const EditCompanyTemplate = () => {
          //revalidate data of master_list
          queryClient.invalidateQueries({ queryKey: ['companies_list'] })
          //show that master added successfully
-         toast.success('استاد با موفقیت اضافه شد')
+         toast.success('شرکت با موفقیت اضافه شد')
          //redirect to company list
          push('/dashboard/company')
       },
@@ -96,7 +96,19 @@ const EditCompanyTemplate = () => {
                برای اضافه کردن اطلاعات مورد هر نیاز هر شرکت را وارد کنید{' '}
             </span>
          </div>
-         <form onSubmit={handleSubmit((values) => mutate(values))}>
+         <form
+            onSubmit={handleSubmit((values) => {
+               const convertedData = {
+                  ...values,
+               }
+
+               if (typeof convertedData.image === 'string') {
+                  delete convertedData.image
+               }
+
+               mutate(convertedData)
+            })}
+         >
             <ConfigCompanyDetail defaultValues={data?.data} control={control} errors={errors} />
 
             <ConfigCompanyManagerDetail

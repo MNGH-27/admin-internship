@@ -1,8 +1,12 @@
 import AxiosFetch from '@core/services/config/AxiosHttp'
 
-export async function editComapanyHttp(data, companyId) {
+export async function editNewNewsHttp({ id, title, body, image }) {
    try {
-      const response = await AxiosFetch().postForm(`companies/update/${companyId}`, data)
+      const response = await AxiosFetch().postForm(`news/update/${id}`, {
+         title,
+         body,
+         image,
+      })
 
       if (response.status === 200) {
          return response.data

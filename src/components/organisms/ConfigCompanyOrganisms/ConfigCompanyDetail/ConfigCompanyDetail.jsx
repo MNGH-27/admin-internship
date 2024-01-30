@@ -1,12 +1,14 @@
 import { Controller } from 'react-hook-form'
 
-import { Input, Select, Upload } from '@atom/index'
+import { Button, Image, Input, Select, Upload } from '@atom/index'
 import { FormContainer } from '@molecule/index'
 
 import { TbListDetails } from 'react-icons/tb'
 import { DUMMY_COMPANY_TYPE } from './resources'
 
 const ConfigCompanyDetail = ({ defaultValues, control, errors }) => {
+   console.log('defaultValues : ', defaultValues)
+
    return (
       <div className="mb-4">
          <div className="text-xl font-semibold flex items-center justify-start gap-x-2 mb-2">
@@ -48,7 +50,7 @@ const ConfigCompanyDetail = ({ defaultValues, control, errors }) => {
             <Controller
                name="company_registry_code"
                control={control}
-               defaultValue={defaultValues?.company_registry_code ?? ''}
+               defaultValue={defaultValues?.company_registry ?? ''}
                render={({ field }) => (
                   <FormContainer errors={errors} label="شماره شناسه شرکت" name={field.name}>
                      <Input {...field} />
@@ -89,9 +91,59 @@ const ConfigCompanyDetail = ({ defaultValues, control, errors }) => {
             <Controller
                name="image"
                control={control}
+               defaultValue={defaultValues?.image}
+               render={({ field }) => {
+                  if (!field?.value?.uid && field?.value !== null) {
+                     return (
+                        <FormContainer errors={errors} label="لوگو شرکت" name={field.name}>
+                           <div className="flex items-center justify-start gap-5 border rounded-md w-fit p-2">
+                              <Image
+                                 className="rounded-sm"
+                                 width={100}
+                                 height={100}
+                                 src={field?.value ?? ''}
+                                 alt="news banner"
+                              />
+
+                              <Button
+                                 htmlType="button"
+                                 onClick={() => field.onChange(null)}
+                                 type="primary"
+                                 className="bg-red-700 hover:!bg-red-900 h-auto"
+                              >
+                                 حذف
+                              </Button>
+                           </div>
+                        </FormContainer>
+                     )
+                  }
+                  return (
+                     <FormContainer errors={errors} label="لوگو شرکت" name={field.name}>
+                        <Upload {...field} onChange={(value) => field.onChange(value.file)} />
+                     </FormContainer>
+                  )
+               }}
+            />
+            <Controller
+               name="verified"
+               control={control}
+               defaultValue={defaultValues?.verified ?? ''}
                render={({ field }) => (
-                  <FormContainer errors={errors} label="لوگو شرکت" name={field.name}>
-                     <Upload {...field} onChange={(value) => field.onChange(value.file)} />
+                  <FormContainer errors={errors} label="وضعیت شرکت" name={field.name}>
+                     <Select
+                        selectList={[
+                           {
+                              label: 'تایید شده',
+                              value: 0,
+                           },
+                           {
+                              label: 'رد شده',
+                              value: 1,
+                           },
+                        ]}
+                        placeholder={'وضعیت شرکت خود را انتخاب کنید'}
+                        {...field}
+                     />
                   </FormContainer>
                )}
             />

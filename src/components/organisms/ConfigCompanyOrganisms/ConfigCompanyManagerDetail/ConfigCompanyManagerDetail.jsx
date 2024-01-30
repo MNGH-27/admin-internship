@@ -1,19 +1,11 @@
-import { useQuery } from 'react-query'
 import { Controller } from 'react-hook-form'
 
-import { Input, Select } from '@atom/index'
-import { convertFacultyList } from '@core/common'
-import { getfacultyListHttp } from '@core/services'
+import { Input } from '@atom/index'
 import { FormContainer } from '@molecule/index'
 
 import { TbListDetails } from 'react-icons/tb'
 
 const ConfigCompanyManagerDetail = ({ defaultValues, control, errors }) => {
-   const { data: facultyList, isLoading: isLoadingFaculty } = useQuery({
-      queryKey: ['faculty_list'],
-      queryFn: getfacultyListHttp,
-   })
-
    return (
       <div className="mb-4">
          <div className="text-xl font-semibold flex items-center justify-start gap-x-2 mb-2">
@@ -80,17 +72,6 @@ const ConfigCompanyManagerDetail = ({ defaultValues, control, errors }) => {
                render={({ field }) => (
                   <FormContainer errors={errors} label="تلفن سرپرست" name={field.name}>
                      <Input {...field} />
-                  </FormContainer>
-               )}
-            />
-
-            <Controller
-               name="faculty_id"
-               control={control}
-               defaultValue={defaultValues?.faculty_id ?? ''}
-               render={({ field }) => (
-                  <FormContainer errors={errors} label="دانشکده" name={field.name}>
-                     <Select loading={isLoadingFaculty} selectList={convertFacultyList(facultyList?.data)} {...field} />
                   </FormContainer>
                )}
             />

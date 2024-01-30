@@ -2,7 +2,7 @@ import axiosInstance from './axisoInstance'
 import toast from 'react-hot-toast'
 import { getCookie } from 'cookies-next'
 
-const AxiosFetch = (route = null) => {
+const AxiosFetch = () => {
    axiosInstance.interceptors.request.use(
       function (config) {
          if (getCookie('token')) {
@@ -43,7 +43,7 @@ const AxiosFetch = (route = null) => {
          }
          //check status code with backend if user has token
          else if (error.response.status === 401) {
-            route('/')
+            // window.location.href = window.location.origin
             return error.response
          }
 
