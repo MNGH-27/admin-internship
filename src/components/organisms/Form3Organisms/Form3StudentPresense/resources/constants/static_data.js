@@ -16,26 +16,26 @@ export const TABLE_HEADER = [
    {
       title: 'عالی ( 2.5 )',
       dataIndex: 'value',
-      key: 'value',
-      render: (value) => Number(value) === 4 && <IoCheckmark />,
+      key: 'value_1',
+      render: (value) => Number(value) === 4 && <IoCheckmark size={20} className="mx-auto" />,
    },
    {
       title: 'خوب ( 2 )',
       dataIndex: 'value',
-      key: 'value',
-      render: (value) => Number(value) === 3 && <IoCheckmark />,
+      key: 'value_2',
+      render: (value) => Number(value) === 3 && <IoCheckmark size={20} className="mx-auto" />,
    },
    {
       title: 'متوسط ( 1.5 )',
       dataIndex: 'value',
-      key: 'value',
-      render: (value) => Number(value) === 2 && <IoCheckmark />,
+      key: 'value_3',
+      render: (value) => Number(value) === 2 && <IoCheckmark size={20} className="mx-auto" />,
    },
    {
       title: 'ضعیف ( 0.5 )',
       dataIndex: 'value',
-      key: 'value',
-      render: (value) => Number(value) === 1 && <IoCheckmark />,
+      key: 'value_4',
+      render: (value) => Number(value) === 1 && <IoCheckmark size={20} className="mx-auto" />,
    },
 ]
 

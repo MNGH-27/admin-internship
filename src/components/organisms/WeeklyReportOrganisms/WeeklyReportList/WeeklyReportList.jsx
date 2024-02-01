@@ -1,62 +1,94 @@
 'use client'
 
-import { useState } from 'react'
+import { Button, Spinner, Table } from '@atom/index'
+import { getSignleStudentWeeklyReportsHttp, putVerifySingleWeeklyReportHttp } from '@core/services'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { HEADER } from './resources'
+import { useCallback } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import toast from 'react-hot-toast'
 
-import { Button, Modal } from '@atom/index'
-import moment from 'moment-jalaali'
-import { SingleWeeklyReport } from './resources'
+const WeeklyReportList = ({ userId }) => {
+   const searchParams = useSearchParams()
+   const pathName = usePathname()
+   const { push } = useRouter()
+   const queryClient = useQueryClient()
 
-const WeeklyReportList = ({ weeks, userId }) => {
-   const [weeklyReportId, setWeeklyReportId] = useState()
-   const [isShowWeeklyReportModal, setIsShowWeeklyReportModal] = useState(false)
+   const {
+      isSuccess,
+      data: singleStudentForm,
+      isLoading,
+      isError,
+   } = useQuery({
+      queryKey: ['single_student_form_stage', { userId, stage: 'weekly_reports' }],
+      queryFn: () => getSignleStudentWeeklyReportsHttp(userId),
+   })
 
-   return (
-      <>
-         <div className="w-full flex flex-col items-start gap-10 my-24">
-            <span className="text-2xl font-semibold">گزارش های هفتگی دانشجو</span>
-            <div className="w-full grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2  gap-5">
-               {weeks.map((WeekItem) => (
-                  <div
-                     onClick={() => {
-                        setIsShowWeeklyReportModal(true)
-                        setWeeklyReportId(WeekItem.id)
-                     }}
-                     key={WeekItem.id}
-                     className="flex flex-col items-center justify-center gap-4 cursor-pointer border rounded-lg p-3 shadow-[0_1px_2px_0px_rgba(24,24,28,0.04)]"
-                  >
-                     <span className="text-[#101114] font-semibold text-lg">هفته {WeekItem.id}</span>
-                     <span className="text-[#5F5F61] text-sm">
-                        روز شروع کارآموزی {moment(WeekItem.first_day_of_week).format('jYYYY/jMM/jDD')}
-                     </span>
-                     {/* <span className="text-[#101114] font-medium">وضعیت : {getSingleWeekStatus(WeekItem.status)}</span> */}
-                     <div className="text-xs text-white flex items-center justify-center flex-wrap gap-1">
-                        <span className="bg-green-700/50 px-2 py-1 rounded-md cursor-default">
-                           تایید شده : {WeekItem.accepted}
-                        </span>
-                        <span className="bg-red-700/50 px-2 py-1 rounded-md cursor-default">
-                           رد شده : {WeekItem.rejected}
-                        </span>
-                        <span className="bg-gray-700/50 px-2 py-1 rounded-md cursor-default">
-                           بررسی نشده : {WeekItem.not_checked}
-                        </span>
-                     </div>
-                     <div className="flex items-center justify-center gap-3 text-white">
-                        <Button type="primary" className="!bg-green-700">
-                           تایید هفته
-                        </Button>
-                        <Button type="primary" className="!bg-red-700">
-                           رد هفته
-                        </Button>
-                     </div>
-                  </div>
-               ))}
-            </div>
-         </div>
-         <Modal isShow={isShowWeeklyReportModal} onClose={() => setIsShowWeeklyReportModal(false)}>
-            <SingleWeeklyReport userId={userId} weeklyReportId={weeklyReportId} />
-         </Modal>
-      </>
+   const { mutate: verifyUser, isLoading: isLoadingVerifyUser } = useMutation({
+      mutationFn: putVerifySingleWeeklyReportHttp,
+      onSuccess: () => {
+         queryClient.invalidateQueries({
+            queryKey: ['single_student_form_stage'],
+         })
+         toast.success('گزارش هفتگی با موفقیت تایید شد')
+      },
+      onError: () => {
+         toast.error('تایید گزارش هفتگی با مشکل مواجه شد')
+      },
+   })
+
+   // Get a new searchParams string by merging the current
+   // searchParams with a provided key/value pair
+   const createQueryString = useCallback(
+      ({ page }) => {
+         const params = new URLSearchParams(searchParams)
+
+         //add new search params
+         params.set('page', page)
+
+         return params.toString()
+      },
+      [searchParams],
    )
+
+   if (isLoading) {
+      return (
+         <div className="flex items-center justify-center w-full">
+            <Spinner />
+         </div>
+      )
+   }
+
+   if (isError) {
+      return <span>دریافت اطلاعات با مشکل مواجه شده</span>
+   }
+
+   if (isSuccess)
+      return (
+         <>
+            <Button
+               onClick={() => verifyUser(userId)}
+               loading={isLoadingVerifyUser}
+               className="my-5 py-3 h-auto"
+               type="primary"
+            >
+               تایید گزارش هفتگی
+            </Button>
+
+            <Table
+               rowKey={(record) => record.id}
+               headerList={HEADER}
+               data={singleStudentForm.data}
+               pagination={{
+                  pageSize: 10, // Set the number of items per page
+                  total: singleStudentForm.meta?.total_records, // Set the total number of items
+                  onChange: (page) => {
+                     push(pathName + '?' + createQueryString({ page }))
+                  },
+               }}
+            />
+         </>
+      )
 }
 
 export default WeeklyReportList

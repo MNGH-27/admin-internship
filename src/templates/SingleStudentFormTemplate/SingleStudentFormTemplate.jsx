@@ -125,8 +125,21 @@ const SingleStudentFormTemplate = () => {
                   </div>
                </button>
                <button
+                  disabled={Number(singleStudentForm.final_reports.status) === 0}
+                  onClick={() => push(`/dashboard/students/form/student-form/final_reports?studentId=${studentId}`)}
+                  className={` flex flex-col items-center md:items-start justify-center gap-3 border-2 hover:border-[#4C526D] border-[#EEEEF2] rounded-md px-6 py-5 shadow-[0px_1px_2px_0px_rgba(24,24,28,0.04)] hover:shadow-[0px_1px_6px_0px_rgba(24,24,28,0.04)] duration-200 transition-all`}
+               >
+                  <span className="text-[#101114] font-bold">گزارش پایانی</span>
+                  <div className="flex items-center gap-2 text-xs">
+                     <span className="text-[#4C526D]">گزارش از اتمام کارآموزی دانشجو</span>
+                     <span className={` rounded-md px-2 py-1`}>
+                        {generateStatusText(singleStudentForm.final_reports.status)}
+                     </span>
+                  </div>
+               </button>
+               <button
                   onClick={() => push(`/dashboard/students/form/student-form/finish-internship?studentId=${studentId}`)}
-                  href={`/dashboard/students/form/singleform`}
+                  disabled={Number(singleStudentForm.form2.status) === 0}
                   className={` flex flex-col items-center md:items-start justify-center gap-3 border-2 hover:border-[#4C526D] border-[#EEEEF2] rounded-md px-6 py-5 shadow-[0px_1px_2px_0px_rgba(24,24,28,0.04)] hover:shadow-[0px_1px_6px_0px_rgba(24,24,28,0.04)] duration-200 transition-all`}
                >
                   <span className="text-[#101114] font-bold">نامه اتمام کارآموزی</span>

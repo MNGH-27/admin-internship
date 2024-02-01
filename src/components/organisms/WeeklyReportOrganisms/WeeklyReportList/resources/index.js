@@ -1,3 +1,2 @@
-import SingleWeeklyReport from './components/SingleWeeklyReport/SingleWeeklyReport'
-
-export { SingleWeeklyReport }
+import { HEADER } from './constants/static_data'
+export { HEADER }

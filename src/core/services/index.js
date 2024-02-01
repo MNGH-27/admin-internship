@@ -40,7 +40,11 @@ import { getSingleWeekReportHttp } from './apis/student/forms/get_single_week_re
 import { createNewNewsHttp } from './apis/news/create_new_news.api'
 import { deleteNewsImageHttp } from './apis/news/delete_news_image.api'
 import { editNewNewsHttp } from './apis/news/edit_news.api'
+import { getSignleStudentWeeklyReportsHttp } from './apis/student/forms/get_weekly_report.api'
+import { putVerifySingleWeeklyReportHttp } from './apis/student/forms/verify-weekly-report.api'
 export {
+   putVerifySingleWeeklyReportHttp,
+   getSignleStudentWeeklyReportsHttp,
    editNewNewsHttp,
    deleteNewsImageHttp,
    createNewNewsHttp,
