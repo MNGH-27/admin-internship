@@ -91,7 +91,7 @@ const ConfigCompanyDetail = ({ defaultValues, control, errors }) => {
             <Controller
                name="image"
                control={control}
-               defaultValue={defaultValues?.image}
+               defaultValue={defaultValues?.image ?? null}
                render={({ field }) => {
                   if (!field?.value?.uid && field?.value !== null) {
                      return (

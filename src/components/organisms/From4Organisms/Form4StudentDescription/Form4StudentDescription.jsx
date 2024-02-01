@@ -7,7 +7,7 @@ const Form4StudentDescription = ({ student, company, industry_supervisor }) => {
             کارآموز <span className="text-black font-medium">{student?.first_name + ' ' + student?.last_name}</span> با
             شماره دانشجویی <span className="text-black font-medium">{student?.student_number}</span> در دانشکده{' '}
             <span className="text-black font-medium">{student?.faculty_name}</span> در مقطع تحصیلی کارشناسی و در شرکت{' '}
-            <span className="text-black font-medium">{company.name}</span> که تاریخ شروع کارآموزی :{' '}
+            <span className="text-black font-medium">{company?.name ?? ''}</span> که تاریخ شروع کارآموزی :{' '}
             <span className="text-black font-medium">
                {moment(student.internship_start_date).format('jYYYY/jMM/jDD')}
             </span>
@@ -52,7 +52,7 @@ const Form4StudentDescription = ({ student, company, industry_supervisor }) => {
             <div className="flex items-start justify-start gap-3">
                <span className="text-[#5F5F61]">تاریخ شروع کارآموزی:</span>
                <span className="text-[#222124] font-medium">
-                  {moment(student.internship_start_date).format('jYYYY/jMM/jDD')}
+                  {moment(student?.internship_start_date).format('jYYYY/jMM/jDD')}
                </span>
             </div>
          </div>
