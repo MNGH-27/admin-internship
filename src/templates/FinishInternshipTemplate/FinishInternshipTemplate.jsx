@@ -54,6 +54,8 @@ const FinishInternshipTemplate = () => {
       },
    })
 
+   console.log('singleStudentForm : ', singleStudentForm)
+
    if (isLoading) {
       return (
          <div className="flex items-center justify-center w-full">
@@ -82,38 +84,37 @@ const FinishInternshipTemplate = () => {
 
             <div className="w-full text-[#101114] font-semibold flex flex-col items-start gap-3 my-5">
                <p>
-                  <span>شماره:</span>
+                  <span>شماره: </span>
+                  <span>{singleStudentForm.data.letter_number_end}</span>
                </p>
                <p>
-                  <span>تاریخ:</span>
-               </p>
-               <p>
-                  <span>پیوست:</span>
+                  <span>تاریخ: </span>
+                  <span>{moment(singleStudentForm.data.letter_date_end).format('jYYYY/jMM/jDD')}</span>
                </p>
             </div>
             <div className="text-xl font-semibold text-[#101114]">
                <p className="mb-3">دانشگاه تربیت دبیر شهید رجایی</p>
-               <p>موضوع: گواهی انجام کارآموزی {singleStudentForm.full_name}</p>
+               <p>موضوع: گواهی انجام کارآموزی {singleStudentForm.data.full_name}</p>
             </div>
             <p className="mt-7 mb-16 text-lg text-[#5F5F61]">
                با سلام <br />
-               بازگشت به نامه شماره {singleStudentForm.letter_name} مورخ{' '}
-               {moment(singleStudentForm.letter_date).format('jYYYY/jMM/jDD')} بدینوسیله گواهی می شود جناب{' '}
-               {singleStudentForm.full_name} به شماره دانشجویی {singleStudentForm.student_number} از تاریخ{' '}
-               {moment(singleStudentForm.internship_start_date).format('jYYYY/jMM/jDD')} لغایت{' '}
-               {moment(singleStudentForm.internship_finish_date).format('jYYYY/jMM/jDD')} به مدت{' '}
-               {singleStudentForm.duration} ساعت دوره کارآموزی خود را در شرکت {singleStudentForm.company} با موفقیت
-               گذرانده است. <br />
+               بازگشت به نامه شماره {singleStudentForm.data.letter_number_start} مورخ{' '}
+               {moment(singleStudentForm.data.letter_date).format('jYYYY/jMM/jDD')} بدینوسیله گواهی می شود جناب{' '}
+               {singleStudentForm.data.full_name} به شماره دانشجویی {singleStudentForm.data.student_number} از تاریخ{' '}
+               {moment(singleStudentForm.data.internship_start_date).format('jYYYY/jMM/jDD')} لغایت{' '}
+               {moment(singleStudentForm.data.internship_finish_date).format('jYYYY/jMM/jDD')} به مدت{' '}
+               {singleStudentForm.data.duration} ساعت دوره کارآموزی خود را در شرکت {singleStudentForm.data.company} با
+               موفقیت گذرانده است. <br />
                این گواهی بنا به درخواست نامبرده جهت ارائه به آن دانشگاه صادر گردیده و فاقد هرگونه اعتبار دیگری است.
             </p>
             <p className="flex flex-col items-end justify-center text-center my-36 text-xl text-[#101114]">
-               <span className="font-semibold mb-4">{singleStudentForm.internship_supervisor}</span>
+               <span className="font-semibold mb-4">{singleStudentForm.data.internship_supervisor}</span>
                <span>سرپرست کارآموزی در صنعت</span>
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-end gap-5 w-full mb-10">
                <Button onClick={() => setIsShowRejectModal(true)} type="primary" className="!bg-[#E73F3F]">
-                  {Number(singleStudentForm.status) === 3 ? 'مشاهده دلیل رد' : '   رد نامه اتمام اتمام کارآموزی'}
+                  {Number(singleStudentForm.data.status) === 3 ? 'مشاهده دلیل رد' : '   رد نامه اتمام اتمام کارآموزی'}
                </Button>
 
                <Button onClick={mutate} loading={isSubmitting} type="primary">

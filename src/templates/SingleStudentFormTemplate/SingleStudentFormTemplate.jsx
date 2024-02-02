@@ -75,7 +75,7 @@ const SingleStudentFormTemplate = () => {
                   <div className="flex items-center gap-2 text-xs">
                      <span className="text-[#4C526D]">فرم شماره 2</span>
                      <span className={` rounded-md px-2 py-1`}>
-                        {generateStatusText(singleStudentForm.form2.status)}
+                        {generateStatusText(Number(singleStudentForm.form2.status))}
                      </span>
                   </div>
                </button>
@@ -90,7 +90,7 @@ const SingleStudentFormTemplate = () => {
                   <div className="flex items-center gap-2 text-xs">
                      <span className="text-[#4C526D]">فرم ارزیابی کارآموز</span>
                      <span className={` rounded-md px-2 py-1`}>
-                        {generateStatusText(singleStudentForm.form3.status)}
+                        {generateStatusText(Number(singleStudentForm.form3.status))}
                      </span>
                   </div>
                </button>
@@ -105,7 +105,7 @@ const SingleStudentFormTemplate = () => {
                   <div className="flex items-center gap-2 text-xs">
                      <span className="text-[#4C526D]">فرم ارزیابی محل کارآموزی</span>
                      <span className={` rounded-md px-2 py-1`}>
-                        {generateStatusText(singleStudentForm.form4.status)}
+                        {generateStatusText(Number(singleStudentForm.form4.status))}
                      </span>
                   </div>
                </button>
@@ -120,7 +120,7 @@ const SingleStudentFormTemplate = () => {
                   <div className="flex items-center gap-2 text-xs">
                      <span className="text-[#4C526D]">فرم گزارش های هفتگی</span>
                      <span className={` rounded-md px-2 py-1`}>
-                        {generateStatusText(singleStudentForm.weekly_reports.status)}
+                        {generateStatusText(Number(singleStudentForm.weekly_reports.status))}
                      </span>
                   </div>
                </button>
@@ -133,20 +133,20 @@ const SingleStudentFormTemplate = () => {
                   <div className="flex items-center gap-2 text-xs">
                      <span className="text-[#4C526D]">گزارش از اتمام کارآموزی دانشجو</span>
                      <span className={` rounded-md px-2 py-1`}>
-                        {generateStatusText(singleStudentForm.final_reports.status)}
+                        {generateStatusText(Number(singleStudentForm.final_reports.status))}
                      </span>
                   </div>
                </button>
                <button
                   onClick={() => push(`/dashboard/students/form/student-form/finish-internship?studentId=${studentId}`)}
-                  disabled={Number(singleStudentForm.form2.status) === 0}
+                  disabled={Number(singleStudentForm.finish_internship.status) === 0}
                   className={` flex flex-col items-center md:items-start justify-center gap-3 border-2 hover:border-[#4C526D] border-[#EEEEF2] rounded-md px-6 py-5 shadow-[0px_1px_2px_0px_rgba(24,24,28,0.04)] hover:shadow-[0px_1px_6px_0px_rgba(24,24,28,0.04)] duration-200 transition-all`}
                >
                   <span className="text-[#101114] font-bold">نامه اتمام کارآموزی</span>
                   <div className="flex items-center gap-2 text-xs">
                      <span className="text-[#4C526D]">فرم نامه اتمام کارآموزی</span>
                      <span className={` rounded-md px-2 py-1`}>
-                        {generateStatusText(singleStudentForm.form2.status)}
+                        {generateStatusText(Number(singleStudentForm.finish_internship.status))}
                      </span>
                   </div>
                </button>
