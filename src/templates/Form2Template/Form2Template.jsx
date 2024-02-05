@@ -76,14 +76,14 @@ const Form2Template = () => {
                   <IoReturnDownBack size={20} />
                   بازگشت
                </Link>
-               {Number(singleStudentForm.status) === 1 ? (
+               {Number(singleStudentForm.data.status) === 1 ? (
                   <div className="w-full flex flex-col items-start justify-center gap-7 mb-16 mt-7">
                      <span className="flex items-center font-semibold gap-2 text-gray-700 text-sm">
                         <IoPerson size={20} />
                         وضعیت دانشجو تعیین نشده
                      </span>
                   </div>
-               ) : Number(singleStudentForm.status) === 2 ? (
+               ) : Number(singleStudentForm.data.status) === 2 ? (
                   <div className="w-full flex flex-col items-start justify-center gap-7 mb-16 mt-7">
                      <span className="flex items-center font-semibold gap-2 text-green-700 text-sm">
                         <IoPersonAdd size={20} />
@@ -101,19 +101,19 @@ const Form2Template = () => {
             </div>
 
             <Form2StudentDescription
-               company={singleStudentForm.company}
-               student={singleStudentForm.student}
-               form2={singleStudentForm.form2}
-               industry_supervisor={singleStudentForm.industry_supervisor}
+               company={singleStudentForm.data.company}
+               student={singleStudentForm.data.student}
+               form2={singleStudentForm.data.form2}
+               industry_supervisor={singleStudentForm.data.industry_supervisor}
             />
 
-            <Form2AttendanceTable form2={singleStudentForm.form2} />
+            <Form2AttendanceTable form2={singleStudentForm.data.form2} />
 
-            <Form2PerformanceTable reports={singleStudentForm.reports} />
+            <Form2PerformanceTable reports={singleStudentForm.data.reports} />
 
             <div className="flex flex-col sm:flex-row items-center justify-end gap-5 w-full mb-10">
                <Button onClick={() => setIsShowRejectModal(true)} type="primary" className="!bg-[#E73F3F]">
-                  {Number(singleStudentForm.status) === 3 ? 'مشاهده دلیل رد' : 'رد فرم شماره 2'}
+                  {Number(singleStudentForm.data.status) === 3 ? 'مشاهده دلیل رد' : 'رد فرم شماره 2'}
                </Button>
 
                <Button onClick={mutate} loading={isSubmitting} type="primary">
@@ -123,8 +123,8 @@ const Form2Template = () => {
             <Form2RejectModal
                formStage={'form2'}
                id={studentId}
-               rejection_reason={singleStudentForm.form2.rejection_reason}
-               status={singleStudentForm.status}
+               rejection_reason={singleStudentForm.data.form2?.rejection_reason}
+               status={singleStudentForm.data.status}
                isShow={isShowRejectModal}
                onClose={() => setIsShowRejectModal(false)}
             />

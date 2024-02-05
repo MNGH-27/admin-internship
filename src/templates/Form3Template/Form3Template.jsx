@@ -76,14 +76,14 @@ const Form3Template = () => {
                   <IoReturnDownBack size={20} />
                   بازگشت
                </Link>
-               {Number(singleStudentForm.status) === 1 ? (
+               {Number(singleStudentForm.data.status) === 1 ? (
                   <div className="w-full flex flex-col items-start justify-center gap-7 mb-16 mt-7">
                      <span className="flex items-center font-semibold gap-2 text-gray-700 text-sm">
                         <IoPerson size={20} />
                         وضعیت دانشجو تعیین نشده
                      </span>
                   </div>
-               ) : Number(singleStudentForm.status) === 2 ? (
+               ) : Number(singleStudentForm.data.status) === 2 ? (
                   <div className="w-full flex flex-col items-start justify-center gap-7 mb-16 mt-7">
                      <span className="flex items-center font-semibold gap-2 text-green-700 text-sm">
                         <IoPersonAdd size={20} />
@@ -101,21 +101,21 @@ const Form3Template = () => {
             </div>
 
             <Form3StudentDescription
-               company={singleStudentForm.company}
-               student={singleStudentForm.student}
-               industry_supervisor={singleStudentForm.industry_supervisor}
+               company={singleStudentForm.data.company}
+               student={singleStudentForm.data.student}
+               industry_supervisor={singleStudentForm.data.industry_supervisor}
             />
 
             <Form3StudentPresense
-               student_evaluations={singleStudentForm.student_evaluations}
-               total_grade={singleStudentForm.total_grade}
+               student_evaluations={singleStudentForm.data.student_evaluations}
+               total_grade={singleStudentForm.data.total_grade}
             />
 
-            <Form3Evaluation final_evaluation={singleStudentForm.final_evaluation} />
+            <Form3Evaluation final_evaluation={singleStudentForm.data.final_evaluation} />
 
             <div className="flex flex-col sm:flex-row items-center justify-end gap-5 w-full mb-10">
                <Button onClick={() => setIsShowRejectModal(true)} type="primary" className="!bg-[#E73F3F]">
-                  {Number(singleStudentForm.status) === 3 ? 'مشاهده دلیل رد' : 'رد فرم شماره 3'}
+                  {Number(singleStudentForm.data.status) === 3 ? 'مشاهده دلیل رد' : 'رد فرم شماره 3'}
                </Button>
 
                <Button onClick={mutate} loading={isSubmitting} type="primary">
@@ -127,7 +127,7 @@ const Form3Template = () => {
                formStage={'form3'}
                id={studentId}
                rejection_reason={''}
-               status={singleStudentForm.status}
+               status={singleStudentForm.data.status}
                isShow={isShowRejectModal}
                onClose={() => setIsShowRejectModal(false)}
             />

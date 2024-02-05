@@ -9,6 +9,12 @@ export const TABLE_HEADER = [
       title: 'عنوان',
       dataIndex: 'title',
       key: 'title',
+      render: (currentData) => {
+         if (currentData === 'internship_visit') return 'میانگین ارزشیابی بازدیدی های استاد کارآموزی'
+         if (currentData === 'report_validation') return 'ارزشیابی گزارش های کارآموزی دانشجو توسط استاد'
+         if (currentData === 'examination_score') return 'امتحان و دفاع دانشجو - در جلسه حضوری'
+         if (currentData === 'final_evaluation') return 'ارزیابی نهایی'
+      },
    },
    {
       title: 'نمره',
