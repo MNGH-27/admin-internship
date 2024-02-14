@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export async function getUserInfoHttp(token) {
    try {
-      const response = await axios.get('https://api.testsajad.ir/api/user', {
+      const response = await axios.get('https://api.sru-intern.ir/api/user', {
          headers: {
             Authorization: `Bearer ` + token,
          },
