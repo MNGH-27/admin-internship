@@ -35,11 +35,6 @@ export const getTableData = (openRemoveMaster, openEditMaster) => {
          key: 'phone',
       },
       {
-         title: 'تعداد دانشجو',
-         dataIndex: 'student_count',
-         key: 'student_count',
-      },
-      {
          title: '',
          dataIndex: 'opetration',
          key: 'opetration',
