@@ -19,7 +19,7 @@ export const masterSchema = yup.object().shape({
    personal_code: yup
       .string()
       .matches(/^\d+$/, 'مقدار کد پرسنلی باید عدد باشد')
-      .length(6, 'مقدار کد پرسنلی باید 6 رقمی باشد')
+      .length(8, 'مقدار کد پرسنلی باید 8 رقمی باشد')
       .required('مقدار کدپرسنلی الزامی است')
       .default(''),
    faculty_id: yup.string().required('مقدار دانشکده الزامی است').default(''),
